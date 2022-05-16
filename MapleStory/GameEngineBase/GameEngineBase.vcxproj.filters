@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{82c001ae-b244-4e54-b2f8-d4929823bec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{16ef0972-86f7-48cd-90f6-c7dcf6c59f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{c1730b47-079b-48fc-b444-1aa9ea0fa954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{1c3d83dc-8bce-46cd-9841-42d9607b2bf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{3c313dc9-1f0d-40eb-90f8-d739e05a67d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{1a9d4053-fc64-4576-ae00-7f418eb19142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowsOS">
+      <UniqueIdentifier>{633f7115-1db4-4966-b5be-f844908366a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Sound">
+      <UniqueIdentifier>{9640e505-73b2-46ca-9766-98bc0bbc7bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Lib">
+      <UniqueIdentifier>{49dffcaa-0d41-447e-a0de-9a67bd86a5d9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameEngineDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineString.h">
+      <Filter>String</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDirectory.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePath.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineReadFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineWriteFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRandom.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTime.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineNameObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineUpdateObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSound.h">
+      <Filter>ThirdParty\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineInput.h">
+      <Filter>WindowsOS</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineWindow.h">
+      <Filter>WindowsOS</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameEngineDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineString.cpp">
+      <Filter>String</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDirectory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePath.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineReadFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineWriteFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRandom.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTime.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineUpdateObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineNameObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSound.cpp">
+      <Filter>ThirdParty\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineWindow.cpp">
+      <Filter>WindowsOS</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineInput.cpp">
+      <Filter>WindowsOS</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmod.dll">
+      <Filter>ThirdParty\Lib</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmod_vc.lib">
+      <Filter>ThirdParty\Lib</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmodL.dll">
+      <Filter>ThirdParty\Lib</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmodL_vc.lib">
+      <Filter>ThirdParty\Lib</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+</Project>
