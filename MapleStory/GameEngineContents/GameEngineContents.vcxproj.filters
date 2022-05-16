@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Levels">
+      <UniqueIdentifier>{8832a995-5d56-4aa0-a648-2c0abf961bbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{8d43ddc5-bc1e-40a6-b20e-f94ad46685a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Levels\InGame">
+      <UniqueIdentifier>{33d6048a-0f55-4f7e-8ce4-31a45c8aa15e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Levels\Login">
+      <UniqueIdentifier>{4b58d91b-106b-4dd3-a4e5-6236acf19c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Levels\InGame\MapleIsland">
+      <UniqueIdentifier>{3db0a120-0fb4-4e25-9da7-303b9f45936d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Levels\InGame\VictoriaIsland">
+      <UniqueIdentifier>{797a1f22-9c93-403e-aa4f-f108c2bfee60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Levels\InGame\TempleOfTime">
+      <UniqueIdentifier>{b1a0ac72-83ce-4bd1-8c4d-331c07592bcd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ContentsCore.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroLevel.h">
+      <Filter>Levels\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginLevel.h">
+      <Filter>Levels\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="CharactersLevel.h">
+      <Filter>Levels\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="SnailsLandLevel.h">
+      <Filter>Levels\InGame\MapleIsland</Filter>
+    </ClInclude>
+    <ClInclude Include="HillOfTheMapleTreeLevel.h">
+      <Filter>Levels\InGame\MapleIsland</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ContentsCore.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroLevel.cpp">
+      <Filter>Levels\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginLevel.cpp">
+      <Filter>Levels\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="CharactersLevel.cpp">
+      <Filter>Levels\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="SnailsLandLevel.cpp">
+      <Filter>Levels\InGame\MapleIsland</Filter>
+    </ClCompile>
+    <ClCompile Include="HillOfTheMapleTreeLevel.cpp">
+      <Filter>Levels\InGame\MapleIsland</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
