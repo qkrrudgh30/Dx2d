@@ -21,6 +21,9 @@ public:
 protected:
 
 private:
+    virtual void UserStart() {}
+    virtual void UserUpdate() {}
+    virtual void UserEnd() {}
 
 };
 

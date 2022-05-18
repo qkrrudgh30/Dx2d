@@ -1,9 +1,18 @@
+// <hide/>
+
+// ContentsCore.cpp
+
 #include "ContentsCore.h"
+#include "IntroLevel.h"
+#include "LoginLevel.h"
+#include "CharactersLevel.h"
+#include "HillOfTheMapleTreeLevel.h"
+#include "SnailsLandLevel.h"
 
 #pragma comment(lib, "GameEngineBase.lib")
 
 ContentsCore::ContentsCore() 
-	: GameEngineCore()
+    : GameEngineCore()
 {
 }
 
@@ -11,23 +20,24 @@ ContentsCore::~ContentsCore()
 {
 }
 
-void ContentsCore::UserGameStart()
+void ContentsCore::UserStart()
 {
-	// 리소스를 로드하는데.
+    CreateLevel<IntroLevel>("Intro");
+    CreateLevel<LoginLevel>("Login");
+    CreateLevel<CharactersLevel>("Characters");
+    CreateLevel<HillOfTheMapleTreeLevel>("HillOfTheMapleTree");
+    CreateLevel<SnailsLandLevel>("SnailsLand");
 
-	// 게임컨텐츠 정의
-	// 이 게임에는 타이틀화면
-	//            스테이지1
-	//            스테이지2
+    ChangeLevel("Intro");
 }
 
-void ContentsCore::UserGameUpdate()
+void ContentsCore::UserUpdate()
 {
-	// 서버가 종료되었어.
-	// 무조건 경고 메세지창을 띄워줘야한다.
+    // 서버가 종료되었어.
+    // 무조건 경고 메세지창을 띄워줘야한다.
 }
 
-void ContentsCore::UserGameEnd() 
+void ContentsCore::UserEnd() 
 {
-	int a = 0;
+    int a = 0;
 }

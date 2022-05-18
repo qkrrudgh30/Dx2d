@@ -193,18 +193,18 @@
     <ClCompile Include="GameEngineWriteFile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmod.dll">
+    <CopyFileToFolders Include="ThirdParty\bin\fmodL_vc.lib">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmodL.dll">
+    <CopyFileToFolders Include="ThirdParty\bin\fmod_vc.lib">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmodL_vc.lib">
+    <CopyFileToFolders Include="ThirdParty\bin\fmod.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmod_vc.lib">
+    <CopyFileToFolders Include="ThirdParty\bin\fmodL.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>

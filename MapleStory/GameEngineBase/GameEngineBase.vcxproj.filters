@@ -124,16 +124,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmod.dll">
+    <CopyFileToFolders Include="ThirdParty\bin\fmod.dll">
       <Filter>ThirdParty\Lib</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmod_vc.lib">
+    <CopyFileToFolders Include="ThirdParty\bin\fmod_vc.lib">
       <Filter>ThirdParty\Lib</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmodL.dll">
+    <CopyFileToFolders Include="ThirdParty\bin\fmodL.dll">
       <Filter>ThirdParty\Lib</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="..\..\..\AR40\AR40\DIRECTX\GameEngineBase\ThirdParty\bin\fmodL_vc.lib">
+    <CopyFileToFolders Include="ThirdParty\bin\fmodL_vc.lib">
       <Filter>ThirdParty\Lib</Filter>
     </CopyFileToFolders>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 // Ό³Έν :
-class SnailsLandLevel : GameEngineLevel
+class SnailsLandLevel : public GameEngineLevel
 {
 public:
 	// constrcuter destructer
@@ -21,6 +21,9 @@ public:
 protected:
 
 private:
+	virtual void UserStart() {}
+	virtual void UserUpdate() {}
+	virtual void UserEnd() {}
 
 };
 

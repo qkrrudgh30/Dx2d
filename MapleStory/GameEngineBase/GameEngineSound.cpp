@@ -109,7 +109,6 @@ void GameEngineSound::Update()
 
 std::map<std::string, GameEngineSound*> GameEngineSound::AllRes;
 
-
 GameEngineSound* GameEngineSound::FindRessource(const std::string& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
@@ -151,7 +150,7 @@ GameEngineSound* GameEngineSound::LoadRessource(const std::string& _Path, const 
 	return nullptr;
 }
 
-void GameEngineSound::AllResourcesDestroy()
+void GameEngineSound::AllRessourcesDestroy()
 {
 	for (std::pair<std::string, GameEngineSound*> Res : AllRes)
 	{
