@@ -23,5 +23,19 @@ void GameEngineRenderer::Start()
 
 void GameEngineRenderer::Render(float _DeltaTime)
 {
-    Rectangle(GameEngineWindow::GetHDC(), 100, 100, 200, 200);
+    POINT Vertex[4];
+
+    Vertex[0].x = -50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
+    Vertex[0].y = -50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
+
+    Vertex[1].x = 50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
+    Vertex[1].y = -50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
+
+    Vertex[2].x = 50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
+    Vertex[2].y = 50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
+
+    Vertex[3].x = -50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
+    Vertex[3].y = 50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
+
+    Polygon(GameEngineWindow::GetHDC(), Vertex, 4);
 }

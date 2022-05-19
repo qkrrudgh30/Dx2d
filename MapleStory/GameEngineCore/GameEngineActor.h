@@ -2,6 +2,7 @@
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineUpdateObject.h>
 #include <list>
+#include <GameEngineBase/GameEngineTransform.h>
 
 // 설명 :
 class GameEngineComponent;
@@ -49,6 +50,16 @@ private:
 	void SetLevel(GameEngineLevel* _ParentLevel)
 	{
 		ParentLevel = _ParentLevel;
+	}
+
+///////////////////////////////////////// 기하 관련
+private:
+	GameEngineTransform Transform;
+
+public:
+	GameEngineTransform& GetTransform()
+	{
+		return Transform;
 	}
 
 };
