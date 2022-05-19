@@ -22,6 +22,27 @@
     <Filter Include="Levels\InGame\TempleOfTime">
       <UniqueIdentifier>{b1a0ac72-83ce-4bd1-8c4d-331c07592bcd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{6200556d-9372-4c69-abbe-7ba02bec64d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors">
+      <UniqueIdentifier>{43d3aa65-ad5d-4167-899e-24a4bb728eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors\Login">
+      <UniqueIdentifier>{4247240b-badb-4911-bed4-4378cb727908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors\Login\Intro">
+      <UniqueIdentifier>{0d6d9243-1e80-4d85-9f1c-999675c6ec5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors\InGame">
+      <UniqueIdentifier>{dfd84633-e59e-45bb-a8de-7826eb55c163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors\InGame\HillOfTheMapleTree">
+      <UniqueIdentifier>{c42c97b1-cbc5-4417-af71-d68e5e2ba5da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors\Global">
+      <UniqueIdentifier>{6810a216-a35a-442b-9edf-f8fc1027ea28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -42,6 +63,15 @@
     <ClInclude Include="HillOfTheMapleTreeLevel.h">
       <Filter>Levels\InGame\MapleIsland</Filter>
     </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Actors\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Actors\Login\Intro</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -61,6 +91,12 @@
     </ClCompile>
     <ClCompile Include="HillOfTheMapleTreeLevel.cpp">
       <Filter>Levels\InGame\MapleIsland</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actors\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Actors\Login\Intro</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

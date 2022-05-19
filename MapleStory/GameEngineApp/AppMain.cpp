@@ -1,3 +1,5 @@
+// <hide/>
+
 // AppMain.cpp
 
 #include <Windows.h>

@@ -21,9 +21,9 @@ public:
 protected:
 
 private:
-	virtual void UserStart() {}
-	virtual void UserUpdate() {}
-	virtual void UserEnd() {}
+	virtual void Start() override {}
+	virtual void Update(float _DeltaTime) override {}
+	virtual void End() override {}
 
 };
 

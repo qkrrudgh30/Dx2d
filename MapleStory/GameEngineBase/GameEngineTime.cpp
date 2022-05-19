@@ -1,10 +1,11 @@
 #include "GameEngineTime.h"
-#include <Windows.h>
 
 GameEngineTime* GameEngineTime::Inst_ = new GameEngineTime();
 
 
-GameEngineTime::GameEngineTime() 
+GameEngineTime::GameEngineTime()
+    : DeltaTimed(0.)
+    , DeltaTimef(0.f)
 {
 }
 
@@ -14,16 +15,18 @@ GameEngineTime::~GameEngineTime()
 
 void GameEngineTime::Reset() 
 {
-	//QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&PrevCount_));
-	//QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount_));
-	//QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&SecondCount_));
+	Prev = std::chrono::steady_clock::now();
 	Update();
 }
 
 void GameEngineTime::Update() 
 {
-	//QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount_));
-	//RealDeltaTime_ = (static_cast<double>(CurrentCount_) - static_cast<double>(PrevCount_)) / static_cast<double>(SecondCount_);
-	//PrevCount_ = CurrentCount_;
-	//DeltaTime_ = static_cast<float>(RealDeltaTime_);
+    std::chrono::steady_clock::time_point Current = std::chrono::steady_clock::now();
+
+    std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(Current - Prev);
+
+    DeltaTimed = time_span.count();
+
+    Prev = Current;
+    DeltaTimef = static_cast<float>(DeltaTimed);
 }

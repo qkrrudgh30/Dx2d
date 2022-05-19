@@ -37,7 +37,7 @@ GameEngineLevel* GameEngineCore::FindLevel(const std::string& _Name)
 
 void GameEngineCore::CoreStart(GameEngineCore* _UserCore)
 {
-    _UserCore->UserStart();
+    _UserCore->Start();
 }
 
 void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
@@ -53,6 +53,8 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
         NextLevel = nullptr;
 
         CurrentLevel->OnEvent();
+        CurrentLevel->ReSetAccTime();
+        GameEngineTime::GetInst()->Reset();
     }
 
     if (nullptr == CurrentLevel)
@@ -62,15 +64,19 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 
     GameEngineTime::GetInst()->Update();
 
-    _UserCore->UserUpdate();
+    float DeltaTime = GameEngineTime::GetDeltaTime();
 
-    CurrentLevel->AddAccTime(GameEngineTime::GetDeltaTime());
-    CurrentLevel->UserUpdate();
+    _UserCore->Update(DeltaTime);
+
+    CurrentLevel->AddAccTime(DeltaTime);
+    CurrentLevel->Update(DeltaTime);
+    CurrentLevel->ActorUpdate(DeltaTime);
+    CurrentLevel->Render(DeltaTime);
 }
 
 void GameEngineCore::CoreEnd(GameEngineCore* _UserCore) 
 {
-    _UserCore->UserEnd();
+    _UserCore->End();
 
     for (auto& Level : AllLevels)
     {
@@ -89,7 +95,7 @@ void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
 
 void GameEngineCore::InitializeLevel(GameEngineLevel* _Level, const std::string _Name)
 {
-    _Level->UserStart();
+    _Level->Start();
     _Level->SetName(_Name);
 
     AllLevels.insert(std::make_pair(_Name, _Level));
