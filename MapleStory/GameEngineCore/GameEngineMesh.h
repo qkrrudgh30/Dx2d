@@ -22,8 +22,6 @@ public:
     static void Create(const std::string& _Name, const std::vector<float4>& _Vertex);
     static void Create(const std::vector<float4>& _Vertex);
 
-
-
 private:
     // constrcuter destructer
     GameEngineMesh();

@@ -1,4 +1,4 @@
-// <hide / >
+// <hide/>
 
 // GameEngineRenderer.h
 

@@ -1,4 +1,4 @@
-//<hide/>
+// <hide/>
 
 // TitleLogo.h
 
