@@ -169,7 +169,6 @@
     <ClCompile Include="GameEngineNameObject.cpp" />
     <ClCompile Include="GameEnginePath.cpp" />
     <ClCompile Include="GameEngineRandom.cpp" />
-    <ClCompile Include="GameEngineReadFile.cpp" />
     <ClCompile Include="GameEngineSound.cpp" />
     <ClCompile Include="GameEngineString.cpp" />
     <ClCompile Include="GameEngineTime.cpp" />
@@ -180,7 +179,6 @@
     <ClCompile Include="GameEngineTransform_Collision.cpp" />
     <ClCompile Include="GameEngineUpdateObject.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
-    <ClCompile Include="GameEngineWriteFile.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <SubType>
       </SubType>
@@ -201,7 +199,6 @@
     <ClInclude Include="GameEngineNameObject.h" />
     <ClInclude Include="GameEnginePath.h" />
     <ClInclude Include="GameEngineRandom.h" />
-    <ClInclude Include="GameEngineReadFile.h" />
     <ClInclude Include="GameEngineSound.h" />
     <ClInclude Include="GameEngineString.h" />
     <ClInclude Include="GameEngineTime.h" />
@@ -211,7 +208,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineUpdateObject.h" />
     <ClInclude Include="GameEngineWindow.h" />
-    <ClInclude Include="GameEngineWriteFile.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>

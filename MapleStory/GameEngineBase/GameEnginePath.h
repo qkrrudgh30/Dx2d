@@ -4,7 +4,11 @@
 // Ό³Έν :
 class GameEnginePath
 {
+//private:
+
 public:
+	static std::string GetFileName(const std::string& _Path);
+
 	// constrcuter destructer
 	GameEnginePath();
 	GameEnginePath(const std::filesystem::path& _Path);

@@ -131,5 +131,8 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{d46787de-918a-4696-9fbe-d892a479d89f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Device">
+      <UniqueIdentifier>{b1562e6f-1df2-4c81-ad95-8fb431fe7c10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
