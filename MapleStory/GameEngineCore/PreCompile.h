@@ -1,3 +1,7 @@
+// <hide/>
+
+// PreCompile.h
+
 #pragma once
 
 // std
@@ -22,6 +26,8 @@
 #pragma comment(lib, "dxguid")
 
 #include <GameEngineBase/GameEngineDebug.h>
+
+#include "GameEngineDevice.h"
 
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
