@@ -1,8 +1,12 @@
+// <hide/>
+
+// GameEngineDefaultRenderer.cpp
+
 #include "PreCompile.h"
 #include "GameEngineDefaultRenderer.h"
 
 GameEngineDefaultRenderer::GameEngineDefaultRenderer() 
-	:PipeLine(nullptr)
+    :PipeLine(nullptr)
 {
 }
 
@@ -10,15 +14,14 @@ GameEngineDefaultRenderer::~GameEngineDefaultRenderer()
 {
 }
 
-void GameEngineDefaultRenderer::Start()
+void GameEngineDefaultRenderer::Render(float _DeltaTime)
 {
-	GameEngineRenderer::Start();
-
-	// 뭔가 또 할일이 있다면 여기서 해라.
+    GameEngineRenderer::Start(); // 사실 이 코드 외에 할일은 없긴 함.
 }
 
-void GameEngineDefaultRenderer::Render(float _DeltaTime) 
+void GameEngineDefaultRenderer::Start()
 {
-	// PipeLine->Draw();
+    // PipeLine->Draw(); 비슷한 코드가 작성될 예정. 
+    // 하나의 개체가 랜더링되려면, 항상 Pipe line의 도움이 필요함.
 }
 

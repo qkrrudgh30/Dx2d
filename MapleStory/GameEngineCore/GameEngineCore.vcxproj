@@ -86,6 +86,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineVertexBuffer.h" />
+    <ClInclude Include="GameEngineVertexs.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GEngine.h">
       <SubType>
       </SubType>
@@ -163,6 +167,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineVertexBuffer.cpp" />
+    <ClCompile Include="GameEngineVertexs.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GEngine.cpp">
       <SubType>
       </SubType>

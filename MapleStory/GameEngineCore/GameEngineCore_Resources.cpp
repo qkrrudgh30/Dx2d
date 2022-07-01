@@ -8,6 +8,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include "GameEngineLevel.h"
+#include "GameEngineVertexs.h"
 #include <math.h>
 
 // Resources Header
@@ -23,13 +24,13 @@ void EngineInputLayOut()
 
 void EngineMesh() 
 {
-
     {
-        std::vector<float4> Vertex;
-        Vertex.push_back({ float4(-0.5f, 0.5f) });
-        Vertex.push_back({ float4(0.5f, 0.5f) });
-        Vertex.push_back({ float4(0.5f, -0.5f) });
-        Vertex.push_back({ float4(-0.5f, -0.5f) });
+        std::vector<GameEngineVertex> Vertex;
+        //                 Position              Color
+        Vertex.push_back({ float4(-0.5f, 0.5f),  float4() });
+        Vertex.push_back({ float4(0.5f, 0.5f),   float4() });
+        Vertex.push_back({ float4(0.5f, -0.5f),  float4() });
+        Vertex.push_back({ float4(-0.5f, -0.5f), float4() });
         GameEngineVertexBuffer::Create("Rect", Vertex);
     }
 

@@ -42,15 +42,6 @@
     <ClInclude Include="GameEngineTransformBase.h">
       <Filter>Object\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDefaultRenderer.h">
-      <Filter>Object\Component\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineVertexBuffer.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineIndexBuffer.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineDevice.h">
       <Filter>Device</Filter>
     </ClInclude>
@@ -59,6 +50,18 @@
     </ClInclude>
     <ClInclude Include="GameEngineRenderTarget.h">
       <Filter>Resources\OutputMerger</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDefaultRenderer.h">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexs.h">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources\InputAssembler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,15 +108,6 @@
     <ClCompile Include="GameEngineTransformBase.cpp">
       <Filter>Object\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDefaultRenderer.cpp">
-      <Filter>Object\Component\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineIndexBuffer.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineVertexBuffer.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineDevice.cpp">
       <Filter>Device</Filter>
     </ClCompile>
@@ -122,6 +116,18 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderTarget.cpp">
       <Filter>Resources\OutputMerger</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDefaultRenderer.cpp">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexs.cpp">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources\InputAssembler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +163,9 @@
     </Filter>
     <Filter Include="Resources\OutputMerger">
       <UniqueIdentifier>{6c567658-806d-4aec-ab2e-4dcb583b00d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\InputAssembler">
+      <UniqueIdentifier>{1737cd3e-6ae3-47f9-b4eb-fb38b54a8afc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
