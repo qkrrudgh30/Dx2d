@@ -30,6 +30,7 @@ public:
 
 	std::string GetFullPath() const;
 
+
 protected:
 	std::filesystem::path Path_;
 

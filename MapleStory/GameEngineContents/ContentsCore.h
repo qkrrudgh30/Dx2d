@@ -16,6 +16,7 @@ public:
 	ContentsCore& operator=(const ContentsCore& _Other) = delete;
 	ContentsCore& operator=(ContentsCore&& _Other) noexcept = delete;
 
+
 	std::string GetWindowTitle() override
 	{
 		return "MapleStory";

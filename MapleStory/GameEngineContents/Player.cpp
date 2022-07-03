@@ -5,7 +5,6 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
 #include "ScoreTestComponent.h"
-#include <GameEngineCore/GameEngineDefaultRenderer.h>
 
 Player::Player() 
 	: Speed(50.0f)
@@ -40,20 +39,20 @@ void Player::Start()
 	ScoreTestComponent* ScoreCom = CreateComponent<ScoreTestComponent>();
 
 	{
-		CurRenderer = CreateComponent<GameEngineDefaultRenderer>();
+		CurRenderer = CreateComponent<GameEngineRenderer>();
 		CurRenderer->GetTransform().SetLocalScale({ 100, 100, 100 });
 	}
 
 	//ScoreCom->SetParent(CurRenderer);
 
 	{
-		ChildRenderer = CreateComponent<GameEngineDefaultRenderer>();
+		ChildRenderer = CreateComponent<GameEngineRenderer>();
 		ChildRenderer->SetParent(CurRenderer);
 		ChildRenderer->GetTransform().SetWorldPosition({ 150.0f, 100.0f, 0.0f });
 	}
 
 	{
-		ChildRenderer2 = CreateComponent<GameEngineDefaultRenderer>();
+		ChildRenderer2 = CreateComponent<GameEngineRenderer>();
 		ChildRenderer2->SetParent(ChildRenderer);
 		ChildRenderer2->GetTransform().SetWorldPosition({ 250.0f, 100.0f, 0.0f });
 	}

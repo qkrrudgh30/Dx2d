@@ -42,26 +42,11 @@
     <ClInclude Include="GameEngineTransformBase.h">
       <Filter>Object\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDevice.h">
-      <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineTexture.h">
-      <Filter>Resources\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineRenderTarget.h">
-      <Filter>Resources\OutputMerger</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineDefaultRenderer.h">
-      <Filter>Object\Component\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineVertexs.h">
-      <Filter>Resources\InputAssembler</Filter>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexBuffer.h">
-      <Filter>Resources\InputAssembler</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineIndexBuffer.h">
-      <Filter>Resources\InputAssembler</Filter>
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -108,26 +93,11 @@
     <ClCompile Include="GameEngineTransformBase.cpp">
       <Filter>Object\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDevice.cpp">
-      <Filter>Device</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineTexture.cpp">
-      <Filter>Resources\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineRenderTarget.cpp">
-      <Filter>Resources\OutputMerger</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineDefaultRenderer.cpp">
-      <Filter>Object\Component\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineVertexs.cpp">
-      <Filter>Resources\InputAssembler</Filter>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexBuffer.cpp">
-      <Filter>Resources\InputAssembler</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineIndexBuffer.cpp">
-      <Filter>Resources\InputAssembler</Filter>
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,18 +124,6 @@
     </Filter>
     <Filter Include="PreCompile">
       <UniqueIdentifier>{d46787de-918a-4696-9fbe-d892a479d89f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Device">
-      <UniqueIdentifier>{b1562e6f-1df2-4c81-ad95-8fb431fe7c10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\Texture">
-      <UniqueIdentifier>{493341bc-b6b1-41c3-8749-987d52bf8e7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\OutputMerger">
-      <UniqueIdentifier>{6c567658-806d-4aec-ab2e-4dcb583b00d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\InputAssembler">
-      <UniqueIdentifier>{1737cd3e-6ae3-47f9-b4eb-fb38b54a8afc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

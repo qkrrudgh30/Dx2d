@@ -14,7 +14,6 @@ public:
 	{
 		GameEngineDebug::LeakCheckOn();
 
-		// 여기에서 만들어진 이 코어를 알아야 하는거지.
 		CoreType Core;
 		WindowCreate(Core.GetWindowTitle(), &Core);
 	}
@@ -24,9 +23,7 @@ public:
 protected:
 	virtual std::string GetWindowTitle() { return "MainWindow"; }
 
-	// 너희들이 간섭할수 있는 내용.
 	virtual void Start() = 0;
-	// 엔진에서 제공하는 시간을 주고 너는 이걸 써라.
 	virtual void Update(float _DeltaTime) = 0;
 	virtual void End() = 0;
 
@@ -59,10 +56,8 @@ private:
 	static void CoreUpdate(GameEngineCore* _UserCore); // 프로그램 업데이트
 	static void CoreEnd(GameEngineCore* _UserCore); // 프로그램 업데이트
 
-	// 헤더 추가하기 싫어서 초기화를 CPP에서 하기 위한 함수.
 	static void InitializeLevel(GameEngineLevel* _Level, const std::string _Name);
 
-	// delete Function
 	GameEngineCore(const GameEngineCore& _Other) = delete;
 	GameEngineCore(GameEngineCore&& _Other) noexcept = delete;
 	GameEngineCore& operator=(const GameEngineCore& _Other) = delete;
