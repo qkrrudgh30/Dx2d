@@ -44,6 +44,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineDefaultRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineDevice.h">
       <SubType>
       </SubType>
@@ -52,7 +56,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineInputLayOut.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEnginePixelShader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineRasterizer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -69,6 +85,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineRes.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineShader.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -89,6 +109,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineVertexBuffer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexs.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShader.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -127,6 +155,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineCore_Resources.cpp" />
+    <ClCompile Include="GameEngineDefaultRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineDevice.cpp">
       <SubType>
       </SubType>
@@ -135,7 +167,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineInputLayOut.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEnginePixelShader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineRasterizer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -152,6 +196,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineRes.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineShader.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -172,6 +220,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexs.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShader.cpp">
       <SubType>
       </SubType>
     </ClCompile>

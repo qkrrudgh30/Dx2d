@@ -1,3 +1,7 @@
+// <hide/>
+
+// GameEngineIndexBuffer.h
+
 #pragma once
 #include "GameEngineRes.h"
 #include <GameEngineBase/GameEngineMath.h>
@@ -9,31 +13,45 @@
 // Ό³Έν :
 class GameEngineIndexBuffer : public GameEngineRes<GameEngineIndexBuffer>
 {
-	friend GameEngineRes<GameEngineIndexBuffer>;
-
-private:
-	static GameEngineIndexBuffer* CreateRes(const std::vector<int>& _Indexs, const std::string& _Name = "");
+    friend GameEngineRes<GameEngineIndexBuffer>;
 
 public:
-	static void Create(const std::string& _Name, const std::vector<int>& _Indexs);
-	static void Create(const std::vector<int>& _Indexs);
+    template<typename IndexType>
+    static GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<IndexType>& _Vertex)
+    {
+        return Create(_Name, &_Vertex[0], static_cast<UINT>(sizeof(IndexType)), static_cast<UINT>(_Vertex.size()));
+    }
+
+    static GameEngineIndexBuffer* Create(const std::string& _Name, const void* _Data, UINT _IndexSize, UINT _IndexCount);
 
 private:
-	// constrcuter destructer
-	GameEngineIndexBuffer();
-	~GameEngineIndexBuffer();
+    // constrcuter destructer
+    GameEngineIndexBuffer();
+    ~GameEngineIndexBuffer();
 
-	// delete Function
-	GameEngineIndexBuffer(const GameEngineIndexBuffer& _Other) = delete;
-	GameEngineIndexBuffer(GameEngineIndexBuffer&& _Other) noexcept = delete;
-	GameEngineIndexBuffer& operator=(const GameEngineIndexBuffer& _Other) = delete;
-	GameEngineIndexBuffer& operator=(GameEngineIndexBuffer&& _Other) noexcept = delete;
+    // delete Function
+    GameEngineIndexBuffer(const GameEngineIndexBuffer& _Other) = delete;
+    GameEngineIndexBuffer(GameEngineIndexBuffer&& _Other) noexcept = delete;
+    GameEngineIndexBuffer& operator=(const GameEngineIndexBuffer& _Other) = delete;
+    GameEngineIndexBuffer& operator=(GameEngineIndexBuffer&& _Other) noexcept = delete;
+
+public:
+    void Setting();
+
+    inline UINT GetIndexCount()
+    {
+        return IndexCount;
+    }
 
 protected:
+    void BufferCreate(const void* _Data, UINT _IndexSize, UINT _IndexCount);
 
-
-public:
-	std::vector<int> Indexs;
+private:
+    D3D11_BUFFER_DESC      BufferDesc;
+    D3D11_SUBRESOURCE_DATA Data;
+    ID3D11Buffer*          Buffer;
+    UINT                   IndexSize;
+    UINT                   IndexCount;
+    UINT                   Offset;
 
 };
-

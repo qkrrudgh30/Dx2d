@@ -1,3 +1,7 @@
+// <hide/>
+
+// GameEngineVertexBuffer.h
+
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineRes.h"
@@ -5,39 +9,50 @@
 #include <string>
 #include <map>
 #include <list>
+#include "GameEngineVertexs.h"
 
 // Ό³Έν :
 class GameEngineVertexBuffer : public GameEngineRes<GameEngineVertexBuffer>
 {
 public:
-	friend GameEngineRes<GameEngineVertexBuffer>;
-
-private:
-	static GameEngineVertexBuffer* CreateRes(const std::vector<float4>& _Vertex, const std::string& _Name = "");
+    friend GameEngineRes<GameEngineVertexBuffer>;
 
 public:
-	static void Create(const std::string& _Name, const std::vector<float4>& _Vertex);
-	static void Create(const std::vector<float4>& _Vertex);
+    template<typename VertexType>
+    static GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<VertexType>& _Vertex)
+    {
+        return Create(_Name, &_Vertex[0], static_cast<UINT>(sizeof(VertexType)), static_cast<UINT>(_Vertex.size()), VertexType::LayOut);
+    }
 
-private:
-	// constrcuter destructer
-	GameEngineVertexBuffer();
-	~GameEngineVertexBuffer();
+    static GameEngineVertexBuffer* Create(const std::string& _Name, const void* _Data, UINT _VertexSize, UINT _VertexCount, const GameEngineLayOutDesc& _LayOut);
 
-	// delete Function
-	GameEngineVertexBuffer(const GameEngineVertexBuffer& _Other) = delete;
-	GameEngineVertexBuffer(GameEngineVertexBuffer&& _Other) noexcept = delete;
-	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer& _Other) = delete;
-	GameEngineVertexBuffer& operator=(GameEngineVertexBuffer&& _Other) noexcept = delete;
+    const GameEngineLayOutDesc* GetLayOutDesc()
+    {
+        return LayOutDesc;
+    }
+
+    void Setting();
 
 protected:
-
+    void BufferCreate(const void* _Data, UINT _VertexSize, UINT _VertexCount);
 
 private:
+    // nullptr
+    D3D11_BUFFER_DESC           BufferDesc;
+    ID3D11Buffer*               Buffer;
+    UINT                        VertexCount;
+    UINT                        VertexSize;
+    UINT                        OffSet;
+    const GameEngineLayOutDesc* LayOutDesc;
 
-public:
-	std::vector<float4> Vertexs;
+    // constrcuter destructer
+    GameEngineVertexBuffer();
+    ~GameEngineVertexBuffer();
 
-
+    // delete Function
+    GameEngineVertexBuffer(const GameEngineVertexBuffer& _Other) = delete;
+    GameEngineVertexBuffer(GameEngineVertexBuffer&& _Other) noexcept = delete;
+    GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer& _Other) = delete;
+    GameEngineVertexBuffer& operator=(GameEngineVertexBuffer&& _Other) noexcept = delete;
 };
 

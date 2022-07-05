@@ -11,21 +11,40 @@
 #include <math.h>
 
 // Resources Header
+#include "GameEngineVertexs.h"
 #include "GameEngineVertexBuffer.h"
+#include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
+#include "GameEngineRasterizer.h"
+#include "GameEnginePixelShader.h"
 #include "GameEngineRenderingPipeLine.h"
 #include "GameEngineTexture.h"
 #include "GameEngineRenderTarget.h"
 
+void EngineInputLayOut()
+{
+    GameEngineVertex::LayOut.AddInputLayOut("POSITION", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
+    GameEngineVertex::LayOut.AddInputLayOut("COLOR", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
+}
+
+void EngineRasterizer()
+{
+    D3D11_RASTERIZER_DESC Desc = {};
+
+    Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+    Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+
+    GameEngineRasterizer::Create("EngineRasterizer", Desc);
+}
+
 void EngineMesh()
 {
     {
-        std::vector<float4> Vertex;
-        Vertex.push_back(float4(-0.5f, 0.5f));
-        Vertex.push_back(float4(0.5f, 0.5f));
-        Vertex.push_back(float4(0.5f, -0.5f));
-        Vertex.push_back(float4(-0.5f, -0.5f));
-
+        std::vector<GameEngineVertex> Vertex;
+        Vertex.push_back({ float4(-0.5f, 0.5f), float4() });
+        Vertex.push_back({ float4(0.5f, 0.5f), float4() });
+        Vertex.push_back({ float4(0.5f, -0.5f), float4() });
+        Vertex.push_back({ float4(-0.5f, -0.5f), float4() });
         GameEngineVertexBuffer::Create("Rect", Vertex);
     }
 
@@ -46,38 +65,43 @@ void EngineMesh()
     }
 
     {
-        std::vector<float4> Vertex;
+        std::vector<GameEngineVertex> Vertex;
         Vertex.resize(24);
+        // 앞면
+        Vertex[0] = { float4(-0.5f, 0.5f, 0.5f) };
+        Vertex[1] = { float4(0.5f, 0.5f, 0.5f) };
+        Vertex[2] = { float4(0.5f, -0.5f, 0.5f) };
+        Vertex[3] = { float4(-0.5f, -0.5f, 0.5f) };
 
-        Vertex[0] = float4(-0.5f, 0.5f, 0.5f);
-        Vertex[1] = float4(0.5f, 0.5f, 0.5f);
-        Vertex[2] = float4(0.5f, -0.5f, 0.5f);
-        Vertex[3] = float4(-0.5f, -0.5f, 0.5f);
+        // 뒷면
+        Vertex[4] = { float4::VectorRotationToDegreeXAxis(Vertex[0].POSITION, 180.f) };
+        Vertex[5] = { float4::VectorRotationToDegreeXAxis(Vertex[1].POSITION, 180.f) };
+        Vertex[6] = { float4::VectorRotationToDegreeXAxis(Vertex[2].POSITION, 180.f) };
+        Vertex[7] = { float4::VectorRotationToDegreeXAxis(Vertex[3].POSITION, 180.f) };
 
-        Vertex[4] = float4::VectorRotationToDegreeXAxis(Vertex[0], 180.f);
-        Vertex[5] = float4::VectorRotationToDegreeXAxis(Vertex[1], 180.f);
-        Vertex[6] = float4::VectorRotationToDegreeXAxis(Vertex[2], 180.f);
-        Vertex[7] = float4::VectorRotationToDegreeXAxis(Vertex[3], 180.f);
+        // 왼쪽
+        Vertex[8] = { float4::VectorRotationToDegreeYAxis(Vertex[0].POSITION, -90.f) };
+        Vertex[9] = { float4::VectorRotationToDegreeYAxis(Vertex[1].POSITION, -90.f) };
+        Vertex[11] = { float4::VectorRotationToDegreeYAxis(Vertex[3].POSITION, -90.f) };
+        Vertex[10] = { float4::VectorRotationToDegreeYAxis(Vertex[2].POSITION, -90.f) };
 
-        Vertex[8] = float4::VectorRotationToDegreeYAxis(Vertex[0], -90.f);
-        Vertex[9] = float4::VectorRotationToDegreeYAxis(Vertex[1], -90.f);
-        Vertex[10] = float4::VectorRotationToDegreeYAxis(Vertex[2], -90.f);
-        Vertex[11] = float4::VectorRotationToDegreeYAxis(Vertex[3], -90.f);
+        // 오른쪽
+        Vertex[12] = { float4::VectorRotationToDegreeYAxis(Vertex[0].POSITION, 90.f) };
+        Vertex[13] = { float4::VectorRotationToDegreeYAxis(Vertex[1].POSITION, 90.f) };
+        Vertex[14] = { float4::VectorRotationToDegreeYAxis(Vertex[2].POSITION, 90.f) };
+        Vertex[15] = { float4::VectorRotationToDegreeYAxis(Vertex[3].POSITION, 90.f) };
 
-        Vertex[12] = float4::VectorRotationToDegreeYAxis(Vertex[0], 90.f);
-        Vertex[13] = float4::VectorRotationToDegreeYAxis(Vertex[1], 90.f);
-        Vertex[14] = float4::VectorRotationToDegreeYAxis(Vertex[2], 90.f);
-        Vertex[15] = float4::VectorRotationToDegreeYAxis(Vertex[3], 90.f);
+        // 위
+        Vertex[16] = { float4::VectorRotationToDegreeXAxis(Vertex[0].POSITION, -90.f) };
+        Vertex[17] = { float4::VectorRotationToDegreeXAxis(Vertex[1].POSITION, -90.f) };
+        Vertex[18] = { float4::VectorRotationToDegreeXAxis(Vertex[2].POSITION, -90.f) };
+        Vertex[19] = { float4::VectorRotationToDegreeXAxis(Vertex[3].POSITION, -90.f) };
 
-        Vertex[16] = float4::VectorRotationToDegreeXAxis(Vertex[0], -90.f);
-        Vertex[17] = float4::VectorRotationToDegreeXAxis(Vertex[1], -90.f);
-        Vertex[18] = float4::VectorRotationToDegreeXAxis(Vertex[2], -90.f);
-        Vertex[19] = float4::VectorRotationToDegreeXAxis(Vertex[3], -90.f);
-
-        Vertex[20] = float4::VectorRotationToDegreeXAxis(Vertex[0], 90.f);
-        Vertex[21] = float4::VectorRotationToDegreeXAxis(Vertex[1], 90.f);
-        Vertex[22] = float4::VectorRotationToDegreeXAxis(Vertex[2], 90.f);
-        Vertex[23] = float4::VectorRotationToDegreeXAxis(Vertex[3], 90.f);
+        // 아래
+        Vertex[20] = { float4::VectorRotationToDegreeXAxis(Vertex[0].POSITION, 90.f) };
+        Vertex[21] = { float4::VectorRotationToDegreeXAxis(Vertex[1].POSITION, 90.f) };
+        Vertex[22] = { float4::VectorRotationToDegreeXAxis(Vertex[2].POSITION, 90.f) };
+        Vertex[23] = { float4::VectorRotationToDegreeXAxis(Vertex[3].POSITION, 90.f) };
 
         GameEngineVertexBuffer::Create("Box", Vertex);
     }
@@ -102,11 +126,35 @@ void EngineMesh()
 void EngineRenderingPipeLine()
 {
     GameEngineRenderingPipeLine* NewPipe = GameEngineRenderingPipeLine::Create("Color");
+    NewPipe->SetInputAssembler1VertexBuffer("Rect");
+    NewPipe->SetInputAssembler2IndexBuffer("Rect");
+    NewPipe->SetVertexShader("Color.hlsl");
+    NewPipe->SetRasterizer("EngineRasterizer");
+    NewPipe->SetPixelShader("Color.hlsl");
+}
+
+void ShaderCompile()
+{
+    GameEngineDirectory Dir;
+
+    Dir.MoveParentToExitsChildDirectory("Shader");
+    Dir.Move("Shader");
+
+    std::vector<GameEngineFile> Shaders = Dir.GetAllFile("hlsl");
+
+    for (size_t i = 0; i < Shaders.size(); i++)
+    {
+        GameEngineShader::AutoCompile(Shaders[i].GetFullPath());
+    }
 }
 
 void GameEngineCore::EngineResourcesInitialize()
 {
+    EngineInputLayOut();
     EngineMesh();
+    EngineRasterizer();
+    ShaderCompile();
+
     EngineRenderingPipeLine();
 }
 
@@ -114,8 +162,12 @@ void GameEngineCore::EngineResourcesDestroy()
 {
     GameEngineRenderingPipeLine::ResourcesDestroy();
 
+    GameEnginePixelShader::ResourcesDestroy();
+    GameEngineVertexShader::ResourcesDestroy();
+
     GameEngineVertexBuffer::ResourcesDestroy();
     GameEngineIndexBuffer::ResourcesDestroy();
+    GameEngineRasterizer::ResourcesDestroy();
     GameEngineRenderTarget::ResourcesDestroy();
     GameEngineTexture::ResourcesDestroy();
 
