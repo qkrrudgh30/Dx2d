@@ -11,6 +11,9 @@ class GameEngineLayOutDesc;
 class GameEngineVertexShader;
 class GameEngineInputLayOut : public GameEngineRes<GameEngineInputLayOut>
 {
+private:
+    ID3D11InputLayout* InputLayOut;
+
 public:
     // constrcuter destructer
     GameEngineInputLayOut();
@@ -26,10 +29,4 @@ public:
 
     void Setting();
 
-protected:
-
-private:
-    ID3D11InputLayout* InputLayOut;
-
 };
-

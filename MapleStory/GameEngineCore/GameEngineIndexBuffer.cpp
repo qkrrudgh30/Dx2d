@@ -31,7 +31,6 @@ GameEngineIndexBuffer* GameEngineIndexBuffer::Create(const std::string& _Name, c
 void GameEngineIndexBuffer::BufferCreate(const void* _Data, UINT _IndexSize, UINT _IndexCount)
 {
     IndexSize = _IndexSize;
-
     IndexCount = _IndexCount;
 
     D3D11_SUBRESOURCE_DATA Data;

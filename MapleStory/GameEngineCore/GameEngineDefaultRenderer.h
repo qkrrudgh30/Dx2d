@@ -9,6 +9,9 @@
 class GameEngineRenderingPipeLine;
 class GameEngineDefaultRenderer : public GameEngineRenderer
 {
+private:
+    GameEngineRenderingPipeLine* PipeLine;
+
 public:
     // constrcuter destructer
     GameEngineDefaultRenderer();
@@ -28,8 +31,5 @@ protected:
     virtual void Start();
     virtual void Update(float _DeltaTime) {}
     virtual void End() {}
-
-private:
-    GameEngineRenderingPipeLine* PipeLine;
 
 };

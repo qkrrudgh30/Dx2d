@@ -8,10 +8,10 @@
 #include "GameEngineInputLayOut.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
-#include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineRasterizer.h"
 
-GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() 
+GameEngineRenderingPipeLine::GameEngineRenderingPipeLine()
     : VertexBuffer(nullptr)
     , InputLayOut(nullptr)
     , VertexShader(nullptr)
@@ -22,9 +22,9 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine()
 {
 }
 
-GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() 
+GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
 {
-    if (nullptr != InputLayOut)
+    if (nullptr != InputLayOut) // InputLayout은 RenderingPipeLine 개체에서 만들어지므로, 소멸자에서 꼭 해제해야 함.
     {
         delete InputLayOut;
         InputLayOut = nullptr;

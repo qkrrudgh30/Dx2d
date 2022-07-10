@@ -1,7 +1,3 @@
-// <hide/>
-
-// TitleLogo.cpp
-
 #include "PreCompile.h"
 #include "TitleLogo.h"
 #include <GameEngineCore/GEngine.h>
@@ -20,6 +16,7 @@ GameEngineRenderer* RendererTest = nullptr;
 
 void TitleLogo::Start() 
 {
+    // 1280 720
     GetTransform().SetLocalPosition({ 0, 200, 0 });
 
     {

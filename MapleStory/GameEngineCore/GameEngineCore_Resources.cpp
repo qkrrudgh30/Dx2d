@@ -40,9 +40,10 @@ void EngineRasterizer()
 void EngineMesh()
 {
     {
-        std::vector<GameEngineVertex> Vertex;
+        std::vector<GameEngineVertex> Vertex; // 더이상 float4가 아님.
         Vertex.push_back({ float4(-0.5f, 0.5f), float4() });
         Vertex.push_back({ float4(0.5f, 0.5f), float4() });
+        // Vertex.push_back({ float4(0.5f, 0.5f), float4(1.0f, 0.0f, 0.0f, 1.0f) }); 우상단 Red 정점 설정
         Vertex.push_back({ float4(0.5f, -0.5f), float4() });
         Vertex.push_back({ float4(-0.5f, -0.5f), float4() });
         GameEngineVertexBuffer::Create("Rect", Vertex);
@@ -150,20 +151,19 @@ void ShaderCompile()
 
 void GameEngineCore::EngineResourcesInitialize()
 {
-    EngineInputLayOut();
-    EngineMesh();
-    EngineRasterizer();
-    ShaderCompile();
-
-    EngineRenderingPipeLine();
+    EngineInputLayOut();       // 정점의 설명서를 만듦.
+    EngineMesh();              // 정점 버퍼와 인덱스 버퍼를 만듦.
+    ShaderCompile();           // 쉐이더 파일들을 모두 찾아서, 컴파일을 진행.
+    EngineRasterizer();        // Rasterizer 생성.
+    EngineRenderingPipeLine(); // 새 랜더링 파이프라인 개체를 만들고, 해당 개체에 위에서 만든 정점 버퍼와 인덱스 버퍼를 저장.
 }
 
 void GameEngineCore::EngineResourcesDestroy()
 {
     GameEngineRenderingPipeLine::ResourcesDestroy();
 
-    GameEnginePixelShader::ResourcesDestroy();
     GameEngineVertexShader::ResourcesDestroy();
+    GameEnginePixelShader::ResourcesDestroy();
 
     GameEngineVertexBuffer::ResourcesDestroy();
     GameEngineIndexBuffer::ResourcesDestroy();

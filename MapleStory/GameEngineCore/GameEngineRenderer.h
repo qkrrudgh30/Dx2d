@@ -30,4 +30,3 @@ private:
     virtual void Render(float _DeltaTime) = 0;
 
 };
-

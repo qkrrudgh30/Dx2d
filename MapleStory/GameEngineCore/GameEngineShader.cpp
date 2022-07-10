@@ -7,7 +7,23 @@
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
 
-void GameEngineShader::AutoCompile(const std::string& _Path)
+GameEngineShader::GameEngineShader()
+    : Version("")
+    , BinaryPtr(nullptr)
+    , EntryPoint("")
+{
+}
+
+GameEngineShader::~GameEngineShader()
+{
+    if (nullptr != BinaryPtr)
+    {
+        BinaryPtr->Release();
+        BinaryPtr = nullptr;
+    }
+}
+
+void GameEngineShader::AutoCompile(const std::string & _Path)
 {
     GameEngineFile File = GameEngineFile(_Path);
     File.Open(OpenMode::Read, FileMode::Text);
@@ -36,28 +52,11 @@ void GameEngineShader::AutoCompile(const std::string& _Path)
     }
 }
 
-GameEngineShader::GameEngineShader()
-    : Version("")
-    , BinaryPtr(nullptr)
-    , EntryPoint("")
-{
-}
-
-GameEngineShader::~GameEngineShader() 
-{
-    if (nullptr != BinaryPtr)
-    {
-        BinaryPtr->Release();
-        BinaryPtr = nullptr;
-    }
-}
-
 void GameEngineShader::CreateVersion(const std::string& _ShaderType, UINT _VersionHigh, UINT _VersionLow)
 {
     Version = "";
-    Version += _ShaderType + "_"; // vs_
+    Version += _ShaderType + "_";            // vs_
     Version += std::to_string(_VersionHigh); // vs_5
-    Version += "_"; // vs_5_
-    Version += std::to_string(_VersionLow); // vs_5_0
+    Version += "_";                          // vs_5_
+    Version += std::to_string(_VersionLow);  // vs_5_0
 }
-

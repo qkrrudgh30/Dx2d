@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f46048f3-a02f-46c8-8998-abad15f04baf}</ProjectGuid>
+    <ProjectGuid>{bcfc1381-262e-4c5a-8dd7-b1c016afdb95}</ProjectGuid>
     <RootNamespace>Shader</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

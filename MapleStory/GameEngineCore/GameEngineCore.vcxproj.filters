@@ -63,6 +63,9 @@
     <ClInclude Include="GameEngineIndexBuffer.h">
       <Filter>Resources\InputAssembler</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineDefaultRenderer.h">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineShader.h">
       <Filter>Resources\Shader</Filter>
     </ClInclude>
@@ -77,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\Rasterizer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineDefaultRenderer.h">
-      <Filter>Object\Component\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +147,9 @@
     <ClCompile Include="GameEngineIndexBuffer.cpp">
       <Filter>Resources\InputAssembler</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDefaultRenderer.cpp">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="GameEngineShader.cpp">
       <Filter>Resources\Shader</Filter>
     </ClCompile>
@@ -161,9 +164,6 @@
     </ClCompile>
     <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\Rasterizer</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineDefaultRenderer.cpp">
-      <Filter>Object\Component\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,13 +201,13 @@
       <UniqueIdentifier>{eb63235b-9446-4044-ae0d-03edad8143f0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\InputAssembler">
-      <UniqueIdentifier>{15636899-ed02-4dc5-8789-6d2ca81fed0b}</UniqueIdentifier>
+      <UniqueIdentifier>{3926c2e3-d932-4987-8402-0717ed9e8de4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\Shader">
-      <UniqueIdentifier>{21375124-9498-459f-bcd3-e849ffb28bf1}</UniqueIdentifier>
+      <UniqueIdentifier>{8769d03b-abb1-48ff-8138-9e507469a12f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\Rasterizer">
-      <UniqueIdentifier>{f1e2bf43-4042-4ca7-88a4-50ce0daf60ad}</UniqueIdentifier>
+      <UniqueIdentifier>{7e1d42b5-6e54-484e-96ee-9e31743198d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -9,6 +9,10 @@
 class GameEngineDefaultRenderer;
 class Player : public GameEngineActor
 {
+private:
+    GameEngineDefaultRenderer* Renderer;
+    float                      Speed;
+
 public:
     // constrcuter destructer
     Player();
@@ -25,8 +29,5 @@ protected:
     void Update(float _DeltaTime);
     void End() {}
 
-private:
-    GameEngineDefaultRenderer* Renderer;
-    float                      Speed;
 };
 

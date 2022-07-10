@@ -5,14 +5,13 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include <GameEngineBase/GameEngineInput.h>
-#include <iostream>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
-#include "ScoreTestComponent.h"
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 
 Player::Player() 
-    : Speed(50.0f)
+    : Renderer(nullptr)
+    , Speed(50.0f)
 {
 }
 
@@ -24,19 +23,17 @@ void Player::Start()
 {
     if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
     {
-        GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_NUMPAD4);
-        GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_NUMPAD6);
-        GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_NUMPAD9);
-        GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_NUMPAD7);
-        GameEngineInput::GetInst()->CreateKey("PlayerForward", VK_NUMPAD8);
-        GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_NUMPAD5);
-        GameEngineInput::GetInst()->CreateKey("Rot+", VK_NUMPAD1);
-        GameEngineInput::GetInst()->CreateKey("Rot-", VK_NUMPAD2);
+        GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
+        GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
+        GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
+        GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
+        GameEngineInput::GetInst()->CreateKey("PlayerForward", VK_HOME);
+        GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_END);
+        GameEngineInput::GetInst()->CreateKey("Rot+", VK_DELETE);
+        GameEngineInput::GetInst()->CreateKey("Rot-", VK_NEXT);
     }
 
     GetTransform().SetLocalScale({1, 1, 1});
-
-    ScoreTestComponent* ScoreCom = CreateComponent<ScoreTestComponent>();
 
     {
         Renderer = CreateComponent<GameEngineDefaultRenderer>();
@@ -82,5 +79,4 @@ void Player::Update(float _DeltaTime)
     {
         Renderer->GetTransform().SetLocalRotate({ 0.0f, 0.0f, -360.0f * _DeltaTime });
     }
-
 }

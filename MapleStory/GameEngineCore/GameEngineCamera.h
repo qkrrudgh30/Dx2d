@@ -4,8 +4,8 @@
 
 enum class CAMERAPROJECTIONMODE
 {
-	PersPective,
-	Orthographic,
+    PersPective,
+    Orthographic,
 };
 
 // 설명 :
@@ -13,47 +13,50 @@ class GameEngineLevel;
 class GameEngineCamera;
 class GameEngineCamera : public GameEngineTransformComponent
 {
-	friend GameEngineLevel;
-
-public:
-	// constrcuter destructer
-	GameEngineCamera();
-	~GameEngineCamera();
-
-	// delete Function
-	GameEngineCamera(const GameEngineCamera& _Other) = delete;
-	GameEngineCamera(GameEngineCamera&& _Other) noexcept = delete;
-	GameEngineCamera& operator=(const GameEngineCamera& _Other) = delete;
-	GameEngineCamera& operator=(GameEngineCamera&& _Other) noexcept = delete;
-
-	void SetProjectionMode(CAMERAPROJECTIONMODE _Mode)
-	{
-		Mode = _Mode;
-	}
-
-protected:
-	void Start();
+    friend GameEngineLevel;
 
 private:
-	float4x4 View; // 바라보는것
-	float4x4 ViewPort;
-	float4x4 Projection;
-	CAMERAPROJECTIONMODE Mode;
+    D3D11_VIEWPORT       ViewPortDesc;
+    float4x4             View; 
+    float4x4             ViewPort;
+    float4x4             Projection;
+    CAMERAPROJECTIONMODE Mode;
 
-	// Projection Data
-	float4 Size;
-	float Near;
-	float Far;
+    // Projection Data
+    float4 Size;
+    float Near;
+    float Far;
 
-	// Perspective
-	float Fov;
+    // Perspective
+    float Fov;
+    
+    std::map<int, std::list<class GameEngineRenderer*>> AllRenderer_;
 
-	std::map<int, std::list<class GameEngineRenderer*>> AllRenderer_;
+public:
+    // constrcuter destructer
+    GameEngineCamera();
+    ~GameEngineCamera();
 
-	void Render(float _DeltaTime);
+    // delete Function
+    GameEngineCamera(const GameEngineCamera& _Other) = delete;
+    GameEngineCamera(GameEngineCamera&& _Other) noexcept = delete;
+    GameEngineCamera& operator=(const GameEngineCamera& _Other) = delete;
+    GameEngineCamera& operator=(GameEngineCamera&& _Other) noexcept = delete;
 
-	void PushRenderer(GameEngineRenderer* _Renderer);
+    void SetProjectionMode(CAMERAPROJECTIONMODE _Mode)
+    {
+        Mode = _Mode;
+    }
 
-	void Release(float _DelataTime);
+protected:
+    void Start();
+
+private:
+
+    void Render(float _DeltaTime);
+
+    void PushRenderer(GameEngineRenderer* _Renderer);
+
+    void Release(float _DelataTime);
 };
 

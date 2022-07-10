@@ -3,17 +3,22 @@
 // GameEngineIndexBuffer.h
 
 #pragma once
-#include "GameEngineRes.h"
-#include <GameEngineBase/GameEngineMath.h>
-#include <vector>
 #include <string>
-#include <map>
-#include <list>
+#include <GameEngineBase/GameEngineMath.h>
+#include "GameEngineRes.h"
 
 // Ό³Έν :
 class GameEngineIndexBuffer : public GameEngineRes<GameEngineIndexBuffer>
 {
     friend GameEngineRes<GameEngineIndexBuffer>;
+
+private:
+    D3D11_BUFFER_DESC      BufferDesc;
+    D3D11_SUBRESOURCE_DATA Data;
+    ID3D11Buffer*          Buffer;
+    UINT                   IndexSize;
+    UINT                   IndexCount;
+    UINT                   Offset;
 
 public:
     template<typename IndexType>
@@ -23,6 +28,16 @@ public:
     }
 
     static GameEngineIndexBuffer* Create(const std::string& _Name, const void* _Data, UINT _IndexSize, UINT _IndexCount);
+
+    inline UINT GetIndexCount()
+    {
+        return IndexCount;
+    }
+
+    void Setting();
+
+protected:
+    void BufferCreate(const void* _Data, UINT _IndexSize, UINT _IndexCount);
 
 private:
     // constrcuter destructer
@@ -34,24 +49,5 @@ private:
     GameEngineIndexBuffer(GameEngineIndexBuffer&& _Other) noexcept = delete;
     GameEngineIndexBuffer& operator=(const GameEngineIndexBuffer& _Other) = delete;
     GameEngineIndexBuffer& operator=(GameEngineIndexBuffer&& _Other) noexcept = delete;
-
-public:
-    void Setting();
-
-    inline UINT GetIndexCount()
-    {
-        return IndexCount;
-    }
-
-protected:
-    void BufferCreate(const void* _Data, UINT _IndexSize, UINT _IndexCount);
-
-private:
-    D3D11_BUFFER_DESC      BufferDesc;
-    D3D11_SUBRESOURCE_DATA Data;
-    ID3D11Buffer*          Buffer;
-    UINT                   IndexSize;
-    UINT                   IndexCount;
-    UINT                   Offset;
 
 };

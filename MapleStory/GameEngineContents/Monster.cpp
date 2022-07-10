@@ -1,7 +1,3 @@
-// <hide/>
-
-// Monster.cpp
-
 #include "PreCompile.h"
 #include "Monster.h"
 
