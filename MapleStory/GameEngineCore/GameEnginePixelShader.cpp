@@ -8,6 +8,7 @@
 GameEnginePixelShader::GameEnginePixelShader()
     : ShaderPtr(nullptr)
 {
+    ShaderSettingType = ShaderType::Pixel;
 }
 
 GameEnginePixelShader::~GameEnginePixelShader()
@@ -83,4 +84,6 @@ void GameEnginePixelShader::ShaderCompile(std::string _Path, std::string _EntryP
     {
         MsgBoxAssert("버텍스 쉐이더 핸들 생성에 실패했습니다.");
     }
+
+    ShaderResCheck();
 }

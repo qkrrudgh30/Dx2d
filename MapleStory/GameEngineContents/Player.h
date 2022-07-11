@@ -12,6 +12,7 @@ class Player : public GameEngineActor
 private:
     GameEngineDefaultRenderer* Renderer;
     float                      Speed;
+    float4                     Color;
 
 public:
     // constrcuter destructer

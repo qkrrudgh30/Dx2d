@@ -13,6 +13,7 @@
 // Resources Header
 #include "GameEngineVertexs.h"
 #include "GameEngineVertexBuffer.h"
+#include "GameEngineConstantBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineRasterizer.h"
@@ -162,14 +163,15 @@ void GameEngineCore::EngineResourcesDestroy()
 {
     GameEngineRenderingPipeLine::ResourcesDestroy();
 
-    GameEngineVertexShader::ResourcesDestroy();
     GameEnginePixelShader::ResourcesDestroy();
+    GameEngineVertexShader::ResourcesDestroy();
 
     GameEngineVertexBuffer::ResourcesDestroy();
     GameEngineIndexBuffer::ResourcesDestroy();
-    GameEngineRasterizer::ResourcesDestroy();
     GameEngineRenderTarget::ResourcesDestroy();
     GameEngineTexture::ResourcesDestroy();
+    GameEngineRasterizer::ResourcesDestroy();
+    GameEngineConstantBuffer::ResourcesDestroy();
 
     GameEngineDevice::Destroy();
 }

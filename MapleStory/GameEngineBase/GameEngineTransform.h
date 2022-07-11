@@ -1,3 +1,7 @@
+// <hide/>
+
+// GameEngineTransform.h
+
 #pragma once
 #include "GameEngineMath.h"
 #include <DirectXCollision.h>
@@ -7,320 +11,329 @@
 
 enum CollisionType
 {
-	CT_POINT,
-	CT_SPHERE, // 정방원
-	CT_AABB, // 회전하지 않은 박스
-	CT_OBB, // 회전한 박스
+    CT_POINT,
+    CT_SPHERE, // 정방원
+    CT_AABB, // 회전하지 않은 박스
+    CT_OBB, // 회전한 박스
 };
 
 class CollisionData
 {
-	friend class GameEngineTransform;
+    friend class GameEngineTransform;
 
-	union 
-	{
-		DirectX::BoundingSphere SPHERE;
-		DirectX::BoundingBox AABB;
-		DirectX::BoundingOrientedBox OBB;
-	};
+    union
+    {
+        DirectX::BoundingSphere SPHERE;
+        DirectX::BoundingBox AABB;
+        DirectX::BoundingOrientedBox OBB;
+    };
 
-	CollisionData() 
-		: OBB()
-	{
+    CollisionData()
+        : OBB()
+    {
 
-	}
+    }
 };
+
+struct TransformData
+{
+    float4 LocalPosition;
+    float4 LocalRotation;
+    float4 LocalScaling;
+
+    float4 WorldPosition;
+    float4 WorldRotation;
+    float4 WorldScaling;
+
+    float4x4 LocalPositionMatrix;
+    float4x4 LocalRotationMatrix;
+    float4x4 LocalScalingMatrix;
+
+    float4x4 LocalWorldMatrix;
+    float4x4 WorldWorldMatrix;
+    float4x4 ViewMatrix;
+    float4x4 ProjectionMatrix;
+
+    float4x4 WorldViewMatrix;
+    float4x4 WorldViewProjectionMatrix;
+
+    TransformData() :
+        LocalScaling(float4::ONE)
+        , LocalPosition(float4::ZERO)
+        , LocalRotation(float4::ZERO)
+        , WorldScaling(float4::ONE)
+        , WorldPosition(float4::ZERO)
+        , WorldRotation(float4::ZERO)
+    {}
+};
+
 
 // 설명 :
 class GameEngineTransform : public GameEngineDebugObject
 {
-public:
-	// constrcuter destructer
-	GameEngineTransform();
-	~GameEngineTransform();
-
-	// delete Function
-	GameEngineTransform(const GameEngineTransform& _Other) = delete;
-	GameEngineTransform(GameEngineTransform&& _Other) noexcept = delete;
-	GameEngineTransform& operator=(const GameEngineTransform& _Other) = delete;
-	GameEngineTransform& operator=(GameEngineTransform&& _Other) noexcept = delete;
-
+private:
+    GameEngineTransform*            Parent;
+    std::list<GameEngineTransform*> Childs;
+    CollisionData                   CollisionDataObject;
+    TransformData                   Data;                // 변환에 관한 정보이자, 상수 버퍼 정보
 
 public:
-	inline void SetLocalScale(const float4& _Value)
-	{
-		CalculateWorldScale(_Value);
-		CalculateWorld();
-	}
+    // constrcuter destructer
+    GameEngineTransform();
+    ~GameEngineTransform();
 
-	inline void SetLocalRotation(const float4& _Value)
-	{
-		CalculateWorldRotation(_Value);
-		CalculateWorld();
-	}
+    // delete Function
+    GameEngineTransform(const GameEngineTransform& _Other) = delete;
+    GameEngineTransform(GameEngineTransform&& _Other) noexcept = delete;
+    GameEngineTransform& operator=(const GameEngineTransform& _Other) = delete;
+    GameEngineTransform& operator=(GameEngineTransform&& _Other) noexcept = delete;
 
-	inline void SetLocalPosition(const float4& _Value)
-	{
-		CalculateWorldPosition(_Value);
-		CalculateWorld();
-	}
+    /* 변환 관련 */
 
-	inline void SetWorldScale(const float4& _World)
-	{
-		float4 Local = _World;
-		if (nullptr != Parent)
-		{
-			Local = _World / Parent->WorldScale;
-		}
+    inline void SetLocalScale(const float4& _Value)
+    {
+        CalculateWorldScale(_Value);
+        CalculateWorld();
+    }
 
-		CalculateWorldScale(Local);
-		CalculateWorld();
-	}
+    inline void SetLocalRotation(const float4& _Value)
+    {
+        CalculateWorldRotation(_Value);
+        CalculateWorld();
+    }
 
-	inline void SetWorldRotation(const float4& _World)
-	{
-		float4 Local = _World;
-		if (nullptr != Parent)
-		{
-			Local = _World - Parent->WorldRotation;
-		}
+    inline void SetLocalPosition(const float4& _Value)
+    {
+        CalculateWorldPosition(_Value);
+        CalculateWorld();
+    }
 
-		CalculateWorldRotation(Local);
-		CalculateWorld();
-	}
+    inline void SetWorldScale(const float4& _World)
+    {
+        float4 Local = _World;
+        if (nullptr != Parent)
+        {
+            Local = _World / Parent->Data.WorldScaling;
+        }
 
-	inline void SetWorldPosition(const float4& _World)
-	{
-		float4 Local = _World;
-		if (nullptr != Parent)
-		{
-			// 부모의 역행렬을 곱해서 
-			Local = _World * Parent->WorldWorldMat.InverseReturn();
-		}
+        CalculateWorldScale(Local);
+        CalculateWorld();
+    }
 
+    inline void SetWorldRotation(const float4& _World)
+    {
+        float4 Local = _World;
+        if (nullptr != Parent)
+        {
+            Local = _World - Parent->Data.WorldRotation;
+        }
 
-		CalculateWorldPosition(Local);
-		CalculateWorld();
-	}
+        CalculateWorldRotation(Local);
+        CalculateWorld();
+    }
 
-	inline void SetLocalRotate(const float4& _Value)
-	{
-		SetLocalRotation(LocalRotation + _Value);
-	}
+    inline void SetWorldPosition(const float4& _World)
+    {
+        float4 Local = _World;
+        if (nullptr != Parent)
+        {
+            // 부모의 역행렬을 곱해서 
+            Local = _World * Parent->Data.WorldWorldMatrix.InverseReturn();
+        }
 
-	inline void SetLocalMove(const float4& _Value)
-	{
-		SetLocalPosition(LocalPosition + _Value);
-	}
+        CalculateWorldPosition(Local);
+        CalculateWorld();
+    }
 
-	inline void SetWorldMove(const float4& _Value)
-	{
-		SetWorldPosition(WorldPosition + _Value);
-	}
+    inline void SetLocalRotate(const float4& _Value)
+    {
+        SetLocalRotation(Data.LocalRotation + _Value);
+    }
 
-	inline float4 GetLocalScale() const
-	{
-		return LocalScale;
-	}
-	inline float4 GetLocalRotation() const
-	{
-		return LocalRotation;
-	}
-	inline float4 GetLocalPosition() const
-	{
-		return LocalPosition;
-	}
+    inline void SetLocalMove(const float4& _Value)
+    {
+        SetLocalPosition(Data.LocalPosition + _Value);
+    }
 
-	inline float4x4 GetLocalWorld() const
-	{
-		return LocalWorldMat;
-	}
+    inline void SetWorldMove(const float4& _Value)
+    {
+        SetWorldPosition(Data.WorldPosition + _Value);
+    }
 
-	inline float4x4 GetWorldWorld() const
-	{
-		return WorldWorldMat;
-	}
+    inline float4 GetLocalScale() const
+    {
+        return Data.LocalScaling;
+    }
+    inline float4 GetLocalRotation() const
+    {
+        return Data.LocalRotation;
+    }
+    inline float4 GetLocalPosition() const
+    {
+        return Data.LocalPosition;
+    }
 
-	inline float4x4 GetWorldViewProjection() const
-	{
-		return WorldViewProjectMat;
-	}
+    inline float4x4 GetLocalWorld() const
+    {
+        return Data.LocalWorldMatrix;
+    }
 
-	inline float4 GetForwardVector() const
-	{
-		return WorldWorldMat.ArrV[2].NormalizeReturn();
-	}
+    inline float4x4 GetWorldWorld() const
+    {
+        return Data.WorldWorldMatrix;
+    }
 
-	inline float4 GetBackVector() const
-	{
-		return -(WorldWorldMat.ArrV[2].NormalizeReturn());
-	}
+    inline float4x4 GetWorldViewProjection() const
+    {
+        return Data.WorldViewProjectionMatrix;
+    }
 
-	inline float4 GetUpVector() const
-	{
-		return WorldWorldMat.ArrV[1].NormalizeReturn();
-	}
+    inline float4 GetForwardVector() const
+    {
+        return Data.WorldWorldMatrix.ArrV[2].NormalizeReturn();
+    }
 
-	inline float4 GetDownVector() const
-	{
-		return -(WorldWorldMat.ArrV[1].NormalizeReturn());
-	}
+    inline float4 GetBackVector() const
+    {
+        return -(Data.WorldWorldMatrix.ArrV[2].NormalizeReturn());
+    }
 
-	inline float4 GetRightVector() const
-	{
-		return WorldWorldMat.ArrV[0].NormalizeReturn();
-	}
+    inline float4 GetUpVector() const
+    {
+        return Data.WorldWorldMatrix.ArrV[1].NormalizeReturn();
+    }
 
-	inline float4 GetLeftVector() const
-	{
-		return -(WorldWorldMat.ArrV[0].NormalizeReturn());
-	}
+    inline float4 GetDownVector() const
+    {
+        return -(Data.WorldWorldMatrix.ArrV[1].NormalizeReturn());
+    }
 
-	void CalculateWorld();
+    inline float4 GetRightVector() const
+    {
+        return Data.WorldWorldMatrix.ArrV[0].NormalizeReturn();
+    }
 
-	void CalculateWorldViewProjection();
+    inline float4 GetLeftVector() const
+    {
+        return -(Data.WorldWorldMatrix.ArrV[0].NormalizeReturn());
+    }
 
-	void DetachTransform();
+    void CalculateWorld();
 
-	void SetParentTransform(GameEngineTransform& _Child);
+    void CalculateWorldViewProjection();
 
-	// void PushChild(GameEngineTransform* _Child);
+    void DetachTransform();
 
-	void SetView(const float4x4& _Mat)
-	{
-		View = _Mat;
-	}
+    void SetParentTransform(GameEngineTransform& _Child);
 
-	void SetProjection(const float4x4& _Mat)
-	{
-		Projection = _Mat;
-	}
+    void SetView(const float4x4& _Mat)
+    {
+        Data.ViewMatrix = _Mat;
+    }
 
-protected:
+    void SetProjection(const float4x4& _Mat)
+    {
+        Data.ProjectionMatrix = _Mat;
+    }
+
+    /* 충돌 관련 */
+
+    static bool SphereToSphere(const GameEngineTransform& _Left, const GameEngineTransform& _Right);
+
+    static bool AABBToAABB(const GameEngineTransform& _Left, const GameEngineTransform& _Right);
+
+    static bool OBBToOBB(const GameEngineTransform& _Left, const GameEngineTransform& _Right);
+
+    /* 상수 버퍼 관련 */
+
+    const TransformData& GetTransformData()
+    {
+        return Data;
+    }
 
 private:
-	GameEngineTransform* Parent;
-	std::list<GameEngineTransform*> Childs;
+    virtual void Start() {}
+    virtual void Update(float _DeltaTime) {}
+    virtual void End() {}
 
-	// 로컬과 월드의 차이가 뭐냐 개념을 확실히 잡아야합니다..
-	float4 LocalScale;
-	float4 LocalRotation;
-	float4 LocalPosition;
+    void CalculateWorldScale(const float4& _Local)
+    {
+        Data.LocalScaling = _Local;
+        Data.LocalScaling.w = 0.0f; // 크기 변환이라, 이동을 적용받지 않기.
 
-	// WorldScale.w 0
-	float4 WorldScale;
-	// WorldScale.w 0
-	float4 WorldRotation;
-	// WorldPosition.w 1
-	float4 WorldPosition;
+        if (nullptr != Parent)
+        {
+            Data.WorldScaling = Data.LocalScaling * Parent->Data.WorldScaling;
+        }
+        else
+        {
+            Data.WorldScaling = Data.LocalScaling;
+        }
 
-	float4x4 LocalScaleMat; // 크
-	float4x4 LocalRotateMat; // 자
-	float4x4 LocalPositionMat; // 이
-	float4x4 LocalWorldMat;
+        CollisionScaleSetting();
 
-	float4x4 View;
-	float4x4 Projection;
+        Data.LocalScalingMatrix.Scale(Data.LocalScaling);
 
-	float4x4 WorldWorldMat; // 나의 로컬 world * 부모의 world
-	float4x4 WorldViewMat;
-	float4x4 WorldViewProjectMat;
+        for (GameEngineTransform* Child : Childs)
+        {
+            Child->CalculateWorldScale(Child->Data.LocalScaling);
+            Child->CalculateWorldPosition(Child->Data.LocalPosition);
+        }
 
+    }
+    void CalculateWorldRotation(const float4& _Local)
+    {
+        Data.LocalRotation = _Local;
+        Data.LocalRotation.w = 0.0f; // 회전 변환이라, 이동을 적용받지 않기.
 
-	void CalculateWorldScale(const float4& _Local)
-	{
-		LocalScale = _Local;
-		LocalScale.w = 0.0f; // 이동을 적용받지 않기.
-		// DirectX::XMVector3TransformCoord // 1로 곱하기
-		// DirectX::XMVector3TransformNormal // 0넣고 곱하기
+        if (nullptr != Parent)
+        {
+            Data.WorldRotation = Data.LocalRotation + Parent->Data.WorldRotation;
+        }
+        else
+        {
+            Data.WorldRotation = Data.LocalRotation;
+        }
 
-		if (nullptr != Parent)
-		{
-			WorldScale = LocalScale * Parent->WorldScale;
-		}
-		else
-		{
-			WorldScale = LocalScale;
-		}
+        CollisionRotationSetting();
 
-		CollisionScaleSetting();
+        Data.LocalRotationMatrix.RotationDegree(Data.LocalRotation);
 
-		LocalScaleMat.Scale(LocalScale);
+        for (GameEngineTransform* Child : Childs)
+        {
+            Child->CalculateWorldRotation(Child->Data.LocalRotation);
+            Child->CalculateWorldPosition(Child->Data.LocalPosition);
+        }
+    }
 
-		for (GameEngineTransform* Child : Childs)
-		{
-			Child->CalculateWorldScale(Child->LocalScale);
-			Child->CalculateWorldPosition(Child->LocalPosition);
-		}
+    void CalculateWorldPosition(const float4& _Local)
+    {
+        Data.LocalPosition = _Local;
+        Data.LocalPosition.w = 1.0f; // 이동 변환이라서 1로 설정.
 
-	}
-	void CalculateWorldRotation(const float4& _Local)
-	{
-		LocalRotation = _Local;
-		LocalRotation.w = 0.0f; // 이동을 적용받지 않기.
+        if (nullptr != Parent)
+        {
+            Data.WorldPosition = Data.LocalPosition * Parent->Data.WorldWorldMatrix;
+        }
+        else
+        {
+            Data.WorldPosition = Data.LocalPosition;
+        }
 
-		if (nullptr != Parent)
-		{
-			WorldRotation = LocalRotation + Parent->WorldRotation;
-		}
-		else
-		{
-			WorldRotation = LocalRotation;
-		}
+        CollisionPositionSetting();
 
-		CollisionRotationSetting();
+        Data.LocalPositionMatrix.Position(Data.LocalPosition);
 
-		LocalRotateMat.RotationDegree(LocalRotation);
+        for (GameEngineTransform* Child : Childs)
+        {
+            Child->CalculateWorldPosition(Child->Data.LocalPosition);
+        }
+    }
 
-		for (GameEngineTransform* Child : Childs)
-		{
-			Child->CalculateWorldRotation(Child->LocalRotation);
-			Child->CalculateWorldPosition(Child->LocalPosition);
-		}
-	}
+    void CollisionScaleSetting();
+    void CollisionRotationSetting();
+    void CollisionPositionSetting();
+    void CollisionDataSetting();
 
-	void CalculateWorldPosition(const float4& _Local)
-	{
-		LocalPosition = _Local;
-		LocalPosition.w = 1.0f; // 이동을 적용받기 위해서.
-
-		if (nullptr != Parent)
-		{
-			WorldPosition = LocalPosition * Parent->WorldWorldMat;
-		}
-		else
-		{
-			WorldPosition = LocalPosition;
-		}
-
-		CollisionPositionSetting();
-
-		LocalPositionMat.Position(LocalPosition);
-
-		for (GameEngineTransform* Child : Childs)
-		{
-			Child->CalculateWorldPosition(Child->LocalPosition);
-		}
-	}
-
-	CollisionData CollisionDataObject;
-
-	void CollisionScaleSetting();
-	void CollisionRotationSetting();
-	void CollisionPositionSetting();
-	void CollisionDataSetting();
-
-	virtual void Start() {}
-	virtual void Update(float _DeltaTime) {}
-	virtual void End() {}
-
-
-/////////////////////////// 충돌관련
-public:
-	static bool SphereToSphere(const GameEngineTransform& _Left, const GameEngineTransform& _Right);
-
-	static bool AABBToAABB(const GameEngineTransform& _Left, const GameEngineTransform& _Right);
-
-	static bool OBBToOBB(const GameEngineTransform& _Left, const GameEngineTransform& _Right);
 };
 

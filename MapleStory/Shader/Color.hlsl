@@ -2,6 +2,29 @@
 
 // Color.hlsl
 
+cbuffer TransformData : register(b0)
+{
+    float4 LocalPosition;
+    float4 LocalRotation;
+    float4 LocalScaling;
+
+    float4 WorldPosition;
+    float4 WorldRotation;
+    float4 WorldScaling;
+
+    float4x4 LocalPositionMatrix;
+    float4x4 LocalRotationMatrix;
+    float4x4 LocalScalingMatrix;
+
+    float4x4 LocalWorldMatrix;
+    float4x4 WorldWorldMatrix;
+    float4x4 View;
+    float4x4 Projection;
+
+    float4x4 WorldView;
+    float4x4 WorldViewProjection;
+};
+
 struct Input
 {
     float4 Pos : POSITION;
@@ -33,6 +56,9 @@ Output Color_VS(Input _Input)
 */
     Output NewOutPut = (Output)0;
     NewOutPut.Pos = _Input.Pos;
+    NewOutPut.Pos.w = 1.f;
+    NewOutPut.Pos = mul(NewOutPut.Pos, WorldViewProjection);
+
     NewOutPut.Color = _Input.Color;
 
     return NewOutPut;
@@ -56,10 +82,15 @@ Output Color_VS(Input _Input)
     - viewport transformation이 이 단계에서 진행됨.
     - w값(z값이 저장되어 있음)으로 나눠서 원근감을 표현하는 것도 진행.
 */
+cbuffer ResultColor : register(b0)
+{
+    float4 Color;
+}
+
 
 float4 Color_PS(Output _Input) : SV_Target0
 {
-    return _Input.Color;
+    return Color;
 }
 
 /*

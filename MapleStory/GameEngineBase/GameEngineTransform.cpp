@@ -1,80 +1,70 @@
+// <hide/>
+
+// GameEngineTransform.cpp
+
 #include "PreCompile.h"
 #include "GameEngineTransform.h"
 
-GameEngineTransform::GameEngineTransform() 
-	: LocalScale(float4::ONE)
-	, LocalPosition(float4::ZERO)
-	, LocalRotation(float4::ZERO)
-	, WorldScale(float4::ONE)
-	, WorldPosition(float4::ZERO)
-	, WorldRotation(float4::ZERO)
-	, Parent(nullptr)
-	, CollisionDataObject()
+GameEngineTransform::GameEngineTransform()
+    : Parent(nullptr)
+    , CollisionDataObject()
 {
-	CollisionDataSetting();
+    CollisionDataSetting();
 }
 
-GameEngineTransform::~GameEngineTransform() 
+GameEngineTransform::~GameEngineTransform()
 {
 }
-
 
 void GameEngineTransform::CalculateWorld()
 {
-	//if (IsDebug())
-	//{
-	//	int a = 0;
-	//}
+    Data.LocalWorldMatrix = Data.LocalScalingMatrix * Data.LocalRotationMatrix * Data.LocalPositionMatrix;
 
-	LocalWorldMat = LocalScaleMat * LocalRotateMat * LocalPositionMat;
+    if (nullptr != Parent)
+    {
+        // Parent 컴포넌트일 경우에는 액터의 트랜스폼을 부모로 가지게 된다.
+        Data.WorldWorldMatrix = Data.LocalWorldMatrix * Parent->GetWorldWorld();
+    }
+    else
+    {
+        Data.WorldWorldMatrix = Data.LocalWorldMatrix;
+    }
 
-	if (nullptr != Parent)
-	{
-		// Parent 컴포넌트일 경우에는 액터의 트랜스폼을 부모로 가지게 된다.
-		WorldWorldMat = LocalWorldMat * Parent->GetWorldWorld();
-	}
-	else 
-	{
-		WorldWorldMat = LocalWorldMat;
-	}
-
-	for (GameEngineTransform* Child : Childs)
-	{
-		Child->CalculateWorld();
-	}
+    for (GameEngineTransform* Child : Childs)
+    {
+        Child->CalculateWorld();
+    }
 }
 
 void GameEngineTransform::CalculateWorldViewProjection()
 {
-	WorldViewMat = WorldWorldMat * View;
-	WorldViewProjectMat = WorldViewMat * Projection;
+    Data.WorldViewMatrix = Data.WorldWorldMatrix * Data.ViewMatrix;
+    Data.WorldViewProjectionMatrix = Data.WorldViewMatrix * Data.ProjectionMatrix;
 }
 
 void GameEngineTransform::DetachTransform()
 {
-	if (nullptr == Parent)
-	{
-		return;
-	}
+    if (nullptr == Parent)
+    {
+        return;
+    }
 
-	Parent->Childs.remove(this);
-	Parent = nullptr;
-
+    Parent->Childs.remove(this);
+    Parent = nullptr;
 }
 
 void GameEngineTransform::SetParentTransform(GameEngineTransform& _Parent)
 {
-	if (nullptr != Parent)
-	{
-		// 나는 삭제되고
-		Parent->Childs.remove(this);
-		Parent = nullptr;
-	}
+    if (nullptr != Parent)
+    {
+        Parent->Childs.remove(this);
+        Parent = nullptr;
+    }
 
-	Parent = &_Parent;
-	_Parent.Childs.push_back(this);
+    Parent = &_Parent;
+    _Parent.Childs.push_back(this);
 
-	SetLocalScale(LocalScale);
-	SetLocalRotation(LocalRotation);
-	SetLocalPosition(LocalPosition);
+    SetLocalScale(Data.LocalScaling);
+    SetLocalRotation(Data.LocalRotation);
+    SetLocalPosition(Data.LocalPosition);
 }

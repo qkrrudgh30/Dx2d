@@ -81,6 +81,12 @@
     <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\Rasterizer</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <Filter>Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineShaderResourcesHelper.h">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -165,6 +171,12 @@
     <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\Rasterizer</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <Filter>Resources\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineShaderResourcesHelper.cpp">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -208,6 +220,9 @@
     </Filter>
     <Filter Include="Resources\Rasterizer">
       <UniqueIdentifier>{7e1d42b5-6e54-484e-96ee-9e31743198d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\ShaderResources">
+      <UniqueIdentifier>{bfb3891a-eac7-446a-b340-d204088e284a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

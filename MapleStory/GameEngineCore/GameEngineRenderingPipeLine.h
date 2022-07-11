@@ -45,11 +45,21 @@ public:
     // 랜더링 파이프라인 개체에 리소스들을 저장하는 함수.
     void SetInputAssembler1VertexBuffer(const std::string& _Name);
 
+    inline GameEngineVertexShader* GetVertexShader()
+    {
+        return VertexShader;
+    }
+
     void SetVertexShader(const std::string& _Name);
 
     void SetInputAssembler2IndexBuffer(const std::string& _Name);
 
     void SetRasterizer(const std::string& _Name);
+
+    inline GameEnginePixelShader* GetPixelShader()
+    {
+        return PixelShader;
+    }
 
     void SetPixelShader(const std::string& _Name);
 

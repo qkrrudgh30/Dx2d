@@ -9,6 +9,11 @@
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 
+#include <GameEngineCore/GameEngineRenderingPipeLine.h>
+#include <GameEngineCore/GameEngineVertexShader.h>
+#include <GameEngineCore/GameEngineConstantBuffer.h>
+#include <GameEngineCore/GameEngineDevice.h>
+
 Player::Player() 
     : Renderer(nullptr)
     , Speed(50.0f)
@@ -39,6 +44,7 @@ void Player::Start()
         Renderer = CreateComponent<GameEngineDefaultRenderer>();
         Renderer->GetTransform().SetLocalScale({ 100, 100, 100 });
         Renderer->SetPipeLine("Color");
+        Renderer->PipeLineHelper.SetConstantBufferLink("ResultColor", Color);
     }
 }
 
@@ -74,9 +80,14 @@ void Player::Update(float _DeltaTime)
     if (true == GameEngineInput::GetInst()->IsPress("Rot+"))
     {
         Renderer->GetTransform().SetLocalRotate({ 0.0f, 0.0f, 360.0f * _DeltaTime });
+
+        Color.x += 1.f * _DeltaTime;
     }
     if (true == GameEngineInput::GetInst()->IsPress("Rot-"))
     {
         Renderer->GetTransform().SetLocalRotate({ 0.0f, 0.0f, -360.0f * _DeltaTime });
+
+        Color.x -= 1.f * _DeltaTime;
     }
+
 }
