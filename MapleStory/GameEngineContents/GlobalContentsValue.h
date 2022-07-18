@@ -4,8 +4,12 @@
 
 enum class OBJECTORDER
 {
-	Player = 10,
+	Player,
+	BackGround,
+	Tile,
+	Cloud,
 	Monster,
+	UI,
 };
 
 

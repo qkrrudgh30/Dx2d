@@ -5,34 +5,63 @@
 // 설명 : 프로그램 자체를 시작하게 한다.
 class ContentsCore : public GameEngineCore
 {
+private:
+    static POINT  mptMousePos;
+    static float4 mf4MousePos;
+    static bool   mbCameraFollowing;
+
 public:
-	// constrcuter destructer
-	ContentsCore(); 
-	~ContentsCore(); 
-	
-	// delete Function
-	ContentsCore(const ContentsCore& _Other) = delete;
-	ContentsCore(ContentsCore&& _Other) noexcept = delete;
-	ContentsCore& operator=(const ContentsCore& _Other) = delete;
-	ContentsCore& operator=(ContentsCore&& _Other) noexcept = delete;
+    // constrcuter destructer
+    ContentsCore(); 
+    ~ContentsCore(); 
 
+    // delete Function
+    ContentsCore(const ContentsCore& _Other) = delete;
+    ContentsCore(ContentsCore&& _Other) noexcept = delete;
+    ContentsCore& operator=(const ContentsCore& _Other) = delete;
+    ContentsCore& operator=(ContentsCore&& _Other) noexcept = delete;
 
-	std::string GetWindowTitle() override
-	{
-		return "MapleStory";
-	}
+    std::string GetWindowTitle() override
+    {
+        return "MapleStory";
+    }
+
+    static inline float4 GetMousePos()
+    {
+        return mf4MousePos;
+    }
+
+    static inline bool IsCameraFollowingOn()
+    {
+        return mbCameraFollowing;
+    }
 
 protected:
-	void Start() override;
+    void Start() override;
+    void Update(float _DeltaTime) override;
+    void End() override;
 
-	// 이 프로그램이 어느 상황에서건 계속 Update하면서 체크할일이 있다면 여기서 한다.
-	// 서버가 붙지 않으면 그럴일은 없다. 게임이 무슨 레벨이건 뭐건 무슨키를 누르면 종료한다.
-	// 타이틀을 넘기거나 이런
-	void Update(float _DeltaTime) override;
-
-	void End() override;
+    void ChangeLevelWithAlphaBlending();
 
 private:
+    void CreateKeys();
+    void LoadTextures();
+    void LoadShaderFiles();
+    void CreateRenderingPipeline();
+
+    void LoadCharacterTextures();
+    void LoadItemTextures();
+    void LoadMapTextures();
+    void LoadMonsterTextures();
+    void LoadSkillTextures();
+    void LoadUITextures();
+    void LoadNumbersTextures();
+
+    void MoveTo(GameEngineDirectory& _Dir, const std::string& _strForderName);
+
+    void CutAtlasTexture();
+
+    void CreateLevels();
 
 };
 

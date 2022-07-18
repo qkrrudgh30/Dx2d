@@ -1,86 +1,239 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Contents">
-      <UniqueIdentifier>{eee3c248-3814-48af-b1f4-f221fa7a0ee6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level">
-      <UniqueIdentifier>{5df23444-ca8f-40f8-8c39-0d7d75f58b7d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor">
-      <UniqueIdentifier>{1c74ed1c-9761-412c-93d3-abef363512d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Play">
-      <UniqueIdentifier>{f046c344-41c5-461f-9a13-3bf9f04d9882}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Title">
-      <UniqueIdentifier>{804cf31e-d3ed-4dc6-9803-e76637ce47a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global">
-      <UniqueIdentifier>{5c0d327c-f680-4cd4-a5c1-9a7caec22b46}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PreCompile">
       <UniqueIdentifier>{439c0504-814e-4f90-8507-3f4dacd0226c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Play\Com">
-      <UniqueIdentifier>{d376050c-9962-43e7-82bd-36fd5f2ad011}</UniqueIdentifier>
+    <Filter Include="00_Core">
+      <UniqueIdentifier>{eee3c248-3814-48af-b1f4-f221fa7a0ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01_Levels">
+      <UniqueIdentifier>{37a5ec31-28b0-4859-83f4-7bda61bcf437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors">
+      <UniqueIdentifier>{dbd04e80-c744-42ff-934a-b4048e602a54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Global">
+      <UniqueIdentifier>{2e6a9305-96b8-43bd-9676-cfe81413b586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Login">
+      <UniqueIdentifier>{4735c6bb-d63d-421c-ac3a-a677c860839a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Temple0">
+      <UniqueIdentifier>{121351f9-4525-448a-a8a3-a8cd79ba6b9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Temple1">
+      <UniqueIdentifier>{8a348524-3baa-42d3-b6d0-8ebd312f48cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Temple2">
+      <UniqueIdentifier>{5b2ed348-a071-48f3-b6c0-b07f82c4a13e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Temple3">
+      <UniqueIdentifier>{1b2902f8-ed44-4c74-aa83-ccf8d9a64bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Global\UI">
+      <UniqueIdentifier>{60d8e956-c308-44af-b6ab-b6dce798a2e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
-      <Filter>Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Actor\Play</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLogo.h">
-      <Filter>Actor\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Enums.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>Actor\Play</Filter>
+      <Filter>00_Core</Filter>
     </ClInclude>
     <ClInclude Include="GlobalContentsValue.h" />
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreTestComponent.h">
-      <Filter>Actor\Play\Com</Filter>
+    <ClInclude Include="LoginLevel.h">
+      <Filter>01_Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="TempleOfTime0.h">
+      <Filter>01_Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="TempleOfTime1.h">
+      <Filter>01_Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="TempleOfTime2.h">
+      <Filter>01_Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="TempleOfTime3.h">
+      <Filter>01_Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02_Actors\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>02_Actors\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>02_Actors\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginBackground.h">
+      <Filter>02_Actors\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginButton.h">
+      <Filter>02_Actors\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitButton.h">
+      <Filter>02_Actors\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple0BackGround.h">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple0Cloud.h">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple0Tile.h">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple1BackGround.h">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple1Cloud.h">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple1Tile.h">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClInclude>
+    <ClInclude Include="Guardian.h">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClInclude>
+    <ClInclude Include="Merchandiser.h">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple2BackGround.h">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple3BackGround.h">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple2Cloud.h">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple3Cloud.h">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple3Tile.h">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple2Tile.h">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple2Monster.h">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple3Monster.h">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple3Boss.h">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>02_Actors\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsLevel.h">
+      <Filter>01_Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Veil.h">
+      <Filter>02_Actors\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
-      <Filter>Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Actor\Play</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLogo.cpp">
-      <Filter>Actor\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>Actor\Play</Filter>
+      <Filter>00_Core</Filter>
     </ClCompile>
     <ClCompile Include="GlobalContentsValue.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreTestComponent.cpp">
-      <Filter>Actor\Play\Com</Filter>
+    <ClCompile Include="LoginLevel.cpp">
+      <Filter>01_Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="TempleOfTime0.cpp">
+      <Filter>01_Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="TempleOfTime1.cpp">
+      <Filter>01_Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="TempleOfTime2.cpp">
+      <Filter>01_Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="TempleOfTime3.cpp">
+      <Filter>01_Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02_Actors\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>02_Actors\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginBackground.cpp">
+      <Filter>02_Actors\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginButton.cpp">
+      <Filter>02_Actors\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitButton.cpp">
+      <Filter>02_Actors\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple0BackGround.cpp">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple0Cloud.cpp">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple0Tile.cpp">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple1BackGround.cpp">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple1Cloud.cpp">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple1Tile.cpp">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClCompile>
+    <ClCompile Include="Guardian.cpp">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClCompile>
+    <ClCompile Include="Merchandiser.cpp">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple2BackGround.cpp">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple3BackGround.cpp">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple2Cloud.cpp">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple3Cloud.cpp">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple3Tile.cpp">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple2Tile.cpp">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple2Monster.cpp">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple3Monster.cpp">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple3Boss.cpp">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>02_Actors\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsLevel.cpp">
+      <Filter>01_Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Veil.cpp">
+      <Filter>02_Actors\Global</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

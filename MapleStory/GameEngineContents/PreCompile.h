@@ -8,6 +8,7 @@
 #include <set>
 #include <vector>
 #include <chrono>
+#include <cstdio>
 
 #include <Windows.h>
 
@@ -26,3 +27,8 @@
 
 // core
 #include <GameEngineCore/CoreMinimal.h>
+#include <GameEngineCore/GEngine.h>
+
+// contents
+#include "ContentsCore.h"
+

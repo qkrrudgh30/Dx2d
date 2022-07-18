@@ -4,7 +4,6 @@
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <functional>
 
-
 enum class ShaderType
 {
 	Vertex,
