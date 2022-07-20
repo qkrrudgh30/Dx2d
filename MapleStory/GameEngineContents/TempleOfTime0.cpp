@@ -7,11 +7,15 @@
 #include "Temple0Tile.h"
 #include "Temple0Cloud.h"
 #include "Portal.h"
+#include "Veil.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineTransform.h>
+#include <GameEngineBase/GameEngineDebug.h>
+
+#include <string>
 
 TempleOfTime0::TempleOfTime0()
 {
@@ -19,6 +23,11 @@ TempleOfTime0::TempleOfTime0()
 
 TempleOfTime0::~TempleOfTime0()
 {
+}
+
+void TempleOfTime0::OnEvent()
+{
+	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
 void TempleOfTime0::Start()
@@ -30,16 +39,20 @@ void TempleOfTime0::Start()
 	Temple0BackGround* NewBackGround = CreateActor<Temple0BackGround>(OBJECTORDER::BackGround);
 	Temple0Tile* NewTile = CreateActor<Temple0Tile>(OBJECTORDER::Tile);
 	Temple0Cloud* NewCloud = CreateActor<Temple0Cloud>(OBJECTORDER::Cloud);
-
-	SetMapSize(float4{ 2327.f, 955.f, 0.f, 0.f });
+	SetMapSize(float4{2327.f, 955.f});
+	
+	float4 MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f)};
+	NewBackGround->GetTransform().SetLocalMove(MapHalfSize);
+	NewTile->GetTransform().SetLocalMove(MapHalfSize);
+	NewCloud->GetTransform().SetLocalMove(MapHalfSize);
 
 	mpPlayer = CreateActor<Player>(OBJECTORDER::Player);
+	mpPlayer->GetTransform().SetLocalMove(MapHalfSize);
 
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::UI);
-	// mpPortalToNext->GetTransform().SetLocalPosition(float4{GetMapSize().x / 2.f - 300.f, GetMapSize().y / 2.f - 132.f, 0.f, 0.f});
-	mpPortalToNext->GetRenderer()->GetTransform().SetLocalPosition(float4{ GetMapSize().x / 2.f - 300.f, GetMapSize().y / 2.f - 132.f, 0.f, 0.f });
+	// mpPortalToNext->GetTransform().SetLocalPosition(float4{ 2000.f, -217.f});
+	mpPortalToNext->GetRenderer()->GetTransform().SetLocalPosition(float4{ 2000.f, -132.f});
 
-	mbStart = true;
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
 }
 
@@ -49,7 +62,7 @@ void TempleOfTime0::Update(float _DeltaTime)
 	{
 		mpCamera->GetTransform().SetLocalPosition(mpPlayer->GetTransform().GetLocalPosition());
 	}
-
+	
 	if (true == GameEngineInput::GetInst()->IsPress("CamLeft"))
 	{
 		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetRightVector() * 100 * _DeltaTime);
@@ -66,24 +79,31 @@ void TempleOfTime0::Update(float _DeltaTime)
 	{
 		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
 	}
+	
 
 	if (PortalCollisionType::NEXT == IsPortalCollided())
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 		{
-			GEngine::ChangeLevel("TempleOfTime1");
+			mfVeilStartSecond = GetAccTime();
+			Veil::SetVeilEffect(VEIL_EFFECT::FADE_OUT);		
 		}
 	}
 
-	if (1.0f <= GetAccTime())
+	if (-1.f != mfVeilStartSecond && 2.f <= GetAccTime() - mfVeilStartSecond)
 	{
-		mbStart = false;
+		mfVeilStartSecond = -1.f;
+		GEngine::ChangeLevel("TempleOfTime1");
 	}
 
-	LimitCameraMoving();
+	LimitCameraMoving(GetMapSize());
+	mpVeil->GetTransform().SetLocalPosition(mpCamera->GetTransform().GetLocalPosition());
+
+	// GameEngineDebug::OutPutString(std::to_string(mpPlayer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpPlayer->GetTransform().GetLocalPosition().y));
+	GameEngineDebug::OutPutString(std::to_string(ContentsCore::GetMousePos().x) + "  " + std::to_string(ContentsCore::GetMousePos().y));
 }
 
 void TempleOfTime0::End()
 {
-	
+	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }

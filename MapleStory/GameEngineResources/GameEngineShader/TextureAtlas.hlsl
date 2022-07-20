@@ -38,10 +38,5 @@ float4 TextureAtlas_PS(Output _Input) : SV_Target0
 {
     float4 res = Tex.Sample(Sam, _Input.Tex.xy);
 
-    if (res.a <= 0.01)
-    {
-        discard;
-    }
-
     return res;
 }

@@ -21,6 +21,7 @@ protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
     Portal*                mpPortalToNext;
     Portal*                mpPortalToPrevious;
     Veil*                  mpVeil;
+    float                  mfVeilStartSecond;
     bool                   mbStart;
     float4                 mf4CameraPosition;
     float4                 mf4MapSize;
@@ -48,7 +49,8 @@ public:
     }
 
 protected:
-    void LimitCameraMoving();
+    void LimitCameraMoving(float4 _f4MapSize);
     PortalCollisionType IsPortalCollided();
+    void ChangeLevelWithSecond(std::string _Name, float _Second);
 
 };

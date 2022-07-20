@@ -18,58 +18,73 @@ ContentsLevel::ContentsLevel()
     , mpPortalToNext(nullptr)
     , mpPortalToPrevious(nullptr)
     , mpVeil(nullptr)
+    , mfVeilStartSecond(-1.f)
     , mbStart(false)
     , mf4CameraPosition{}
     , mf4MapSize{}
     , mf4WindowSize{}
 {
+    mf4WindowSize = GameEngineWindow::GetScale();
 }
 
 ContentsLevel::~ContentsLevel()
 {
 }
 
-void ContentsLevel::LimitCameraMoving()
+void ContentsLevel::LimitCameraMoving(float4 _f4MapSize)
 {
     if (nullptr == mpCamera) { return; }
 
-    float4 f4NextCameraPosition;
-    mf4WindowSize = GameEngineWindow::GetScale();
     mf4CameraPosition = mpCamera->GetTransform().GetLocalPosition();
-    f4NextCameraPosition = mpCamera->GetTransform().GetLocalPosition();
-    if (mf4CameraPosition.x <= -(mf4MapSize.x / 2.f) + (mf4WindowSize.x / 2.f) + 10.f)
+    float4 f4NextCameraPosition = mpCamera->GetTransform().GetLocalPosition();
+    if (mf4CameraPosition.x <= (mf4WindowSize.x / 2.f) + 10.f)
     {
-        f4NextCameraPosition.x = -(mf4MapSize.x / 2.f) + (mf4WindowSize.x / 2.f) + 10.f;
+        f4NextCameraPosition.x = (mf4WindowSize.x / 2.f) + 10.f;
         mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
     }
-    if ((mf4MapSize.x / 2.f) - (mf4WindowSize.x / 2.f) - 10.f <= mf4CameraPosition.x)
+    if (_f4MapSize.x - (mf4WindowSize.x / 2.f) - 10.f <= mf4CameraPosition.x)
     {
-        f4NextCameraPosition.x = (mf4MapSize.x / 2.f) - (mf4WindowSize.x / 2.f) - 10.f;
+        f4NextCameraPosition.x = _f4MapSize.x - (1280.f / 2.f) - 10.f;
         mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
     }
-    if (mf4CameraPosition.y <= -(mf4MapSize.y / 2.f) + (mf4WindowSize.y / 2.f) + 10.f)
+    
+    if (-(mf4WindowSize.y / 2.f) - 10.f <= mf4CameraPosition.y)
     {
-        f4NextCameraPosition.y = -(mf4MapSize.y / 2.f) + (mf4WindowSize.y / 2.f) + 10.f;
+        f4NextCameraPosition.y = -(mf4WindowSize.y / 2.f) - 10.f;
         mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
     }
-    if ((mf4MapSize.y / 2.f) - (mf4WindowSize.y / 2.f) - 10.f <= mf4CameraPosition.y)
+    if (mf4CameraPosition.y <= -(_f4MapSize.y) + (mf4WindowSize.y / 2.f) + 10.f)
     {
-        f4NextCameraPosition.y = (mf4MapSize.y / 2.f) - (mf4WindowSize.y / 2.f) - 10.f;
+        f4NextCameraPosition.y = -(_f4MapSize.y) + (mf4WindowSize.y / 2.f) + 10.f;
         mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
     }
 }
 
 PortalCollisionType ContentsLevel::IsPortalCollided()
 {
-    if (nullptr == mpPlayer || nullptr == mpPortalToNext) { return PortalCollisionType::NOTREADY; }
-    if (true == GameEngineTransform::OBBToOBB(mpPlayer->GetRenderer()->GetTransform(), mpPortalToNext->GetRenderer()->GetTransform()))
+    if (nullptr != mpPlayer && nullptr != mpPortalToNext)
     {
-        return PortalCollisionType::NEXT;
+        if (true == GameEngineTransform::OBBToOBB(mpPlayer->GetRenderer()->GetTransform(), mpPortalToNext->GetRenderer()->GetTransform()))
+        {
+
+            return PortalCollisionType::NEXT;
+        }
     }
 
-    if (nullptr == mpPortalToPrevious) { return PortalCollisionType::NOTREADY; }
-    if (true == GameEngineTransform::OBBToOBB(mpPlayer->GetRenderer()->GetTransform(), mpPortalToPrevious->GetRenderer()->GetTransform()))
+    if (nullptr != mpPlayer && nullptr != mpPortalToPrevious)
     {
-        return PortalCollisionType::PREVIOUS;
+        if (true == GameEngineTransform::OBBToOBB(mpPlayer->GetRenderer()->GetTransform(), mpPortalToPrevious->GetRenderer()->GetTransform()))
+        {
+            return PortalCollisionType::PREVIOUS;
+        }
+    }
+
+    return PortalCollisionType::NOTREADY;
+}
+
+void ContentsLevel::ChangeLevelWithSecond(std::string _Name, float _Second)
+{
+    if (_Second <= GetAccTime())
+    {
     }
 }

@@ -15,10 +15,16 @@ GameEngineTransform::~GameEngineTransform()
 
 void GameEngineTransform::CalculateWorld()
 {
+	//if (IsDebug())
+	//{
+	//	int a = 0;
+	//}
+
 	Data.LocalWorldMatrix = Data.LocalScalingMatrix * Data.LocalRotationMatrix * Data.LocalPositionMatrix;
 
 	if (nullptr != Parent)
 	{
+		// Parent 컴포넌트일 경우에는 액터의 트랜스폼을 부모로 가지게 된다.
 		Data.WorldWorldMatrix = Data.LocalWorldMatrix * Parent->GetWorldWorld();
 	}
 	else 
@@ -65,4 +71,30 @@ void GameEngineTransform::SetParentTransform(GameEngineTransform& _Parent)
 	SetLocalScale(Data.LocalScaling);
 	SetLocalRotation(Data.LocalRotation);
 	SetLocalPosition(Data.LocalPosition);
+}
+
+
+void GameEngineTransform::PixLocalNegativeX()
+{
+	if (0.0f > Data.LocalScaling.x)
+	{
+		return;
+	}
+
+	Data.LocalScaling.x = -Data.LocalScaling.x;
+	
+	SetLocalScale(Data.LocalScaling);
+}
+
+void GameEngineTransform::PixLocalPositiveX()
+{
+	if (0.0f < Data.LocalScaling.x)
+	{
+		return;
+	}
+
+	// abs 어떤 숫자를 넣으면 무조건 양수(절대값)으로 변경해주는 함수.
+	Data.LocalScaling.x = abs(Data.LocalScaling.x);
+
+	SetLocalScale(Data.LocalScaling);
 }

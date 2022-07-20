@@ -22,9 +22,10 @@ void Temple2Tile::Start()
 	mfWidth = 2327.f;
 	mfHeight = 935.f;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-	mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
+	// mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
 
 	mpRenderer->SetTexture("Temple2Tile.png", 0);
+	mpRenderer->ScaleToTexture();
 }
 
 void Temple2Tile::Update(float _DeltaTime)

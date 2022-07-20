@@ -103,10 +103,8 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
         GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
         GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
-        GameEngineInput::GetInst()->CreateKey("PlayerForward", VK_HOME);
-        GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_END);
-        GameEngineInput::GetInst()->CreateKey("Rot+", VK_DELETE);
-        GameEngineInput::GetInst()->CreateKey("Rot-", VK_NEXT);
+        GameEngineInput::GetInst()->CreateKey("PlayerJump", VK_SPACE);
+        GameEngineInput::GetInst()->CreateKey("PlayerDoubleJump", VK_CONTROL);
     }
 }
 
@@ -148,6 +146,8 @@ void ContentsCore::LoadCharacterTextures()
     {
         GameEngineTexture::Load(Textures[i].GetFullPath());
     }
+
+
 }
 
 void ContentsCore::LoadItemTextures()
@@ -200,6 +200,9 @@ void ContentsCore::LoadSkillTextures()
     {
         GameEngineTexture::Load(Textures[i].GetFullPath());
     }
+
+    Dir.Move("WarriorLeap");
+    GameEngineFolderTexture::Load(Dir.GetFullPath());
 }
 
 void ContentsCore::LoadUITextures()
@@ -253,7 +256,7 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("CharacterSwingP1.png", 3, 1);
     GameEngineTexture::Cut("CharacterSwingP2.png", 3, 1);
     GameEngineTexture::Cut("CharacterSwingPF.png", 4, 1);
-    GameEngineTexture::Cut("CharacterWalk.png", 4, 1);
+    GameEngineTexture::Cut("CharacterWalk.png", 6, 1);
     GameEngineTexture::Cut("CharacterDead.png", 4, 1);
     GameEngineTexture::Cut("FallTomb.png", 4, 1);
 
@@ -289,6 +292,7 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("Temple3Tile.png", 1, 1);
     GameEngineTexture::Cut("Temple3Cloud.png", 1, 1);
     GameEngineTexture::Cut("Portal.png", 8, 1);
+    GameEngineTexture::Cut("Veil.png", 8, 1);
 
     /* Monster */
     /* Numbers */

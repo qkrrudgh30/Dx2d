@@ -25,40 +25,53 @@ void Player::Start()
 	{
 		mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 		mpRenderer->GetTransform().SetLocalScale({ 83, 85, 1 });
-		mpRenderer->SetTexture("CharacterAlert.png", 0);
 		mpRenderer->CreateFrameAnimation("CharacterAlert", FrameAnimation_DESC("CharacterAlert.png", 0, 4, 0.5f));		
-	}
+		mpRenderer->CreateFrameAnimation("CharacterStand", FrameAnimation_DESC("CharacterStand.png", 0, 4, 0.5f));		
+		mpRenderer->CreateFrameAnimation("CharacterWalk", FrameAnimation_DESC("CharacterWalk.png", 0, 5, 0.2f));		
+		mpRenderer->CreateFrameAnimation("CharacterJump", FrameAnimation_DESC("CharacterJump.png", 0, 6, 0.5f));		
+		mpRenderer->CreateFrameAnimationFolder("WarriorLeap", FrameAnimation_DESC("WarriorLeap", 0.1f));
+	}	 
 }
 
 void Player::Update(float _DeltaTime)
 {
-	mpRenderer->ChangeFrameAnimation("CharacterAlert");
+	if (true == GameEngineInput::GetInst()->IsFree("PlayerLeft") && true == GameEngineInput::GetInst()->IsFree("PlayerRight"))
+	{
+		mpRenderer->ChangeFrameAnimation("CharacterStand");
+	}
+	
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
-		Color.r += 1.0f * _DeltaTime;
-
+		mpRenderer->GetTransform().PixLocalPositiveX();
+		mpRenderer->ChangeFrameAnimation("CharacterWalk");
 		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed * _DeltaTime);
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
+		mpRenderer->GetTransform().PixLocalNegativeX();
+		mpRenderer->ChangeFrameAnimation("CharacterWalk");
 		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed * _DeltaTime);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{
+		mpRenderer->ChangeFrameAnimation("CharacterStand");
 		GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed * _DeltaTime);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
+		mpRenderer->ChangeFrameAnimation("CharacterStand");
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
 	}
-
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerForward"))
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetForwardVector() * Speed * _DeltaTime);
+		mpRenderer->ChangeFrameAnimation("CharacterJump");
+		// GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
 	}
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerBack"))
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDoubleJump"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed * _DeltaTime);
+		mpRenderer->ChangeFrameAnimation("WarriorLeap");
+		
+		// GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
 	}
 }

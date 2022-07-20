@@ -16,6 +16,7 @@ public:
 	TempleOfTime2& operator=(TempleOfTime2&& _Other) noexcept = delete;
 
 protected:
+	void OnEvent() override;
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;

@@ -19,8 +19,8 @@ ExitButton::~ExitButton()
 
 void ExitButton::Start()
 {
-	mfWidth = 81;
-	mfHeight = 34;
+	mfWidth = 81 * 2;
+	mfHeight = 34 * 2;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
 
@@ -41,7 +41,6 @@ void ExitButton::Update(float _DeltaTime)
 		if (true == GameEngineInput::GetInst()->IsPress("MouseLButtonDown"))
 		{
 			mpRenderer->SetFrame(2);
-			// 알파 블랜딩
 			DestroyWindow(GameEngineWindow::GetHWND());
 		}
 	}

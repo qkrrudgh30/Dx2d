@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "LoginButton.h"
+#include "Veil.h"
 
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
@@ -10,6 +11,7 @@ LoginButton::LoginButton()
 	, mfHeight(0)
 	, mfPositionX(0)
 	, mfPositionY(0)
+	, mbClicked(false)
 {
 }
 
@@ -26,7 +28,6 @@ void LoginButton::Start()
 	// mpRenderer->GetTransform().SetLocalScale({ 10, 10, 1 });
 	
 	mpRenderer->SetTexture("LoginButton.png", 0);
-
 }
 
 void LoginButton::Update(float _DeltaTime)
@@ -40,8 +41,7 @@ void LoginButton::Update(float _DeltaTime)
 		if (true == GameEngineInput::GetInst()->IsPress("MouseLButtonDown"))
 		{
 			mpRenderer->SetFrame(2);
-			// 알파블랜딩 추가하고 싶음.
-			GEngine::ChangeLevel("TempleOfTime0");
+			mbClicked = true;			
 		}
 	}
 	else

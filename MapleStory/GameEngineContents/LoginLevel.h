@@ -3,13 +3,13 @@
 // LoginLevel.h
 
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "ContentsLevel.h"
 
 // Ό³Έν :
 class LoginBackground;
 class LoginButton;
 class ExitButton;
-class LoginLevel : public GameEngineLevel
+class LoginLevel : public ContentsLevel
 {
 public:
     // constrcuter destructer
@@ -23,6 +23,7 @@ public:
     LoginLevel& operator=(LoginLevel&& _Other) noexcept = delete;
 
 protected:
+    void OnEvent() override;
     void Start() override;
     void Update(float _DeltaTime) override;
     void End() override;
@@ -31,6 +32,5 @@ private:
     LoginBackground* mpLoginBackground;
     LoginButton*     mpLoginButton;
     ExitButton*      mpExitButton;
-
 };
 

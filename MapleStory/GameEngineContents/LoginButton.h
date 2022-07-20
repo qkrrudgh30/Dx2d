@@ -16,6 +16,9 @@ public:
 	LoginButton& operator=(const LoginButton& _Other) = delete;
 	LoginButton& operator=(LoginButton&& _Other) noexcept = delete;
 
+	bool IsLoginButtonClicked() { return mbClicked; }
+	void SetLoginButton(bool _bClicked) { mbClicked = _bClicked; }
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -28,6 +31,8 @@ private:
 	float                      mfPositionX;
 	float                      mfPositionY;
 	float4                     mf4MousePos;
+
+	bool                       mbClicked;
 
 };
 

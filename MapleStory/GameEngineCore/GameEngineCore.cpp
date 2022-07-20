@@ -62,6 +62,8 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 {
 	if (nullptr != NextLevel)
 	{
+		
+
 		Rectangle(GameEngineWindow::GetInst()->GetHDC()
 			, 0
 			, 0

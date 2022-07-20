@@ -10,7 +10,6 @@ class Player : public GameEngineActor
 private:
 	GameEngineTextureRenderer* mpRenderer;
 	float                      Speed;
-	float4                     Color;
 
 public:
 	// constrcuter destructer

@@ -26,9 +26,9 @@ void Temple0BackGround::Start()
     mfWidth = 2327.f;
     mfHeight = 935.f;
     mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-    mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
 
     mpRenderer->SetTexture("Temple0BackGround.png", 0);
+    mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
 }
 
 void Temple0BackGround::Update(float _DeltaTime)

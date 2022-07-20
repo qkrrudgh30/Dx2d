@@ -1,15 +1,21 @@
 #include "PreCompile.h"
 #include "GameEngineTexture.h"
 
-GameEngineTexture::GameEngineTexture() 
+GameEngineTexture::GameEngineTexture()
 	: Texture2D(nullptr)
 	, RenderTargetView(nullptr)
 	, ShaderResourceView(nullptr)
+	, Metadata()
 {
 }
 
 GameEngineTexture::~GameEngineTexture() 
 {
+	if (nullptr != DepthStencilView)
+	{
+		DepthStencilView->Release();
+	}
+
 	if (nullptr != ShaderResourceView)
 	{
 		ShaderResourceView->Release();
@@ -41,10 +47,32 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 	return RenderTargetView;
 }
 
+ID3D11DepthStencilView* GameEngineTexture::CreateDepthStencilView()
+{
+	if (nullptr != DepthStencilView)
+	{
+		return DepthStencilView;
+	}
+
+	if (S_OK != GameEngineDevice::GetDevice()->CreateDepthStencilView(Texture2D, nullptr, &DepthStencilView))
+	{
+		MsgBoxAssert("깊이 버퍼 세팅 실패했습니다.");
+	}
+
+	return DepthStencilView;
+}
+
 GameEngineTexture* GameEngineTexture::Create(ID3D11Texture2D* _Texture)
 {
 	GameEngineTexture* NewRes = CreateResUnName();
 	NewRes->Texture2D = _Texture;
+	_Texture->GetDesc(&NewRes->Desc);
+	return NewRes;
+}
+
+GameEngineTexture* GameEngineTexture::Create(const D3D11_TEXTURE2D_DESC& _Desc)
+{
+	GameEngineTexture* NewRes = CreateResUnName();	NewRes->TextureCreate(_Desc);
 	return NewRes;
 }
 
@@ -95,6 +123,9 @@ void GameEngineTexture::TextureLoad(const std::string& _Path)
 	{
 		MsgBoxAssertString(_Path + "쉐이더 리소스 생성에 실패했습니다.");
 	}
+
+	Desc.Width = Metadata.width;
+	Desc.Height = Metadata.height;
 }
 
 void GameEngineTexture::VSSetting(int _BindPoint)
@@ -154,5 +185,18 @@ void GameEngineTexture::Cut(UINT _X, UINT _Y)
 
 		Start.x = 0.0f;
 		Start.y += SizeY;
+	}
+}
+
+void GameEngineTexture::TextureCreate(const D3D11_TEXTURE2D_DESC& _Desc)
+{
+	Desc = _Desc;
+
+	GameEngineDevice::GetDevice()->CreateTexture2D(&Desc, nullptr, &Texture2D);
+
+	if (nullptr == Texture2D)
+	{
+		MsgBoxAssert("텍스처 생성에 실패했습니다.");
+		return;
 	}
 }

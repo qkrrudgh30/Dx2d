@@ -8,6 +8,7 @@
 #include "LoginBackground.h"
 #include "LoginButton.h"
 #include "ExitButton.h"
+#include "Veil.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -18,6 +19,11 @@ LoginLevel::LoginLevel()
 
 LoginLevel::~LoginLevel() 
 {
+}
+
+void LoginLevel::OnEvent()
+{
+    Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
 void LoginLevel::Start()
@@ -34,10 +40,23 @@ void LoginLevel::Start()
     mpLoginBackground = CreateActor<LoginBackground>(OBJECTORDER::BackGround);
     mpLoginButton = CreateActor<LoginButton>(OBJECTORDER::UI);
     mpExitButton = CreateActor<ExitButton>(OBJECTORDER::UI);
+
+    mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
 }
 
 void LoginLevel::Update(float _DeltaTime)
 {
+    if (true == mpLoginButton->IsLoginButtonClicked())
+    {
+        Veil::SetVeilEffect(VEIL_EFFECT::FADE_OUT);
+        mfVeilStartSecond = GetAccTime();
+        mpLoginButton->SetLoginButton(false);
+    }
+
+    if (-1 != mfVeilStartSecond && 3.f <= GetAccTime() - mfVeilStartSecond)
+    {
+        GEngine::ChangeLevel("TempleOfTime0");
+    }
 }
 
 void LoginLevel::End()

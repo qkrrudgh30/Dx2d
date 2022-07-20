@@ -24,8 +24,9 @@ void Temple0Cloud::Start()
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mpRenderer->SetTexture("Temple0Cloud.png", 0);
 	
-	mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1.f });
-	mpRenderer->GetTransform().SetLocalPosition({ 0.f, 50.f, 1.f });
+	mpRenderer->ScaleToTexture();
+	// mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1.f });
+	// mpRenderer->GetTransform().SetLocalPosition({ 0.f, 50.f, 1.f });
 }
 
 void Temple0Cloud::Update(float _DeltaTime)
