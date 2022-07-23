@@ -1,9 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "Monster.h"
 
 // Ό³Έν :
-class GameEngineTextureRenderer;
-class Temple3Monster : public GameEngineActor
+class Temple3Monster : public Monster
 {
 public:
 	// constrcuter destructer
@@ -16,17 +15,14 @@ public:
 	Temple3Monster& operator=(const Temple3Monster& _Other) = delete;
 	Temple3Monster& operator=(Temple3Monster&& _Other) noexcept = delete;
 
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
 
 private:
-	GameEngineTextureRenderer* mpRenderer;
-	float                      mfWidth;
-	float                      mfHeight;
-	float                      mfPositionX;
-	float                      mfPositionY;
 
 };
 

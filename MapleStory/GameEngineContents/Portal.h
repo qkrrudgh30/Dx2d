@@ -1,11 +1,16 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/CoreMinimal.h>
 
 // Ό³Έν :
 class GameEngineTextureRenderer;
 class Portal : public GameEngineActor
 {
 	friend class ContentsLevel;
+
+private :
+	GameEngineTextureRenderer* mpRenderer;
+	float                      mfWidth;
+	float                      mfHeight;
 
 public:
 	// constrcuter destructer
@@ -24,15 +29,6 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
-
-private:
-
-private:
-	GameEngineTextureRenderer* mpRenderer;
-	float                      mfWidth;
-	float                      mfHeight;
-	float                      mfPositionX;
-	float                      mfPositionY;
 
 };
 

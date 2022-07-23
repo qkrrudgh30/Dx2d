@@ -29,7 +29,9 @@ void Veil::Start()
     float4 windowSize = GameEngineWindow::GetScale();
     mpRenderer = CreateComponent<GameEngineDefaultRenderer>();
     mpRenderer->SetPipeLine("Color");
-    mpRenderer->GetTransform().SetLocalScale({ windowSize.x, windowSize.y, 1 });
+    mpRenderer->GetTransform().SetWorldScale({ windowSize.x, windowSize.y, 1 });
+
+    GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Alpha, 1.f });
     
     mpRenderer->ShaderResources.SetConstantBufferLink("ResultColor", mf4Color);
 }
@@ -47,7 +49,7 @@ void Veil::Update(float _DeltaTime)
         mf4Color.a -= 1.f * _DeltaTime;
         if (mf4Color.a <= 0.f) 
         { 
-            mf4Color.a = 0.f; 
+            mf4Color.a = 0.f;
             mqVeilEffectJobQueue.pop();
         }
     }

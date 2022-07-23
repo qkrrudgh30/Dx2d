@@ -23,8 +23,9 @@ void Temple2Cloud::Start()
 	mfHeight = 935.f;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mpRenderer->SetTexture("Temple2Cloud.png", 0);
+	mpRenderer->GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Cloud, 1.f });
 	mpRenderer->ScaleToTexture();
-	// mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
+	// mpRenderer->GetTransform().SetWorldScale({ mfWidth, mfHeight, 1 });
 }
 
 void Temple2Cloud::Update(float _DeltaTime)

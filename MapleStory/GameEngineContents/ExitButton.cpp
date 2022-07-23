@@ -19,20 +19,22 @@ ExitButton::~ExitButton()
 
 void ExitButton::Start()
 {
+	GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::UI, 1.f });
+
 	mfWidth = 81 * 2;
 	mfHeight = 34 * 2;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-	mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
-
-	mfPositionX = -(GameEngineWindow::GetScale().x / 2.f) + (mfWidth / 2.f);
-	mfPositionY = -(GameEngineWindow::GetScale().y / 2.f) + (mfHeight / 2.f) + 100.f;
-	mpRenderer->GetTransform().SetLocalPosition({ mfPositionX, mfPositionY, 1});
+	mpRenderer->GetTransform().SetWorldScale(float4{ mfWidth, mfHeight, 1 });
+    mfPositionX = -(GameEngineWindow::GetScale().x / 2.f) + (mfWidth / 2.f);
+    mfPositionY = -(GameEngineWindow::GetScale().y / 2.f) + (mfHeight / 2.f) + 40.f;
+    mpRenderer->GetTransform().SetWorldPosition({ mfPositionX, mfPositionY, 1});
 	mpRenderer->SetTexture("ExitButton.png", 0);
 }
 
 void ExitButton::Update(float _DeltaTime)
 {
-	mf4MousePos = ContentsCore::GetMousePos();
+	mf4MousePos = GetLevel()->GetMainCamera()->GetMouseWorldPosition();
+
 	if (mfPositionX - (mfWidth / 2) <= mf4MousePos.x && mf4MousePos.x <= mfPositionX + (mfWidth / 2)
 		&& mfPositionY - (mfHeight / 2) <= mf4MousePos.y && mf4MousePos.y <= mfPositionY + (mfHeight / 2))
 	{

@@ -133,6 +133,9 @@ void ContentsCore::LoadTextures()
     LoadMapTextures();
     LoadMonsterTextures();
     LoadSkillTextures();
+    LoadUITextures();
+    LoadNumbersTextures();
+    // LoadSounds();
 }
 
 void ContentsCore::LoadCharacterTextures()
@@ -231,6 +234,19 @@ void ContentsCore::LoadNumbersTextures()
     }
 }
 
+void ContentsCore::LoadSounds()
+{
+    GameEngineDirectory Dir;
+    MoveTo(Dir, "Sounds");
+
+    std::vector<GameEngineFile> Sounds = Dir.GetAllFile();
+
+    for (size_t i = 0; i < Sounds.size(); i++)
+    {
+        GameEngineSound::LoadRessource(Sounds[i].GetFullPath());
+    }
+}
+
 void ContentsCore::MoveTo(GameEngineDirectory& _Dir, const std::string& _strForderName)
 {
     _Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -295,12 +311,40 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("Veil.png", 8, 1);
 
     /* Monster */
+    GameEngineTexture::Cut("Temple2MonsterStand.png", 12, 1);
+    GameEngineTexture::Cut("Temple2MonsterMove.png", 6, 1);
+    GameEngineTexture::Cut("Temple2MonsterHitting1.png", 4, 1);
+    GameEngineTexture::Cut("Temple2MonsterHitting2.png", 7, 1);
+    GameEngineTexture::Cut("Temple2MonsterDie.png", 12, 1);
+    GameEngineTexture::Cut("Temple2MonsterAttack1.png", 17, 1);
+    GameEngineTexture::Cut("Temple2MonsterAttack2.png", 17, 1);
+    GameEngineTexture::Cut("Temple2MonsterHitted.png", 1, 1);
+
+    GameEngineTexture::Cut("Temple3MonsterStand.png", 12, 1);
+    // GameEngineTexture::Cut("Temple3MonsterMove.png", 6, 1);
+    // GameEngineTexture::Cut("Temple3MonsterHitting1.png", 4, 1);
+    GameEngineTexture::Cut("Temple3MonsterHitting2.png", 7, 1);
+    // GameEngineTexture::Cut("Temple3MonsterDie.png", 12, 1);
+    GameEngineTexture::Cut("Temple3MonsterAttack1.png", 17, 1);
+    GameEngineTexture::Cut("Temple3MonsterAttack2.png", 17, 1);
+    GameEngineTexture::Cut("Temple3MonsterHitted.png", 1, 1);
+
+    GameEngineTexture::Cut("Temple3BossStand.png", 8, 1);
+    GameEngineTexture::Cut("Temple3BossSkill1.png", 13, 1);
+    GameEngineTexture::Cut("Temple3BossSkill2.png", 13, 1);
+    GameEngineTexture::Cut("Temple3BossMove.png", 8, 1);
+    GameEngineTexture::Cut("Temple3BossHitting1.png", 5, 1);
+    GameEngineTexture::Cut("Temple3BossHitting2.png", 5, 1);
+    GameEngineTexture::Cut("Temple3BossBullet1.png", 4, 1);
+    GameEngineTexture::Cut("Temple3BossDie.png", 17, 1);
+    GameEngineTexture::Cut("Temple3BossAttack1.png", 15, 1);
+    GameEngineTexture::Cut("Temple3BossAttack2.png", 15, 1);
+    GameEngineTexture::Cut("Temple3BossHitted.png", 1, 1);
+
     /* Numbers */
     /* Skill */
     /* UI */
-    
-    
-    
+    GameEngineTexture::Cut("MenuButton.png", 3, 1);
     
 }
 

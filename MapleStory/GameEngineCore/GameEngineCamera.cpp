@@ -19,9 +19,7 @@ GameEngineCamera::GameEngineCamera()
 	ViewPortDesc.Width = Size.x;
 	ViewPortDesc.Height = Size.y;
 	ViewPortDesc.MinDepth = 0.0f;
-	ViewPortDesc.MaxDepth = 0.0f;
-
-	
+	ViewPortDesc.MaxDepth = 1.0f;
 }
 
 GameEngineCamera::~GameEngineCamera() 
@@ -59,6 +57,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
 		for (GameEngineRenderer* const Renderer : Group.second)
 		{
+			if (false == Renderer->IsUpdate())
+			{
+				continue;
+			}
+
 			Renderer->GetTransform().SetView(View);
 			Renderer->GetTransform().SetProjection(Projection);
 			Renderer->GetTransform().CalculateWorldViewProjection();
@@ -115,6 +118,14 @@ float4 GameEngineCamera::GetScreenPosition()
 	return { static_cast<float>(P.x), static_cast<float>(P.y) };
 }
 
+void GameEngineCamera::Update(float _DeltaTime) 
+{
+	float4 MousePos = GetMouseWorldPosition();
+	MousePos.w = 0.0f;
+	MouseDir = MousePos - PrevMouse;
+	PrevMouse = MousePos;
+}
+
 // 뷰포트에 있는거죠?
 float4 GameEngineCamera::GetMouseWorldPosition()
 {
@@ -130,11 +141,11 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 	Pos = Pos * ProjectionInvers;
 	// 마우스는 뷰포트의 좌표다?
 
-	return Pos;
+	return Pos; // 뷰 공간상의 마우스 좌표인데
 }
 
-//
-//float4 GameEngineCamera::GetMouseViewPortPosition()
-//{
-//
-//}
+float4 GameEngineCamera::GetMouseWorldPositionToActor()
+{
+	//                     로컬                          카메라가 이동한 만큼 더해줌 -> 월드가 됨.
+	return GetTransform().GetWorldPosition() + GetMouseWorldPosition(); // 월드 공간 상의 좌표는 아니다.
+}

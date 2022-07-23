@@ -40,23 +40,23 @@ void ContentsLevel::LimitCameraMoving(float4 _f4MapSize)
     if (mf4CameraPosition.x <= (mf4WindowSize.x / 2.f) + 10.f)
     {
         f4NextCameraPosition.x = (mf4WindowSize.x / 2.f) + 10.f;
-        mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
+        mpCamera->GetTransform().SetWorldPosition(f4NextCameraPosition);
     }
     if (_f4MapSize.x - (mf4WindowSize.x / 2.f) - 10.f <= mf4CameraPosition.x)
     {
         f4NextCameraPosition.x = _f4MapSize.x - (1280.f / 2.f) - 10.f;
-        mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
+        mpCamera->GetTransform().SetWorldPosition(f4NextCameraPosition);
     }
     
     if (-(mf4WindowSize.y / 2.f) - 10.f <= mf4CameraPosition.y)
     {
         f4NextCameraPosition.y = -(mf4WindowSize.y / 2.f) - 10.f;
-        mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
+        mpCamera->GetTransform().SetWorldPosition(f4NextCameraPosition);
     }
     if (mf4CameraPosition.y <= -(_f4MapSize.y) + (mf4WindowSize.y / 2.f) + 10.f)
     {
         f4NextCameraPosition.y = -(_f4MapSize.y) + (mf4WindowSize.y / 2.f) + 10.f;
-        mpCamera->GetTransform().SetLocalPosition(f4NextCameraPosition);
+        mpCamera->GetTransform().SetWorldPosition(f4NextCameraPosition);
     }
 }
 
@@ -66,7 +66,6 @@ PortalCollisionType ContentsLevel::IsPortalCollided()
     {
         if (true == GameEngineTransform::OBBToOBB(mpPlayer->GetRenderer()->GetTransform(), mpPortalToNext->GetRenderer()->GetTransform()))
         {
-
             return PortalCollisionType::NEXT;
         }
     }

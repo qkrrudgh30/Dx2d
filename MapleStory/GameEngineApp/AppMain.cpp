@@ -1,4 +1,6 @@
 #include <Windows.h>
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
 
 #pragma comment(lib, "GameEngineBase.lib")
 #pragma comment(lib, "GameEngineCore.lib")
@@ -13,8 +15,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 	new int();
+	/*
+	_CrtDumpMemoryLeaks();
+_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+_CrtSetReportMode( _CRT_ERROR, _CRTDBG_MODE_DEBUG );
+_CrtSetBreakAlloc()
+_crtBreakAlloc
+	
+	*/
 
 	GameEngineCore::Start<ContentsCore>();
+
+	// _CrtSetBreakAlloc(287);
 
 	return 0;
 }

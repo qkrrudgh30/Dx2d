@@ -16,6 +16,8 @@ public:
 	Temple2Tile& operator=(const Temple2Tile& _Other) = delete;
 	Temple2Tile& operator=(Temple2Tile&& _Other) noexcept = delete;
 
+	GameEngineTextureRenderer* GetRenderer() { return mpRenderer; }
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

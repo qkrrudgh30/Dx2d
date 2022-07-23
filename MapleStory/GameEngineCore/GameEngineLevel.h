@@ -37,6 +37,8 @@ public:
 		return MainCamera;
 	}
 
+	GameEngineCameraActor* GetMainCameraActor();
+
 	GameEngineTransform& GetMainCameraActorTransform();
 
 	//template<typename ReturnType, typename ActorType, typename GroupIndexType>
@@ -92,7 +94,6 @@ public:
 	{
 		return GetConvertToGroup<ObjectType>(static_cast<int>(_ObjectGroupIndex));
 	}
-
 
 	template<typename ObjectType>
 	std::list<ObjectType*> GetConvertToGroup(int _ObjectGroupIndex)

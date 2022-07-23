@@ -2,8 +2,12 @@
 #include "ContentsLevel.h"
 
 // Ό³Έν :
+class Temple0BackGround;
 class TempleOfTime0 : public ContentsLevel
 {
+private:
+	Temple0BackGround* NewBackGround;
+
 public:
 	// constrcuter destructer
 	TempleOfTime0();

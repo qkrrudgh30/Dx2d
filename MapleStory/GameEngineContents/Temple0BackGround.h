@@ -16,6 +16,8 @@ public:
 	Temple0BackGround& operator=(const Temple0BackGround& _Other) = delete;
 	Temple0BackGround& operator=(Temple0BackGround&& _Other) noexcept = delete;
 
+	GameEngineTextureRenderer* GetRenderer() { return mpRenderer; }
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

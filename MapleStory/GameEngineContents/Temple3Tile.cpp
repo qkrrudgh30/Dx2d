@@ -22,8 +22,8 @@ void Temple3Tile::Start()
 	mfWidth = 2327.f;
 	mfHeight = 935.f;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-	// mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
-
+	// mpRenderer->GetTransform().SetWorldScale({ mfWidth, mfHeight, 1 });
+	mpRenderer->GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Tile, 1.f });
 	mpRenderer->SetTexture("Temple3Tile.png", 0);
 	mpRenderer->ScaleToTexture();
 }

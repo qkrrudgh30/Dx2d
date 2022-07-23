@@ -16,6 +16,8 @@ public:
 	LoginBackground& operator=(const LoginBackground& _Other) = delete;
 	LoginBackground& operator=(LoginBackground&& _Other) noexcept = delete;
 
+	GameEngineTextureRenderer* GetRenderer() { return mpRenderer; }
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

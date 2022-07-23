@@ -30,7 +30,7 @@ void TempleOfTime1::Start()
 {
 	mpCamera = CreateActor<GameEngineCameraActor>();
 	mpCamera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-	mpCamera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+	mpCamera->GetTransform().SetWorldPosition({ 0.0f, 0.0f, -500.0f });
 
 	Temple1BackGround* NewBackGround = CreateActor<Temple1BackGround>(OBJECTORDER::BackGround);
 	Temple1Tile* NewTile = CreateActor<Temple1Tile>(OBJECTORDER::Tile);
@@ -38,17 +38,17 @@ void TempleOfTime1::Start()
 	SetMapSize(float4{ 4371.f, 780.f });
 
 	float4 MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f) };
-	NewBackGround->GetTransform().SetLocalMove(MapHalfSize);
-	NewTile->GetTransform().SetLocalMove(MapHalfSize);
-	NewCloud->GetTransform().SetLocalMove(MapHalfSize);
+	NewBackGround->GetTransform().SetWorldMove(MapHalfSize);
+	NewTile->GetTransform().SetWorldMove(MapHalfSize);
+	NewCloud->GetTransform().SetWorldMove(MapHalfSize);
 
-	mpPlayer = CreateActor<Player>(OBJECTORDER::Player);
-	mpPlayer->GetTransform().SetLocalMove(MapHalfSize);
+	mpPlayer = CreateActor<Player>(OBJECTORDER::Character);
+	mpPlayer->GetTransform().SetWorldMove(MapHalfSize);
 
 	mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
-	mpPortalToPrevious->GetRenderer()->GetTransform().SetLocalPosition(float4{ 165.f, -489.f });
+	mpPortalToPrevious->GetTransform().SetWorldMove(float4{ 165.f, -489.f, 1.f, 1.f });
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::UI);	
-	mpPortalToNext->GetRenderer()->GetTransform().SetLocalPosition(float4{ 2160.f, -480.f });
+	mpPortalToNext->GetTransform().SetWorldMove(float4{ 2160.f, -480.f, 1.f, 1.f });
 
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
 }
@@ -57,25 +57,30 @@ void TempleOfTime1::Update(float _DeltaTime)
 {
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
-		mpCamera->GetTransform().SetLocalPosition(mpPlayer->GetTransform().GetLocalPosition());
+		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("CamLeft"))
 	{
-		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetRightVector() * 100 * _DeltaTime);
+		GetMainCameraActorTransform().SetWorldMove(-GetMainCameraActorTransform().GetRightVector() * 100 * _DeltaTime);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("CamRight"))
 	{
-		GetMainCameraActorTransform().SetLocalMove(GetMainCameraActorTransform().GetRightVector() * 100 * _DeltaTime);
+		GetMainCameraActorTransform().SetWorldMove(GetMainCameraActorTransform().GetRightVector() * 100 * _DeltaTime);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("CamUp"))
 	{
-		GetMainCameraActorTransform().SetLocalMove(GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
+		GetMainCameraActorTransform().SetWorldMove(GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("CamDown"))
 	{
-		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
+		GetMainCameraActorTransform().SetWorldMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
 	}
+
+	LimitCameraMoving(GetMapSize());
+	float4 pos = mpCamera->GetTransform().GetWorldPosition();
+	pos.z = OBJECTORDER::Alpha;
+	mpVeil->GetTransform().SetWorldPosition(pos);
 
 	if (PortalCollisionType::NEXT == IsPortalCollided())
 	{
@@ -94,22 +99,19 @@ void TempleOfTime1::Update(float _DeltaTime)
 		}
 	}
 
-	if (-1.f != mfVeilStartSecond && 2.f <= GetAccTime() - mfVeilStartSecond)
+	if (-1.f != mfVeilStartSecond && 1.f <= GetAccTime() - mfVeilStartSecond)
 	{
+		mfVeilStartSecond = -1.f;
 		if (PortalCollisionType::PREVIOUS == IsPortalCollided())
 		{
-			mfVeilStartSecond = -1.f;
 			GEngine::ChangeLevel("TempleOfTime0");
 		}
 		if (PortalCollisionType::NEXT == IsPortalCollided())
 		{
-			mfVeilStartSecond = -1.f;
 			GEngine::ChangeLevel("TempleOfTime2");
 		}
 	}	
 
-	LimitCameraMoving(GetMapSize());
-	mpVeil->GetTransform().SetLocalPosition(mpCamera->GetTransform().GetLocalPosition());
 
 	// GameEngineDebug::OutPutString(std::to_string(mpPlayer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpPlayer->GetTransform().GetLocalPosition().y));
 }

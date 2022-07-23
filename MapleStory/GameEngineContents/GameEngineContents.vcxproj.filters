@@ -118,12 +118,6 @@
     <ClInclude Include="Temple2Tile.h">
       <Filter>02_Actors\Temple2</Filter>
     </ClInclude>
-    <ClInclude Include="Temple2Monster.h">
-      <Filter>02_Actors\Temple2</Filter>
-    </ClInclude>
-    <ClInclude Include="Temple3Monster.h">
-      <Filter>02_Actors\Temple3</Filter>
-    </ClInclude>
     <ClInclude Include="Temple3Boss.h">
       <Filter>02_Actors\Temple3</Filter>
     </ClInclude>
@@ -135,6 +129,30 @@
     </ClInclude>
     <ClInclude Include="Veil.h">
       <Filter>02_Actors\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="StateBar.h">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupMenu.h">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitButtonOnMenu.h">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple0MonsterSpawn.h">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple2Monster.h">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple3Monster.h">
+      <Filter>02_Actors\Temple3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -217,12 +235,6 @@
     <ClCompile Include="Temple2Tile.cpp">
       <Filter>02_Actors\Temple2</Filter>
     </ClCompile>
-    <ClCompile Include="Temple2Monster.cpp">
-      <Filter>02_Actors\Temple2</Filter>
-    </ClCompile>
-    <ClCompile Include="Temple3Monster.cpp">
-      <Filter>02_Actors\Temple3</Filter>
-    </ClCompile>
     <ClCompile Include="Temple3Boss.cpp">
       <Filter>02_Actors\Temple3</Filter>
     </ClCompile>
@@ -234,6 +246,30 @@
     </ClCompile>
     <ClCompile Include="Veil.cpp">
       <Filter>02_Actors\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="StateBar.cpp">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupMenu.cpp">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitButtonOnMenu.cpp">
+      <Filter>02_Actors\Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple0MonsterSpawn.cpp">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple2Monster.cpp">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple3Monster.cpp">
+      <Filter>02_Actors\Temple3</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

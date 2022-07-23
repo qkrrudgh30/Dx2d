@@ -16,6 +16,8 @@ public:
 	Guardian& operator=(const Guardian& _Other) = delete;
 	Guardian& operator=(Guardian&& _Other) noexcept = delete;
 
+	GameEngineTextureRenderer* GetRenderer() { return mpRenderer; }
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

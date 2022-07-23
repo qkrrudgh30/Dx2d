@@ -56,6 +56,7 @@ private:
     void LoadSkillTextures();
     void LoadUITextures();
     void LoadNumbersTextures();
+    void LoadSounds();
 
     void MoveTo(GameEngineDirectory& _Dir, const std::string& _strForderName);
 

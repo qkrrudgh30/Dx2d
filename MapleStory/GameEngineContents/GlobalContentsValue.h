@@ -2,16 +2,16 @@
 #include "Player.h"
 #include "Monster.h"
 
-enum class OBJECTORDER
+enum OBJECTORDER
 {
-	Player,
-	BackGround,
-	Tile,
-	Cloud,
-	Monster,
-	UI,
+	Alpha = 1,
+	UI = 2,
+	Character = 3,
+	Mob = 4,
+	Cloud = 5,
+	Tile = 6,
+	BackGround = 7,
 };
-
 
 // Ό³Έν :
 class GlobalContentsValue

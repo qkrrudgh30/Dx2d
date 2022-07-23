@@ -14,6 +14,9 @@
 #include <GameEngineCore/GameEngineCameraActor.h>
 
 LoginLevel::LoginLevel() 
+    : mpExitButton(nullptr)
+    , mpLoginButton(nullptr)
+    , mpLoginBackground(nullptr)
 {
 }
 
@@ -35,13 +38,14 @@ void LoginLevel::Start()
 
     GameEngineCameraActor* actor = CreateActor<GameEngineCameraActor>();
     actor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-    actor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+    actor->GetTransform().SetWorldPosition({ 0.0f, 0.0f, -500.0f });
     
     mpLoginBackground = CreateActor<LoginBackground>(OBJECTORDER::BackGround);
     mpLoginButton = CreateActor<LoginButton>(OBJECTORDER::UI);
     mpExitButton = CreateActor<ExitButton>(OBJECTORDER::UI);
 
     mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
+    // GameEngineSound::SoundPlayOneShot("BGM.mp3");
 }
 
 void LoginLevel::Update(float _DeltaTime)
@@ -53,10 +57,12 @@ void LoginLevel::Update(float _DeltaTime)
         mpLoginButton->SetLoginButton(false);
     }
 
-    if (-1 != mfVeilStartSecond && 3.f <= GetAccTime() - mfVeilStartSecond)
+    if (-1 != mfVeilStartSecond && 1.f <= GetAccTime() - mfVeilStartSecond)
     {
         GEngine::ChangeLevel("TempleOfTime0");
     }
+
+    GameEngineDebug::OutPutString(std::to_string(GetMainCamera()->GetScreenPosition().x) + "  " + std::to_string(GetMainCamera()->GetScreenPosition().y));
 }
 
 void LoginLevel::End()

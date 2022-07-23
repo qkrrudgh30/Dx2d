@@ -31,4 +31,4 @@
 
 // contents
 #include "ContentsCore.h"
-
+#include "GlobalContentsValue.h"

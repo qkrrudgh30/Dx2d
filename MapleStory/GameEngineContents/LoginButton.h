@@ -18,6 +18,7 @@ public:
 
 	bool IsLoginButtonClicked() { return mbClicked; }
 	void SetLoginButton(bool _bClicked) { mbClicked = _bClicked; }
+	GameEngineTextureRenderer* GetRenderer() { return mpRenderer; }
 
 protected:
 	void Start() override;

@@ -2,8 +2,10 @@
 #include "GameEngineCameraActor.h"
 #include <GameEngineBase/GameEngineInput.h>
 
-GameEngineCameraActor::GameEngineCameraActor() 
+GameEngineCameraActor::GameEngineCameraActor()
 	: CameraComponent(nullptr)
+	, RotSpeed(180.0f)
+	, Speed(500.0f)
 {
 }
 
@@ -43,6 +45,46 @@ void GameEngineCameraActor::Update(float _DeltaTime)
 	{
 		MoveSpeed *= 3.0f;
 	}
+
+	if (GameEngineInput::GetInst()->IsPress("CamMoveForward"))
+	{
+		GetTransform().SetWorldForwardMove(MoveSpeed, _DeltaTime);
+	}
+
+	if (GameEngineInput::GetInst()->IsPress("CamMoveBack"))
+	{
+		GetTransform().SetWorldBackMove(MoveSpeed, _DeltaTime);
+	}
+
+	if (GameEngineInput::GetInst()->IsPress("CamMoveUp"))
+	{
+		GetTransform().SetWorldUpMove(MoveSpeed, _DeltaTime);
+	}
+
+	if (GameEngineInput::GetInst()->IsPress("CamMoveDown"))
+	{
+		GetTransform().SetWorldDownMove(MoveSpeed, _DeltaTime);
+	}
+
+	if (GameEngineInput::GetInst()->IsPress("CamMoveLeft"))
+	{
+		GetTransform().SetWorldLeftMove(MoveSpeed, _DeltaTime);
+	}
+
+	if (GameEngineInput::GetInst()->IsPress("CamMoveRight"))
+	{
+		GetTransform().SetWorldRightMove(MoveSpeed, _DeltaTime);
+	}
+
+	if (GameEngineInput::GetInst()->IsPress("CamRot"))
+	{
+		float4 MouseDir = CameraComponent->GetMouseWorldDir();
+		float4 RotMouseDir;
+		RotMouseDir.x = -MouseDir.y;
+		RotMouseDir.y = MouseDir.x;
+
+		GetTransform().SetAddWorldRotation(RotMouseDir * RotSpeed);
+	}
 }
 
 void GameEngineCameraActor::End() 
@@ -54,4 +96,16 @@ void GameEngineCameraActor::End()
 void GameEngineCameraActor::FreeCameraModeOnOff()
 {
 	FreeCameraMode = !FreeCameraMode;
+
+	if (true == FreeCameraMode)
+	{
+		PrevMode = CameraComponent->GetProjectionMode();
+		CameraComponent->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);
+		OriginTrans.Copy(GetTransform());
+	}
+	else 
+	{
+		CameraComponent->SetProjectionMode(PrevMode);
+		GetTransform().Copy(OriginTrans);
+	}
 }

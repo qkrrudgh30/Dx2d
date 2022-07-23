@@ -25,16 +25,25 @@ public:
 
 	void FreeCameraModeOnOff();
 
+	inline bool IsFreeCameraMode() 
+	{
+		return FreeCameraMode;
+	}
+
+	void Update(float _DeltaTime) override;
+
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
 	void End() override;
 
 private:
 	bool FreeCameraMode;
 	float Speed;
+	float RotSpeed;
 
 	GameEngineCamera* CameraComponent;
+	GameEngineTransform OriginTrans;
+	CAMERAPROJECTIONMODE PrevMode;
 
 };
 

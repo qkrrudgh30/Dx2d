@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "LoginButton.h"
-#include "Veil.h"
 
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
@@ -21,12 +20,11 @@ LoginButton::~LoginButton()
 
 void LoginButton::Start()
 {
+	GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::UI, 1.f });
 	mfWidth = 278.f;
 	mfHeight = 53.f;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-	mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1 });
-	// mpRenderer->GetTransform().SetLocalScale({ 10, 10, 1 });
-	
+	mpRenderer->GetTransform().SetWorldScale({ mfWidth, mfHeight, 1 });
 	mpRenderer->SetTexture("LoginButton.png", 0);
 }
 
@@ -41,7 +39,7 @@ void LoginButton::Update(float _DeltaTime)
 		if (true == GameEngineInput::GetInst()->IsPress("MouseLButtonDown"))
 		{
 			mpRenderer->SetFrame(2);
-			mbClicked = true;			
+			mbClicked = true;
 		}
 	}
 	else
