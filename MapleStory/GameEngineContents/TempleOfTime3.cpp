@@ -48,7 +48,7 @@ void TempleOfTime3::Start()
     mpPlayer->GetTransform().SetWorldMove(MapHalfSize);
 
     mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
-    mpPortalToPrevious->GetTransform().SetWorldMove(float4{ 969.f, -940.f });
+    
     
     mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
 
@@ -61,6 +61,7 @@ void TempleOfTime3::Start()
 
 void TempleOfTime3::Update(float _DeltaTime)
 {
+    mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 969.f, -940.f, OBJECTORDER::Character, 1.f });
     if (true == ContentsCore::IsCameraFollowingOn())
     {
         mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
@@ -103,7 +104,6 @@ void TempleOfTime3::Update(float _DeltaTime)
         GEngine::ChangeLevel("TempleOfTime2");
     }
 
-    
     // GameEngineDebug::OutPutString(std::to_string(mpPlayer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpPlayer->GetTransform().GetLocalPosition().y));
 }
 

@@ -9,16 +9,17 @@
 #include "Portal.h"
 #include "Veil.h"
 #include "StateBar.h"
+#include "MenuButton.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineTransform.h>
 #include <GameEngineBase/GameEngineDebug.h>
+#include <GameEngineCore/GameEngineCameraActor.h>
 
 #include <string>
 
-#include "PopupMenu.h"
 
 TempleOfTime0::TempleOfTime0()
 {
@@ -28,43 +29,43 @@ TempleOfTime0::~TempleOfTime0()
 {
 }
 
-void TempleOfTime0::OnEvent()
-{
-	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
-}
-
 void TempleOfTime0::Start()
 {
 	mpCamera = CreateActor<GameEngineCameraActor>();
 	mpCamera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 	mpCamera->GetTransform().SetWorldPosition({ 0.0f, 0.0f, -500.0f });
-	
-	NewBackGround = CreateActor<Temple0BackGround>(OBJECTORDER::BackGround);
-	Temple0Tile* NewTile = CreateActor<Temple0Tile>(OBJECTORDER::Tile);
-	Temple0Cloud* NewCloud = CreateActor<Temple0Cloud>(OBJECTORDER::Cloud);
+	// GetMainCameraActor()->FreeCameraModeOnOff();
+
 	SetMapSize(float4{2327.f, 955.f});
 	
-	float4 MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f)};
-	NewBackGround->GetTransform().SetWorldMove(MapHalfSize);
-	NewTile->GetTransform().SetWorldMove(MapHalfSize);
-	NewCloud->GetTransform().SetWorldMove(MapHalfSize);
+	mpBackGround = CreateActor<Temple0BackGround>(OBJECTORDER::UI);
+	mpTile = CreateActor<Temple0Tile>(OBJECTORDER::UI);
+	mpCloud = CreateActor<Temple0Cloud>(OBJECTORDER::UI);
+	
+	float4 CenterPointOfMap = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::UI, 1.f };
+	mpBackGround->GetTransform().SetWorldMove(CenterPointOfMap);
+	mpTile->GetTransform().SetWorldMove(CenterPointOfMap);
+	mpCloud->GetTransform().SetWorldMove(CenterPointOfMap);
 
 	mpPlayer = CreateActor<Player>(OBJECTORDER::Character);
-	mpPlayer->GetTransform().SetWorldMove(MapHalfSize);
+	float4 StartPoint = float4{260.f, -720.f, 0.f, 1.f};
+	mpPlayer->GetTransform().SetWorldMove(StartPoint);
 
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::Character);
-	
-	// mpPortalToNext->GetRenderer()->GetTransform().SetLocalPosition(float4{ 2000.f, -132.f, OBJECTORDER::UI, 1.f});
 
 	mpStateBar = CreateActor<StateBar>(OBJECTORDER::UI);
-
-	PopupMenu* new1 = CreateActor<PopupMenu>();
 	
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
 }
 
+void TempleOfTime0::OnEvent()
+{
+	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
+}
+
 void TempleOfTime0::Update(float _DeltaTime)
 {
+	mpPortalToNext->GetRenderer()->GetTransform().SetWorldPosition(float4{ 2000.f, -132.f, OBJECTORDER::Character, 1.f });
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
 		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetWorldPosition());
@@ -89,9 +90,8 @@ void TempleOfTime0::Update(float _DeltaTime)
 		}
 	}
 
-	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 2000.f, -132.f, OBJECTORDER::UI, 1.f });
-
 	LimitCameraMoving(GetMapSize());
+
 	float4 pos = mpCamera->GetTransform().GetWorldPosition();
 	pos.z = OBJECTORDER::Alpha;
 	mpVeil->GetTransform().SetWorldPosition(pos);
@@ -111,12 +111,14 @@ void TempleOfTime0::Update(float _DeltaTime)
 		GEngine::ChangeLevel("TempleOfTime1");
 	}
 
+	/*
 	GameEngineDebug::OutPutString(
 		std::to_string(mpPlayer->GetRenderer()->GetTransform().GetWorldPosition().x) + "  " +
 		std::to_string(mpPlayer->GetRenderer()->GetTransform().GetWorldPosition().y) + "  " +
 		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().x) + "  " +
 		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().y));
-	// GameEngineDebug::OutPutString(std::to_string(GetAccTime()));
+
+    */
 }
 
 void TempleOfTime0::End()

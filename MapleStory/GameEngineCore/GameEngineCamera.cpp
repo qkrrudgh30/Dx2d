@@ -20,10 +20,20 @@ GameEngineCamera::GameEngineCamera()
 	ViewPortDesc.Height = Size.y;
 	ViewPortDesc.MinDepth = 0.0f;
 	ViewPortDesc.MaxDepth = 1.0f;
+
+
+	// NPC 배경 캐릭터
+	//  1   100 20
+	
 }
 
 GameEngineCamera::~GameEngineCamera() 
 {
+}
+
+bool ZSort(GameEngineRenderer* _Left, GameEngineRenderer* _Right)
+{
+	return _Left->GetTransform().GetWorldPosition().z > _Right->GetTransform().GetWorldPosition().z;
 }
 
 void GameEngineCamera::Render(float _DeltaTime)
@@ -51,10 +61,14 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 	float4 WindowSize = GameEngineWindow::GetInst()->GetScale();
 
-
-	for (const std::pair<int, std::list<GameEngineRenderer*>>& Group : AllRenderer_)
+	// 랜더링 하기 전에
+	for (std::pair<const int, std::list<GameEngineRenderer*>>& Group : AllRenderer_)
 	{
 		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+
+		std::list<GameEngineRenderer*>& RenderList = Group.second;
+		RenderList.sort(ZSort);
+
 		for (GameEngineRenderer* const Renderer : Group.second)
 		{
 			if (false == Renderer->IsUpdate())
@@ -107,18 +121,7 @@ void GameEngineCamera::Release(float _DelataTime)
 	}
 }
 
-float4 GameEngineCamera::GetScreenPosition() 
-{
-	POINT P;
-
-	GetCursorPos(&P);
-
-	ScreenToClient(GameEngineWindow::GetHWND(), &P);
-
-	return { static_cast<float>(P.x), static_cast<float>(P.y) };
-}
-
-void GameEngineCamera::Update(float _DeltaTime) 
+void GameEngineCamera::Update(float _DeltaTime)
 {
 	float4 MousePos = GetMouseWorldPosition();
 	MousePos.w = 0.0f;
@@ -126,7 +129,19 @@ void GameEngineCamera::Update(float _DeltaTime)
 	PrevMouse = MousePos;
 }
 
-// 뷰포트에 있는거죠?
+// 스크린 상의 좌표
+float4 GameEngineCamera::GetScreenPosition()     
+{
+	POINT P;
+
+	GetCursorPos(&P);
+
+	ScreenToClient(GameEngineWindow::GetHWND(), &P);
+
+	return { static_cast<float>(P.x), static_cast<float>(P.y) };  
+}
+
+// 뷰 공간 상의 좌표
 float4 GameEngineCamera::GetMouseWorldPosition()
 {
 	float4 Pos = GetScreenPosition();
@@ -136,16 +151,19 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 	ViewPort.Inverse();
 
 	float4x4 ProjectionInvers = Projection.InverseReturn();
+	float4x4 ViewInvers = View.InverseReturn();
 
 	Pos = Pos * ViewPort;
 	Pos = Pos * ProjectionInvers;
-	// 마우스는 뷰포트의 좌표다?
+	Pos = Pos * ViewInvers;
 
-	return Pos; // 뷰 공간상의 마우스 좌표인데
+	return Pos;
 }
 
+// ??????????????????????
 float4 GameEngineCamera::GetMouseWorldPositionToActor()
 {
-	//                     로컬                          카메라가 이동한 만큼 더해줌 -> 월드가 됨.
-	return GetTransform().GetWorldPosition() + GetMouseWorldPosition(); // 월드 공간 상의 좌표는 아니다.
+	//             카메라의 월드 좌표         + 마우스의 뷰공간 상의 좌표?  == 마우스의 월드 공간 상의 좌표?
+	return GetTransform().GetWorldPosition() + GetMouseWorldPosition();
 }
+

@@ -14,6 +14,8 @@ class Player;
 class Portal;
 class Veil;
 class StateBar;
+class MenuButton;
+class PopupMenu;
 class ContentsLevel : public GameEngineLevel
 {
 protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
@@ -28,6 +30,8 @@ protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
     float4                 mf4MapSize;
     float4                 mf4WindowSize;
     StateBar*              mpStateBar;
+    MenuButton*            mpMenuButton;
+    PopupMenu*             mpPopupMenu;
 
 public:
     // constrcuter destructer

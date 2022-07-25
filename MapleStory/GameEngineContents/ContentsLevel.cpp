@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Portal.h"
 #include "Veil.h"
+#include "MenuButton.h"
+#include "PopupMenu.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -23,6 +25,8 @@ ContentsLevel::ContentsLevel()
     , mf4CameraPosition{}
     , mf4MapSize{}
     , mf4WindowSize{}
+    , mpMenuButton(nullptr)
+    , mpPopupMenu(nullptr)
 {
     mf4WindowSize = GameEngineWindow::GetScale();
 }

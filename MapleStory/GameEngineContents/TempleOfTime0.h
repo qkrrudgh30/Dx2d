@@ -3,10 +3,14 @@
 
 // Ό³Έν :
 class Temple0BackGround;
+class Temple0Tile;
+class Temple0Cloud;
 class TempleOfTime0 : public ContentsLevel
 {
 private:
-	Temple0BackGround* NewBackGround;
+	Temple0BackGround* mpBackGround;
+	Temple0Tile*       mpTile;
+	Temple0Cloud*      mpCloud;
 
 public:
 	// constrcuter destructer
@@ -20,8 +24,8 @@ public:
 	TempleOfTime0& operator=(TempleOfTime0&& _Other) noexcept = delete;
 
 protected:
-	void OnEvent() override;
 	void Start() override;
+	void OnEvent() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
 

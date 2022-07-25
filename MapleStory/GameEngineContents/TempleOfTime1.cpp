@@ -55,6 +55,8 @@ void TempleOfTime1::Start()
 
 void TempleOfTime1::Update(float _DeltaTime)
 {
+	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -489.f, OBJECTORDER::Character, 1.f });
+	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 2160.f, -480.f, OBJECTORDER::Character, 1.f });
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
 		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());

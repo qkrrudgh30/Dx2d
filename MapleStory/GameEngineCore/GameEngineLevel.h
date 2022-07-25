@@ -95,6 +95,7 @@ public:
 		return GetConvertToGroup<ObjectType>(static_cast<int>(_ObjectGroupIndex));
 	}
 
+
 	template<typename ObjectType>
 	std::list<ObjectType*> GetConvertToGroup(int _ObjectGroupIndex)
 	{

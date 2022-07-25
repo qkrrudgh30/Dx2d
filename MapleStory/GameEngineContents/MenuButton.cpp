@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "Menu.h"
+#include "MenuButton.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include <iostream>
 #include <GameEngineCore/GameEngineLevel.h>
@@ -14,31 +14,32 @@
 
 #include "PopupMenu.h"
 
-Menu::Menu() 
+MenuButton::MenuButton() 
 	: mpRenderer(nullptr)
 	, mbToggle(false)
+	, mpPopupMenu(nullptr)
 {
 }
 
-Menu::~Menu() 
+MenuButton::~MenuButton() 
 {
 }
 
-void Menu::Start()
+void MenuButton::Start()
 {
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-	mpRenderer->SetTexture("MenuButton.png");
 	mfHeight = 35.f;
 	mfWidth = GameEngineWindow::GetScale().x * 0.09125f;
 	mpRenderer->GetTransform().SetWorldScale(float4{ GameEngineWindow::GetScale().x * 0.09125f, 35.f, 1.f, 1.f });
-	mpRenderer->SetFrame(0);
+	mpRenderer->SetTexture("MenuButton.png", 0);
 
 	mpPopupMenu = GetLevel()->CreateActor<PopupMenu>();
+	mpPopupMenu->GetTransform().SetWorldPosition(float4{});
 }
 
-void Menu::Update(float _DeltaTime)
+void MenuButton::Update(float _DeltaTime)
 {
-	mf4MousePos = GetLevel()->GetMainCamera()->GetMouseWorldPositionToActor();
+	mf4MousePos = GetLevel()->GetMainCamera()->GetMouseWorldPosition();
 	if (mfPositionX - (mfWidth / 2) <= mf4MousePos.x && mf4MousePos.x <= mfPositionX + (mfWidth / 2)
 		&& mfPositionY - (mfHeight / 2) <= mf4MousePos.y && mf4MousePos.y <= mfPositionY + (mfHeight / 2))
 	{
@@ -55,5 +56,5 @@ void Menu::Update(float _DeltaTime)
 		mpRenderer->SetFrame(0);
 	}
 
-	// GameEngineDebug::OutPutString(std::to_string(mf4MousePos.x) + "  " + std::to_string(mf4MousePos.y) + " " + std::to_string(mfPositionX) + " " + std::to_string(mfPositionY));
+	GameEngineDebug::OutPutString(std::to_string(mf4MousePos.x) + "  " + std::to_string(mf4MousePos.y) + " " + std::to_string(mfPositionX) + " " + std::to_string(mfPositionY));
 }

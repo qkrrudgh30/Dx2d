@@ -198,7 +198,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="MenuButton.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -356,7 +356,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
+    <ClCompile Include="MenuButton.cpp">
       <SubType>
       </SubType>
     </ClCompile>

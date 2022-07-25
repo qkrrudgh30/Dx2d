@@ -3,7 +3,7 @@
 
 // Ό³Έν :
 class GameEngineTextureRenderer;
-class Menu;
+class MenuButton;
 class StateBar : public GameEngineActor
 {
 private:
@@ -14,7 +14,7 @@ private:
 	GameEngineTextureRenderer* mpCashShopButtonRenderer;
 	GameEngineTextureRenderer* mpShortCutButtonRenderer;
 	float4                     mf4CameraPos;
-	Menu* mpMenu;
+	MenuButton*                mpMenuButton;
 
 public:
 	// constrcuter destructer

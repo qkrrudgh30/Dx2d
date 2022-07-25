@@ -45,7 +45,7 @@ void Player::Update(float _DeltaTime)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
 		mpRenderer->ChangeFrameAnimation("CharacterWalk");
-		this->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed * _DeltaTime);
+		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed * _DeltaTime);
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))

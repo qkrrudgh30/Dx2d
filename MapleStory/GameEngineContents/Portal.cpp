@@ -35,12 +35,7 @@ void Portal::Start()
 
 void Portal::Update(float _DeltaTime)
 {
-    GetTransform().SetWorldPosition(float4{ 2000.f, -132.f, OBJECTORDER::UI, 1.f });
-	/*
-	float4 pos = GetTransform().GetWorldPosition();
-	pos.z = OBJECTORDER::Character;
-	mpRenderer->GetTransform().SetWorldPosition(pos);
-	*/
+    
 }
 
 void Portal::End()

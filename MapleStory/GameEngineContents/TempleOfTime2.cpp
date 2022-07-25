@@ -53,9 +53,9 @@ void TempleOfTime2::Start()
 	mpPlayer->GetTransform().SetWorldPosition(MapHalfSize);
 	
 	mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
-	mpPortalToPrevious->GetTransform().SetWorldMove(float4{ 165.f, -533.f, 1.f, 1.f });
+	
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::UI);
-	mpPortalToNext->GetTransform().SetWorldMove(float4{ 1860.f, -533.f, 1.f, 1.f });
+	
 
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
 	MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::Alpha, 1.f };
@@ -64,6 +64,8 @@ void TempleOfTime2::Start()
 
 void TempleOfTime2::Update(float _DeltaTime)
 {
+	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -533.f, OBJECTORDER::Character, 1.f });
+	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 1860.f, -533.f, OBJECTORDER::Character, 1.f });
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
 		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());

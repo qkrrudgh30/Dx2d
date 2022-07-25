@@ -4,7 +4,7 @@
 // Ό³Έν :
 class GameEngineTextureRenderer;
 class PopupMenu;
-class Menu : public GameEngineActor
+class MenuButton : public GameEngineActor
 {
 public:
 	GameEngineTextureRenderer* mpRenderer;
@@ -16,17 +16,18 @@ public:
 	float4                     mf4MousePos;
 	PopupMenu*                 mpPopupMenu;
 	bool                       mbToggle;
+	
 
 public:
 	// constrcuter destructer
-	Menu();
-	~Menu();
+	MenuButton();
+	~MenuButton();
 
 	// delete Function
-	Menu(const Menu& _Other) = delete;
-	Menu(Menu&& _Other) noexcept = delete;
-	Menu& operator=(const Menu& _Other) = delete;
-	Menu& operator=(Menu&& _Other) noexcept = delete;
+	MenuButton(const MenuButton& _Other) = delete;
+	MenuButton(MenuButton&& _Other) noexcept = delete;
+	MenuButton& operator=(const MenuButton& _Other) = delete;
+	MenuButton& operator=(MenuButton&& _Other) noexcept = delete;
 
 	float GetPositionX() { return mfPositionX; }
 	float GetPositionY() { return mfPositionY; }

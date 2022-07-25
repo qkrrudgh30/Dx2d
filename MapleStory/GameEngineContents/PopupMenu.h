@@ -18,6 +18,7 @@ private:
 	POINT                      mptMousePos;
 	float4                     mf4MousePos;
 	bool                       mbVisible;
+	float4                     mf4CameraPos;
 
 public:
 	// constrcuter destructer

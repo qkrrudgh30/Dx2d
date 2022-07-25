@@ -40,7 +40,7 @@ void PopupMenu::Update(float _DeltaTime)
 	{
 		mpRenderer->GetTransform().SetWorldScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 	}
-
-	mpRenderer->GetTransform().SetWorldPosition(float4{ GameEngineWindow::GetScale().x / 2.f, GameEngineWindow::GetScale().y / 2.f, 1.f, 1.f });
+	mf4CameraPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
+	mpRenderer->GetTransform().SetWorldPosition(float4{ GameEngineWindow::GetScale().x * 0.09125f + mf4CameraPos.x + 350.f, mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f + 100.f, 1.f, 1.f });
 	// GameEngineDebug::OutPutString(std::to_string(mpRenderer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpRenderer->GetTransform().GetLocalPosition().y));
 }

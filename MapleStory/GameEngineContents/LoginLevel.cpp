@@ -62,7 +62,9 @@ void LoginLevel::Update(float _DeltaTime)
         GEngine::ChangeLevel("TempleOfTime0");
     }
 
-    GameEngineDebug::OutPutString(std::to_string(GetMainCamera()->GetScreenPosition().x) + "  " + std::to_string(GetMainCamera()->GetScreenPosition().y));
+    
+
+    // GameEngineDebug::OutPutString(std::to_string(GetMainCamera()->GetScreenPosition().x) + "  " + std::to_string(GetMainCamera()->GetScreenPosition().y));
 }
 
 void LoginLevel::End()

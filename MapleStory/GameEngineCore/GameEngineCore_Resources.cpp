@@ -70,7 +70,6 @@ void EngineSubSetting()
 		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
-
 		GameEngineBlend::Create("AlphaBlend", Desc);
 	}
 

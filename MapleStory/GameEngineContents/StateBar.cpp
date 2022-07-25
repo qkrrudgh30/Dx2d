@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "StateBar.h"
-#include "Menu.h"
+#include "MenuButton.h"
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <GameEngineCore/GameEngineRenderingPipeLine.h>
@@ -45,7 +45,7 @@ void StateBar::Start()
 	mpShortCutButtonRenderer->SetTexture("ShortCutButton.png");
 	mpShortCutButtonRenderer->GetTransform().SetWorldScale(float4{ GameEngineWindow::GetScale().x * 0.09125f, 35.f, 1.f, 1.f });
 
-	mpMenu = GetLevel()->CreateActor<Menu>();
+	mpMenuButton = GetLevel()->CreateActor<MenuButton>();
 }
 
 void StateBar::Update(float _DeltaTime)
@@ -57,8 +57,8 @@ void StateBar::Update(float _DeltaTime)
 	mpGaugeBarRenderer->GetTransform().SetWorldPosition(float4{ mf4CameraPos.x - 23.f, mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 20.f, 1.f, 1.f });
 	mpCashShopButtonRenderer->GetTransform().SetWorldPosition(float4{ mf4CameraPos.x + 350.f, mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f, 1.f, 1.f });
 	mpShortCutButtonRenderer->GetTransform().SetWorldPosition(float4{ GameEngineWindow::GetScale().x * 0.09125f * 1.95f + mf4CameraPos.x + 350.f, mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f, 1.f, 1.f });
-	mpMenu->GetTransform().SetWorldPosition(float4{ GameEngineWindow::GetScale().x * 0.09125f + mf4CameraPos.x + 350.f, mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f, 1.f, 1.f });
-	mpMenu->SetPositionX(GameEngineWindow::GetScale().x * 0.09125f + mf4CameraPos.x + 350.f);
-	mpMenu->SetPositionY(mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f);
+	mpMenuButton->GetTransform().SetWorldPosition(float4{ GameEngineWindow::GetScale().x * 0.09125f + mf4CameraPos.x + 350.f, mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f, 1.f, 1.f });
+	mpMenuButton->SetPositionX(GameEngineWindow::GetScale().x * 0.09125f + mf4CameraPos.x + 350.f);
+	mpMenuButton->SetPositionY(mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f);
 }
 
