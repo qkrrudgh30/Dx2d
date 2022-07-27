@@ -39,6 +39,7 @@ void ContentsLevel::LimitCameraMoving(float4 _f4MapSize)
 {
     if (nullptr == mpCamera) { return; }
 
+
     mf4CameraPosition = mpCamera->GetTransform().GetLocalPosition();
     float4 f4NextCameraPosition = mpCamera->GetTransform().GetLocalPosition();
     if (mf4CameraPosition.x <= (mf4WindowSize.x / 2.f) + 10.f)

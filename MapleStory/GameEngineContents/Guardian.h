@@ -1,9 +1,7 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "ContentsActor.h"
 
-// Ό³Έν :
-class GameEngineTextureRenderer;
-class Guardian : public GameEngineActor
+class Guardian : public ContentsActor
 {
 public:
 	// constrcuter destructer
@@ -16,19 +14,10 @@ public:
 	Guardian& operator=(const Guardian& _Other) = delete;
 	Guardian& operator=(Guardian&& _Other) noexcept = delete;
 
-	GameEngineTextureRenderer* GetRenderer() { return mpRenderer; }
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
-
-private:
-	GameEngineTextureRenderer* mpRenderer;
-	float                      mfWidth;
-	float                      mfHeight;
-	float                      mfPositionX;
-	float                      mfPositionY;
 
 };
 

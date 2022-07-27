@@ -21,9 +21,6 @@ GameEngineCamera::GameEngineCamera()
 	ViewPortDesc.MinDepth = 0.0f;
 	ViewPortDesc.MaxDepth = 1.0f;
 
-
-	// NPC 배경 캐릭터
-	//  1   100 20
 	
 }
 
@@ -84,9 +81,14 @@ void GameEngineCamera::Render(float _DeltaTime)
 	}
 }
 
+void GameEngineCamera::SetCameraOrder(CAMERAORDER _Order)
+{
+	GetActor()->GetLevel()->PushCamera(this, _Order);
+}
+
 void GameEngineCamera::Start()
 {
-	GetActor()->GetLevel()->PushCamera(this);
+	// GetActor()->GetLevel()->PushCamera(this);
 }
 
 void GameEngineCamera::PushRenderer(GameEngineRenderer* _Renderer)
@@ -121,16 +123,7 @@ void GameEngineCamera::Release(float _DelataTime)
 	}
 }
 
-void GameEngineCamera::Update(float _DeltaTime)
-{
-	float4 MousePos = GetMouseWorldPosition();
-	MousePos.w = 0.0f;
-	MouseDir = MousePos - PrevMouse;
-	PrevMouse = MousePos;
-}
-
-// 스크린 상의 좌표
-float4 GameEngineCamera::GetScreenPosition()     
+float4 GameEngineCamera::GetScreenPosition() 
 {
 	POINT P;
 
@@ -138,10 +131,18 @@ float4 GameEngineCamera::GetScreenPosition()
 
 	ScreenToClient(GameEngineWindow::GetHWND(), &P);
 
-	return { static_cast<float>(P.x), static_cast<float>(P.y) };  
+	return { static_cast<float>(P.x), static_cast<float>(P.y) };
 }
 
-// 뷰 공간 상의 좌표
+void GameEngineCamera::Update(float _DeltaTime) 
+{
+	float4 MousePos = GetMouseWorldPosition();
+	MousePos.w = 0.0f;
+	MouseDir = MousePos - PrevMouse;
+	PrevMouse = MousePos;
+}
+
+// 뷰포트에 있는거죠?
 float4 GameEngineCamera::GetMouseWorldPosition()
 {
 	float4 Pos = GetScreenPosition();
@@ -151,19 +152,18 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 	ViewPort.Inverse();
 
 	float4x4 ProjectionInvers = Projection.InverseReturn();
-	float4x4 ViewInvers = View.InverseReturn();
+	float4x4 viewInvers = View.InverseReturn();
 
 	Pos = Pos * ViewPort;
 	Pos = Pos * ProjectionInvers;
-	Pos = Pos * ViewInvers;
+	Pos = Pos * viewInvers;
+	// 마우스는 뷰포트의 좌표다?
 
 	return Pos;
 }
 
-// ??????????????????????
+
 float4 GameEngineCamera::GetMouseWorldPositionToActor()
 {
-	//             카메라의 월드 좌표         + 마우스의 뷰공간 상의 좌표?  == 마우스의 월드 공간 상의 좌표?
 	return GetTransform().GetWorldPosition() + GetMouseWorldPosition();
 }
-

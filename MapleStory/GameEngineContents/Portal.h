@@ -1,17 +1,9 @@
 #pragma once
-#include <GameEngineCore/CoreMinimal.h>
+#include "ContentsActor.h"
 
 // Ό³Έν :
-class GameEngineTextureRenderer;
-class Portal : public GameEngineActor
+class Portal : public ContentsActor
 {
-	friend class ContentsLevel;
-
-private :
-	GameEngineTextureRenderer* mpRenderer;
-	float                      mfWidth;
-	float                      mfHeight;
-
 public:
 	// constrcuter destructer
 	Portal();

@@ -10,13 +10,11 @@ public:
 	GameEngineTextureRenderer* mpRenderer;
 	float                      mfWidth;
 	float                      mfHeight;
-	float                      mfPositionX;
-	float                      mfPositionY;
 	POINT                      mptMousePos;
 	float4                     mf4MousePos;
+	float4                     mf4ButtonPos;
 	PopupMenu*                 mpPopupMenu;
 	bool                       mbToggle;
-	
 
 public:
 	// constrcuter destructer
@@ -28,12 +26,6 @@ public:
 	MenuButton(MenuButton&& _Other) noexcept = delete;
 	MenuButton& operator=(const MenuButton& _Other) = delete;
 	MenuButton& operator=(MenuButton&& _Other) noexcept = delete;
-
-	float GetPositionX() { return mfPositionX; }
-	float GetPositionY() { return mfPositionY; }
-
-	void SetPositionX(float _fPositionX) { mfPositionX = _fPositionX; }
-	void SetPositionY(float _fPositionY) { mfPositionY = _fPositionY; }
 
 protected:
 	void Start() override;

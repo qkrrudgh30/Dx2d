@@ -1,16 +1,16 @@
 #pragma once
 #include "Player.h"
-#include "Monster.h"
 
 enum OBJECTORDER
 {
+	UIGaugeBG = -300,
+	UIGauge = -350,
+	UIBackBoard = -200,
+	UIBackGround = -100,
 	Alpha = 1,
-	UI = 2,
-	Character = 3,
-	Mob = 4,
-	Cloud = 5,
-	Tile = 6,
-	BackGround = 7,
+	Mob = 3,
+	Character = 4,
+	UI = 5,
 };
 
 // Ό³Έν :
@@ -24,7 +24,7 @@ public:
 	class Actors 
 	{
 	public:
-		static Monster* TestMonster;
+		// static Monster* TestMonster;
 
 	private:
 		Actors() {		}

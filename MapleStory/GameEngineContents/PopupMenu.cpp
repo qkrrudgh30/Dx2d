@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineConstantBuffer.h>
 #include <GameEngineCore/GameEngineDevice.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
+#include <GameEngineCore/GameEngineUIRenderer.h>
 #include <GameEngineCore/GameEngineCamera.h>
 
 PopupMenu::PopupMenu() 
@@ -23,11 +24,13 @@ PopupMenu::~PopupMenu()
 
 void PopupMenu::Start()
 {
-	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
+	mpRenderer = CreateComponent<GameEngineUIRenderer>();
 	mpRenderer->SetTexture("PopupMenuBackGround.png");
 	mfWidth = GameEngineWindow::GetScale().x * 0.11625f;
 	mfHeight = 167.f;
-	mpRenderer->GetTransform().SetWorldScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
+	mpRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
+	mpRenderer->GetTransform().SetLocalPosition(float4{ 452.f, -GameEngineWindow::GetScale().y / 2.f + 35.f, OBJECTORDER::UIBackBoard, 1.f });
+	// mpRenderer->GetTransform().SetLocalPosition(float4{ 452.f, -GameEngineWindow::GetScale().y / 2.f + 35.f, 1.f, 1.f });
 }
 
 void PopupMenu::Update(float _DeltaTime)

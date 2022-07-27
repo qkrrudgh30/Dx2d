@@ -31,8 +31,14 @@
     <Filter Include="02_Actors\Temple3">
       <UniqueIdentifier>{1b2902f8-ed44-4c74-aa83-ccf8d9a64bc5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Actors\Global\UI">
+    <Filter Include="03_Component">
+      <UniqueIdentifier>{ffb3a982-5f22-4629-80f4-5dd10497f708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Global\MasterUI">
       <UniqueIdentifier>{60d8e956-c308-44af-b6ab-b6dce798a2e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\Global\MasterUI\StateBar">
+      <UniqueIdentifier>{32cbabd9-9ddc-4729-be74-0fae629d2a19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,9 +65,6 @@
       <Filter>01_Levels</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>02_Actors\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
       <Filter>02_Actors\Global</Filter>
     </ClInclude>
     <ClInclude Include="Enums.h">
@@ -127,23 +130,8 @@
     <ClInclude Include="ContentsLevel.h">
       <Filter>01_Levels</Filter>
     </ClInclude>
-    <ClInclude Include="Veil.h">
-      <Filter>02_Actors\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="StateBar.h">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuButton.h">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="PopupMenu.h">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ExitButtonOnMenu.h">
-      <Filter>02_Actors\Global\UI</Filter>
+      <Filter>02_Actors\Global\MasterUI</Filter>
     </ClInclude>
     <ClInclude Include="Temple0MonsterSpawn.h">
       <Filter>02_Actors\Temple0</Filter>
@@ -153,6 +141,51 @@
     </ClInclude>
     <ClInclude Include="Temple3Monster.h">
       <Filter>02_Actors\Temple3</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsActor.h">
+      <Filter>02_Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Veil.h">
+      <Filter>02_Actors\Global\MasterUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple0PixelCollisionMap.h">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple1PixelCollisionMap.h">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple2PixelCollisionMap.h">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClInclude>
+    <ClInclude Include="Temple3PixelCollisionMap.h">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelCollisionMap.h">
+      <Filter>02_Actors\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>03_Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitButtonOnMenu.h">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="PopupMenu.h">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="StateBar.h">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="HPGauge.h">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="MPGauge.h">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="EXPGauge.h">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +212,6 @@
       <Filter>01_Levels</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>02_Actors\Global</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
       <Filter>02_Actors\Global</Filter>
     </ClCompile>
     <ClCompile Include="LoginBackground.cpp">
@@ -244,23 +274,8 @@
     <ClCompile Include="ContentsLevel.cpp">
       <Filter>01_Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Veil.cpp">
-      <Filter>02_Actors\Global</Filter>
-    </ClCompile>
-    <ClCompile Include="StateBar.cpp">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuButton.cpp">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="PopupMenu.cpp">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>02_Actors\Global\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="ExitButtonOnMenu.cpp">
-      <Filter>02_Actors\Global\UI</Filter>
+      <Filter>02_Actors\Global\MasterUI</Filter>
     </ClCompile>
     <ClCompile Include="Temple0MonsterSpawn.cpp">
       <Filter>02_Actors\Temple0</Filter>
@@ -270,6 +285,51 @@
     </ClCompile>
     <ClCompile Include="Temple3Monster.cpp">
       <Filter>02_Actors\Temple3</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsActor.cpp">
+      <Filter>02_Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Veil.cpp">
+      <Filter>02_Actors\Global\MasterUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple0PixelCollisionMap.cpp">
+      <Filter>02_Actors\Temple0</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple1PixelCollisionMap.cpp">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple2PixelCollisionMap.cpp">
+      <Filter>02_Actors\Temple2</Filter>
+    </ClCompile>
+    <ClCompile Include="Temple3PixelCollisionMap.cpp">
+      <Filter>02_Actors\Temple3</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelCollisionMap.cpp">
+      <Filter>02_Actors\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>03_Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitButtonOnMenu.cpp">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupMenu.cpp">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="StateBar.cpp">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="HPGauge.cpp">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="MPGauge.cpp">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="EXPGauge.cpp">
+      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

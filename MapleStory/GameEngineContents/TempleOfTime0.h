@@ -8,9 +8,9 @@ class Temple0Cloud;
 class TempleOfTime0 : public ContentsLevel
 {
 private:
-	Temple0BackGround* mpBackGround;
-	Temple0Tile*       mpTile;
-	Temple0Cloud*      mpCloud;
+	Temple0BackGround*        mpBackGround;
+	Temple0Tile*              mpTile;
+	Temple0Cloud*             mpCloud;
 
 public:
 	// constrcuter destructer

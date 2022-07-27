@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Monster.h"
+#include "ContentsActor.h"
 
 // Ό³Έν :
-class Temple2Monster : public Monster
+class Temple2Monster : public ContentsActor
 {
 public:
 	// constrcuter destructer
@@ -15,7 +15,6 @@ public:
 	Temple2Monster(Temple2Monster&& _Other) noexcept = delete;
 	Temple2Monster& operator=(const Temple2Monster& _Other) = delete;
 	Temple2Monster& operator=(Temple2Monster&& _Other) noexcept = delete;
-
 
 protected:
 	void Start() override;

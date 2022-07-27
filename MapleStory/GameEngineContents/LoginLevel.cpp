@@ -40,7 +40,7 @@ void LoginLevel::Start()
     actor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
     actor->GetTransform().SetWorldPosition({ 0.0f, 0.0f, -500.0f });
     
-    mpLoginBackground = CreateActor<LoginBackground>(OBJECTORDER::BackGround);
+    mpLoginBackground = CreateActor<LoginBackground>(OBJECTORDER::UI);
     mpLoginButton = CreateActor<LoginButton>(OBJECTORDER::UI);
     mpExitButton = CreateActor<ExitButton>(OBJECTORDER::UI);
 

@@ -161,12 +161,20 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentsCore.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Enums.h" />
     <ClInclude Include="ExitButtonOnMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EXPGauge.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -179,6 +187,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HPGauge.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -206,7 +218,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Monster.h">
+    <ClInclude Include="MPGauge.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PixelCollisionMap.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -226,6 +242,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="StateBar.h">
       <SubType>
       </SubType>
@@ -242,6 +262,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Temple0PixelCollisionMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Temple0Tile.h">
       <SubType>
       </SubType>
@@ -251,6 +275,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Temple1Cloud.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Temple1PixelCollisionMap.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -267,6 +295,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Temple2Cloud.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Temple2PixelCollisionMap.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -287,6 +319,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Temple3Cloud.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Temple3PixelCollisionMap.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -320,11 +356,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsCore.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="ExitButtonOnMenu.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EXPGauge.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -337,6 +381,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentsLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="HPGauge.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -364,7 +412,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="MPGauge.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PixelCollisionMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -386,6 +438,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="StateBar.cpp">
       <SubType>
       </SubType>
@@ -402,6 +458,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Temple0PixelCollisionMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Temple0Tile.cpp">
       <SubType>
       </SubType>
@@ -411,6 +471,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Temple1Cloud.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Temple1PixelCollisionMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -427,6 +491,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Temple2Cloud.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Temple2PixelCollisionMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -447,6 +515,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Temple3Cloud.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Temple3PixelCollisionMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>

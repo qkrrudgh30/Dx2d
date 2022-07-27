@@ -138,6 +138,11 @@ public:
 		return Return;
 	}
 
+	static float4 ABS3DReturn(const float4& _Postion) 
+	{
+		return _Postion.ABS3DReturn();
+	}
+
 	static float VectorXYtoDegree(const float4& _Postion, const float4& _Target)
 	{
 		return VectorXYtoRadian(_Postion, _Target) * GameEngineMath::RadianToDegree;
@@ -339,6 +344,22 @@ public:
 		return POINT(ix(), iy());
 	}
 
+
+	float hx() const
+	{
+		return x * 0.5f;
+	}
+
+	float hy() const
+	{
+		return y * 0.5f;
+	}
+
+	float hz() const
+	{
+		return z * 0.5f;
+	}
+
 	int hix() const
 	{
 		return static_cast<int>(x * 0.5f);
@@ -357,6 +378,11 @@ public:
 	float4 Half() const
 	{
 		return { x * 0.5f, y * 0.5f , z * 0.5f, 1.0f };
+	}
+
+	float4 ABS3DReturn() const
+	{
+		return float4(fabsf(x), fabsf(y), fabsf(z));
 	}
 
 	float Length() const
@@ -511,6 +537,15 @@ public:
 			iy() == _Value.iy() &&
 			iz() == _Value.iz();
 	}
+
+	bool CompareInt4D(const float4& _Value) const
+	{
+		return ix() == _Value.ix() &&
+			iy() == _Value.iy() &&
+			iz() == _Value.iz() &&
+			iw() == _Value.iw();
+	}
+
 
 	float4 RotationToDegreeZ(float _Degree)
 	{

@@ -20,7 +20,7 @@ LoginBackground::~LoginBackground()
 
 void LoginBackground::Start()
 {
-	GetTransform().SetWorldPosition(float4{0.f, 0.f, OBJECTORDER::BackGround, 1.f});
+	GetTransform().SetWorldPosition(float4{0.f, 0.f, OBJECTORDER::UI, 1.f});
 	
 	mfWidth = GameEngineWindow::GetScale().x;
 	mfHeight = GameEngineWindow::GetScale().y;

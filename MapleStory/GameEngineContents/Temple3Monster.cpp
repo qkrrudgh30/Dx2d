@@ -1,15 +1,5 @@
 #include "PreCompile.h"
 #include "Temple3Monster.h"
-#include <GameEngineBase/GameEngineInput.h>
-#include <iostream>
-#include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineContents/GlobalContentsValue.h>
-#include <GameEngineCore/GameEngineDefaultRenderer.h>
-#include <GameEngineCore/GameEngineRenderingPipeLine.h>
-#include <GameEngineCore/GameEngineVertexShader.h>
-#include <GameEngineCore/GameEngineConstantBuffer.h>
-#include <GameEngineCore/GameEngineDevice.h>
-#include <GameEngineCore/GameEngineTextureRenderer.h>
 
 Temple3Monster::Temple3Monster() 
 {
@@ -32,6 +22,7 @@ void Temple3Monster::Start()
 	mpRenderer->CreateFrameAnimation("Temple3MonsterAttack1", FrameAnimation_DESC("Temple3MonsterAttack1.png", 0, 16, 0.5f));
 	mpRenderer->CreateFrameAnimation("Temple3MonsterAttack2", FrameAnimation_DESC("Temple3MonsterAttack2.png", 0, 16, 0.5f));
 	mpRenderer->CreateFrameAnimation("Temple3MonsterHitted", FrameAnimation_DESC("Temple3MonsterHitted.png", 0, 0, 0.2f));
+	mpRenderer->SetPivot(PIVOTMODE::BOT);
 }
 
 void Temple3Monster::Update(float _DeltaTime)

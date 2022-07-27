@@ -2,13 +2,14 @@
 #include "TempleOfTime2.h"
 #include "GlobalContentsValue.h"
 #include "Player.h"
-#include "Monster.h"
 #include "Temple2BackGround.h"
 #include "Temple2Tile.h"
 #include "Temple2Cloud.h"
+#include "PixelCollisionMap.h"
 #include "Portal.h"
 #include "Veil.h"
 #include "Temple2Monster.h"
+#include "StateBar.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -29,43 +30,44 @@ void TempleOfTime2::OnEvent()
 
 void TempleOfTime2::Start()
 {
-	mpCamera = CreateActor<GameEngineCameraActor>();
+	mpCamera = GetMainCameraActor();
 	mpCamera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 	mpCamera->GetTransform().SetWorldPosition({ 0.0f, 0.0f, -500.0f });
+	// GetMainCameraActor()->FreeCameraModeOnOff();
 
-	Temple2BackGround* NewBackGround = CreateActor<Temple2BackGround>(OBJECTORDER::BackGround);
-	Temple2Tile* NewTile = CreateActor<Temple2Tile>(OBJECTORDER::Tile);
-	Temple2Cloud* NewCloud = CreateActor<Temple2Cloud>(OBJECTORDER::Cloud);
 	SetMapSize(float4{ 1982.f, 846.f });
-	
-	float4 MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::BackGround, 1.f };
-	NewBackGround->GetTransform().SetWorldPosition(MapHalfSize);
-	MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::Tile, 1.f };
-	NewTile->GetTransform().SetWorldPosition(MapHalfSize);
-	MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::Cloud, 1.f };
-	NewCloud->GetTransform().SetWorldPosition(MapHalfSize);
-	
-	MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::Mob, 1.f };
-	Temple2Monster* mpMonster = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
+	mpBackGround = CreateActor<Temple2BackGround>(OBJECTORDER::UI);
+	mpTile = CreateActor<Temple2Tile>(OBJECTORDER::UI);
+	mpCloud = CreateActor<Temple2Cloud>(OBJECTORDER::UI);
+	mpPCMap = CreateActor<PixelCollisionMap>(OBJECTORDER::UI);
+	mpPCMap->SetInfo("Temple2TileP.png");
 
+	float4 CenterPointOfMap = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), 0.f, 0.f };
+	mpBackGround->GetTransform().SetWorldMove(CenterPointOfMap);
+	mpTile->GetTransform().SetWorldMove(CenterPointOfMap);
+	mpCloud->GetTransform().SetWorldMove(CenterPointOfMap);
+	mpPCMap->GetTransform().SetWorldMove(CenterPointOfMap);
+	
 	mpPlayer = CreateActor<Player>(OBJECTORDER::Character);
-	MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::Character, 1.f };
-	mpPlayer->GetTransform().SetWorldPosition(MapHalfSize);
+	float4 StartPoint = float4{ 165.f, -660.f, 0.f, 0.f };
+	mpPlayer->GetTransform().SetWorldMove(StartPoint);
 	
+	Temple2Monster* mpMonster = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
+	StartPoint.x += 200.f;
+	mpMonster->GetTransform().SetWorldMove(StartPoint);
+
 	mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
-	
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::UI);
-	
+
+	mpStateBar = CreateActor<StateBar>(OBJECTORDER::UI);
 
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
-	MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::Alpha, 1.f };
-	mpVeil->GetTransform().SetWorldPosition(MapHalfSize);
 }
 
 void TempleOfTime2::Update(float _DeltaTime)
 {
-	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -533.f, OBJECTORDER::Character, 1.f });
-	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 1860.f, -533.f, OBJECTORDER::Character, 1.f });
+	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -660.f, OBJECTORDER::Character, 1.f });
+	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 1860.f, -660.f, OBJECTORDER::Character, 1.f });
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
 		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
@@ -121,6 +123,11 @@ void TempleOfTime2::Update(float _DeltaTime)
 		{
 			GEngine::ChangeLevel("TempleOfTime3");
 		}
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("PCMapOnOffToggle"))
+	{
+		mpPCMap->GetRenderer()->OnOffSwitch();
 	}
 
 	// GameEngineDebug::OutPutString(std::to_string(mpPlayer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpPlayer->GetTransform().GetLocalPosition().y));

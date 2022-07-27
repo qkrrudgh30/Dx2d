@@ -41,6 +41,7 @@ void ContentsCore::Start()
     CutAtlasTexture();
 
     CreateLevels();
+    GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
     CreateRenderingPipeline();
 }
@@ -90,11 +91,12 @@ void ContentsCore::CreateKeys()
 {
     if (false == GameEngineInput::GetInst()->IsKey("CamLeft"))
     {
-        GameEngineInput::GetInst()->CreateKey("CamOnOffToggle", VK_INSERT);
         GameEngineInput::GetInst()->CreateKey("CamLeft", VK_DELETE);
         GameEngineInput::GetInst()->CreateKey("CamRight", VK_NEXT);
         GameEngineInput::GetInst()->CreateKey("CamUp", VK_HOME);
         GameEngineInput::GetInst()->CreateKey("CamDown", VK_END);
+        GameEngineInput::GetInst()->CreateKey("CamOnOffToggle", VK_F1);
+        GameEngineInput::GetInst()->CreateKey("PCMapOnOffToggle", VK_F2);
     }
 
     if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
@@ -149,8 +151,6 @@ void ContentsCore::LoadCharacterTextures()
     {
         GameEngineTexture::Load(Textures[i].GetFullPath());
     }
-
-
 }
 
 void ContentsCore::LoadItemTextures()
@@ -261,19 +261,13 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("CharacterAlert.png", 5, 1);
     GameEngineTexture::Cut("CharacterJump.png", 1, 1);
     GameEngineTexture::Cut("CharacterLadder.png", 2, 1);
-    GameEngineTexture::Cut("CharacterProne.png", 1, 1);
-    GameEngineTexture::Cut("CharacterproneStab.png", 2, 1);
-    GameEngineTexture::Cut("CharacterRope.png", 2, 1);
-    GameEngineTexture::Cut("CharacterSit.png", 1, 1);
-    GameEngineTexture::Cut("CharacterStabT1.png", 3, 1);
-    GameEngineTexture::Cut("CharacterStabT2.png", 3, 1);
-    GameEngineTexture::Cut("CharacterStabTF.png", 4, 1);
+    GameEngineTexture::Cut("CharacterStab.png", 3, 1);
+    GameEngineTexture::Cut("CharacterStabF.png", 4, 1);
     GameEngineTexture::Cut("CharacterStand.png", 5, 1);
-    GameEngineTexture::Cut("CharacterSwingP1.png", 3, 1);
-    GameEngineTexture::Cut("CharacterSwingP2.png", 3, 1);
-    GameEngineTexture::Cut("CharacterSwingPF.png", 4, 1);
+    GameEngineTexture::Cut("CharacterSwing.png", 3, 1);
+    GameEngineTexture::Cut("CharacterSwingF.png", 4, 1);
     GameEngineTexture::Cut("CharacterWalk.png", 6, 1);
-    GameEngineTexture::Cut("CharacterDead.png", 4, 1);
+    GameEngineTexture::Cut("CharacterDead.png", 1, 1);
     GameEngineTexture::Cut("FallTomb.png", 4, 1);
 
     /* Item */
@@ -294,18 +288,22 @@ void ContentsCore::CutAtlasTexture()
 
     GameEngineTexture::Cut("Temple0BackGround.png", 1, 1);
     GameEngineTexture::Cut("Temple0Tile.png", 1, 1);
+    GameEngineTexture::Cut("Temple0TileP.png", 1, 1);
     GameEngineTexture::Cut("Temple0Cloud.png", 1, 1);
 
     GameEngineTexture::Cut("Temple1BackGround.png", 1, 1);
     GameEngineTexture::Cut("Temple1Tile.png", 1, 1);
+    GameEngineTexture::Cut("Temple1TileP.png", 1, 1);
     GameEngineTexture::Cut("Temple1Cloud.png", 1, 1);
 
     GameEngineTexture::Cut("Temple2BackGround.png", 1, 1);
     GameEngineTexture::Cut("Temple2Tile.png", 1, 1);
+    GameEngineTexture::Cut("Temple2TileP.png", 1, 1);
     GameEngineTexture::Cut("Temple2Cloud.png", 1, 1);
 
     GameEngineTexture::Cut("Temple3BackGround.png", 1, 1);
     GameEngineTexture::Cut("Temple3Tile.png", 1, 1);
+    GameEngineTexture::Cut("Temple3TileP.png", 1, 1);
     GameEngineTexture::Cut("Temple3Cloud.png", 1, 1);
     GameEngineTexture::Cut("Portal.png", 8, 1);
     GameEngineTexture::Cut("Veil.png", 8, 1);

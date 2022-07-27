@@ -5,15 +5,7 @@
 #include "PreCompile.h"
 #include "Merchandiser.h"
 
-#include <GameEngineBase/GameEngineWindow.h>
-#include <GameEngineCore/GameEngineTextureRenderer.h>
-
 Merchandiser::Merchandiser()
-    : mpRenderer(nullptr)
-    , mfWidth(0)
-    , mfHeight(0)
-    , mfPositionX(0)
-    , mfPositionY(0)
 {
 }
 

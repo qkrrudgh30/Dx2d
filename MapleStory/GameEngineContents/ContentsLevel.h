@@ -16,6 +16,7 @@ class Veil;
 class StateBar;
 class MenuButton;
 class PopupMenu;
+class PixelCollisionMap;
 class ContentsLevel : public GameEngineLevel
 {
 protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
@@ -32,6 +33,7 @@ protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
     StateBar*              mpStateBar;
     MenuButton*            mpMenuButton;
     PopupMenu*             mpPopupMenu;
+    PixelCollisionMap*     mpPCMap;
 
 public:
     // constrcuter destructer
@@ -53,6 +55,9 @@ public:
     {
         return mf4MapSize;
     }
+
+    void SetPCMap(PixelCollisionMap* _pPCMap) { mpPCMap = _pPCMap; }
+    PixelCollisionMap* GetPCMap() { return mpPCMap; }
 
 protected:
     void LimitCameraMoving(float4 _f4MapSize);

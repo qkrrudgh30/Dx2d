@@ -5,15 +5,7 @@
 #include "PreCompile.h"
 #include "Guardian.h"
 
-#include <GameEngineBase/GameEngineWindow.h>
-#include <GameEngineCore/GameEngineTextureRenderer.h>
-
 Guardian::Guardian()
-    : mpRenderer(nullptr)
-    , mfWidth(0)
-    , mfHeight(0)
-    , mfPositionX(0)
-    , mfPositionY(0)
 {
 }
 

@@ -2,8 +2,17 @@
 #include "ContentsLevel.h"
 
 // Ό³Έν :
+class Temple3BackGround;
+class Temple3Tile;
+class Temple3Cloud;
+class Temple3PixelCollisionMap;
 class TempleOfTime3 : public ContentsLevel
 {
+private:
+	Temple3BackGround* mpBackGround;
+	Temple3Tile* mpTile;
+	Temple3Cloud* mpCloud;
+
 public:
 	// constrcuter destructer
 	TempleOfTime3();
