@@ -15,6 +15,7 @@ ContentsActor::ContentsActor()
 	, mfWidth(0.f)
 	, mfHeight(0.f)
 	, mbOnGround(false)
+	, mStates{}
 {
 }
 

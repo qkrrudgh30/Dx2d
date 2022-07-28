@@ -62,9 +62,19 @@ void StateBar::Start()
 	mpShortCutButtonRenderer->GetTransform().SetLocalPosition(float4{ 579.f, -GameEngineWindow::GetScale().y / 2.f + 17.f, OBJECTORDER::UIGaugeBG, 1.f });
 
 	mpMenuButton = GetLevel()->CreateActor<MenuButton>();
+	
 }
 
 void StateBar::Update(float _DeltaTime)
 {
+	//GameEngineDebug::OutPutString(
+	//	std::to_string(mpBackGroundRenderer->GetTransform().GetWorldPosition().x) + "  " +
+	//	std::to_string(mpBackGroundRenderer->GetTransform().GetWorldPosition().y) + "  " +
+	//	std::to_string(mpBackGroundRenderer->GetTransform().GetWorldPosition().z) + "  " +
+	//	std::to_string(mpLevelBackGroundRenderer->GetTransform().GetWorldPosition().z) + "  " +
+	//	std::to_string(mpGaugeNamesRenderer->GetTransform().GetWorldPosition().z) + "  " +
+	//	std::to_string(mpGaugeBackGroundRenderer->GetTransform().GetWorldPosition().z) + "  " +
+	//	std::to_string(mpCashShopButtonRenderer->GetTransform().GetWorldPosition().z) + "  " +
+	//	std::to_string(mpShortCutButtonRenderer->GetTransform().GetWorldPosition().z));
 }
 

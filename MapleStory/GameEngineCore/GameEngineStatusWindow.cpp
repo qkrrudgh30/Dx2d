@@ -22,4 +22,5 @@ void GameEngineStatusWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	std::string Name = "FPS : " + std::to_string(FPS);
 	ImGui::Text(std::to_string(FPS).c_str());
+
 }

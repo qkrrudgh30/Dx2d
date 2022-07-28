@@ -40,19 +40,20 @@ void TempleOfTime1::Start()
 	mpCloud = CreateActor<Temple1Cloud>(OBJECTORDER::UI);
 	mpPCMap = CreateActor<PixelCollisionMap>(OBJECTORDER::UI);
 	mpPCMap->SetInfo("Temple1TileP.png");
+	mpPCMap->GetRenderer()->OnOffSwitch();
 
-	float4 CenterPointOfMap = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), 0.f, 0.f };
-	mpBackGround->GetTransform().SetWorldMove(CenterPointOfMap);
-	mpTile->GetTransform().SetWorldMove(CenterPointOfMap);
-	mpCloud->GetTransform().SetWorldMove(CenterPointOfMap);
-	mpPCMap->GetTransform().SetWorldMove(CenterPointOfMap);
+	float4 CenterPointOfMap = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::UI, 0.f };
+	mpBackGround->GetTransform().SetWorldPosition(CenterPointOfMap);
+	mpTile->GetTransform().SetWorldPosition(CenterPointOfMap);
+	mpCloud->GetTransform().SetWorldPosition(CenterPointOfMap);
+	mpPCMap->GetTransform().SetWorldPosition(CenterPointOfMap);
 
-	mpPlayer = CreateActor<Player>(OBJECTORDER::Character);
-	float4 StartPoint = float4{ 163.f, -605.f, 0.f, 0.f };
-	mpPlayer->GetTransform().SetWorldMove(StartPoint);
+	
 
 	mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
+	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -605.f, OBJECTORDER::Character, 1.f });
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::UI);	
+	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 2160.f, -605.f, OBJECTORDER::Character, 1.f });
 
 	mpStateBar = CreateActor<StateBar>(OBJECTORDER::UI);
 
@@ -61,8 +62,6 @@ void TempleOfTime1::Start()
 
 void TempleOfTime1::Update(float _DeltaTime)
 {
-	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -605.f, OBJECTORDER::Character, 1.f });
-	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 2160.f, -605.f, OBJECTORDER::Character, 1.f });
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
 		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
@@ -116,14 +115,28 @@ void TempleOfTime1::Update(float _DeltaTime)
 		}
 		if (PortalCollisionType::NEXT == IsPortalCollided())
 		{
+			mpPlayer = Player::GetPlayer();
+			float4 StartPoint = float4{ 165.f, -660.f, OBJECTORDER::Character, 1.f };
+			mpPlayer->GetTransform().SetWorldPosition(StartPoint);
 			GEngine::ChangeLevel("TempleOfTime2");
 		}
 	}	
 
+#pragma region CheckKeysForDebugging
 	if (true == GameEngineInput::GetInst()->IsDown("PCMapOnOffToggle"))
 	{
 		mpPCMap->GetRenderer()->OnOffSwitch();
 	}
+	if (true == GameEngineInput::GetInst()->IsDown("PrintDescription"))
+	{
+		PrintDescription();
+	}
+	if (true == GameEngineInput::GetInst()->IsDown("PrintPixelColor"))
+	{
+		PrintPixelColor();
+	}
+#pragma endregion
+
 
 	// GameEngineDebug::OutPutString(std::to_string(mpPlayer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpPlayer->GetTransform().GetLocalPosition().y));
 }

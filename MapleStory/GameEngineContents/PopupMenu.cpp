@@ -29,8 +29,7 @@ void PopupMenu::Start()
 	mfWidth = GameEngineWindow::GetScale().x * 0.11625f;
 	mfHeight = 167.f;
 	mpRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
-	mpRenderer->GetTransform().SetLocalPosition(float4{ 452.f, -GameEngineWindow::GetScale().y / 2.f + 35.f, OBJECTORDER::UIBackBoard, 1.f });
-	// mpRenderer->GetTransform().SetLocalPosition(float4{ 452.f, -GameEngineWindow::GetScale().y / 2.f + 35.f, 1.f, 1.f });
+	mpRenderer->GetTransform().SetLocalPosition(float4{ 455.f, -GameEngineWindow::GetScale().y / 2.f + 130.f, OBJECTORDER::UIBackBoard, 1.f });
 }
 
 void PopupMenu::Update(float _DeltaTime)
@@ -43,7 +42,5 @@ void PopupMenu::Update(float _DeltaTime)
 	{
 		mpRenderer->GetTransform().SetWorldScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 	}
-	mf4CameraPos = GetLevel()->GetMainCameraActorTransform().GetLocalPosition();
-	mpRenderer->GetTransform().SetWorldPosition(float4{ GameEngineWindow::GetScale().x * 0.09125f + mf4CameraPos.x + 350.f, mf4CameraPos.y - GameEngineWindow::GetScale().y / 2.f + 17.f + 100.f, 1.f, 1.f });
 	// GameEngineDebug::OutPutString(std::to_string(mpRenderer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpRenderer->GetTransform().GetLocalPosition().y));
 }

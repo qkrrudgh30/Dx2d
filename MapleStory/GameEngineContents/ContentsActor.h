@@ -1,7 +1,43 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+enum
+{
+	eFalse = 0,
+	eTrue = 1,
+};
+
 // Ό³Έν :
+struct States
+{
+	union
+	{
+		float4 AllStates;
+		struct
+		{
+			char mbStand;
+			char mbWalk;
+			char mbDead;
+			char mbAttack1;
+
+			char mbAttack2;
+			char mbAlert;
+			char mbJump;
+			char mbLadder;
+			
+			char mbFinalAttack1;
+			char mbFinalAttack2;
+			char mbPadding0;
+			char mbPadding1;
+			
+			char mbPadding2;
+			char mbPadding3;
+			char mbPadding4;
+			char mbPadding5;
+		};
+	};
+};
+
 class GameEngineTextureRenderer;
 class ContentsActor : public GameEngineActor
 {
@@ -20,6 +56,7 @@ protected:
 	float                      mfWidth;
 	float                      mfHeight;
 	bool                       mbOnGround;
+	States                     mStates;
 
 public:
 	// constrcuter destructer

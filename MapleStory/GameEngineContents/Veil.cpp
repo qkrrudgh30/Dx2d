@@ -16,7 +16,7 @@ std::queue<VEIL_EFFECT>    Veil::mqVeilEffectJobQueue;
 Veil::Veil() 
     : mpRenderer(nullptr)
     , mf4Size()
-    , mf4Color()
+    , mf4Color(float4{ 0.f, 0.f, 0.f, 1.f })
 {
 }
 
@@ -28,12 +28,11 @@ void Veil::Start()
 {
     float4 windowSize = GameEngineWindow::GetScale();
     mpRenderer = CreateComponent<GameEngineDefaultRenderer>();
+    mpRenderer->GetActor()->GetLevel()->PushRendererToMainCamera(mpRenderer);
     mpRenderer->SetPipeLine("Color");
-    mpRenderer->GetTransform().SetWorldScale({ windowSize.x, windowSize.y, 1 });
-
-    GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Alpha, 1.f });
-    
     mpRenderer->ShaderResources.SetConstantBufferLink("ResultColor", mf4Color);
+    mpRenderer->GetTransform().SetWorldScale({ windowSize.x, windowSize.y, 1.f, 1.f });
+    GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Alpha, 1.f });
 }
 
 void Veil::Update(float _DeltaTime)

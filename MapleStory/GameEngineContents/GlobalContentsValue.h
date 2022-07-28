@@ -3,13 +3,14 @@
 
 enum OBJECTORDER
 {
-	UIGaugeBG = -300,
 	UIGauge = -350,
+	UIGaugeBG = -300,
 	UIBackBoard = -200,
-	UIBackGround = -100,
+	UIBackGround = -150,
 	Alpha = 1,
-	Mob = 3,
-	Character = 4,
+	Mob = 2,
+	Character = 3,
+	BackGround = 4,
 	UI = 5,
 };
 

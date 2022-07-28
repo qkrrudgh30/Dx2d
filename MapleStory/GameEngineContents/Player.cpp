@@ -9,9 +9,16 @@
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 
+Player* Player::spPlayer = nullptr;
+
 Player::Player() 
+	: mpParentLevel(nullptr)
+	, mf4PixelData()
+	, StateManager()
+	, mbOnLadder(false)
 {
 	mfSpeed = 400.f;
+	spPlayer = this;
 }
 
 Player::~Player() 
@@ -20,20 +27,20 @@ Player::~Player()
 
 void Player::Start()
 {
-	GetTransform().SetWorldPosition(float4{0.f, 0.f, OBJECTORDER::Character, 1.f});
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-	mpRenderer->GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Character, 1.f });
 	mfWidth = 83.f;
 	mfHeight = 85.f;
 	mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1.f, 1.f });
+	// mpRenderer->ScaleToTexture();
 	mpRenderer->CreateFrameAnimation("CharacterAlert", FrameAnimation_DESC("CharacterAlert.png", 0, 4, 0.5f));		
 	mpRenderer->CreateFrameAnimation("CharacterJump", FrameAnimation_DESC("CharacterJump.png", 0, 0, 0.5f));
-	mpRenderer->CreateFrameAnimation("CharacterLadder", FrameAnimation_DESC("CharacterLadder.png", 0, 1, 0.5f));
-	mpRenderer->CreateFrameAnimation("CharacterStab", FrameAnimation_DESC("CharacterStab.png", 0, 2, 0.5f));
-	mpRenderer->CreateFrameAnimation("CharacterStabF", FrameAnimation_DESC("CharacterStabF.png", 0, 3, 0.5f));
+	mpRenderer->CreateFrameAnimation("CharacterLadderIdle", FrameAnimation_DESC("CharacterLadderIdle.png", 0, 0, 0.5f));
+	mpRenderer->CreateFrameAnimation("CharacterLadderMove", FrameAnimation_DESC("CharacterLadderMove.png", 0, 1, 0.5f));
+	mpRenderer->CreateFrameAnimation("CharacterStab", FrameAnimation_DESC("CharacterStab.png", 0, 2, 0.2f));
+	mpRenderer->CreateFrameAnimation("CharacterStabF", FrameAnimation_DESC("CharacterStabF.png", 0, 3, 0.2f));
 	mpRenderer->CreateFrameAnimation("CharacterStand", FrameAnimation_DESC("CharacterStand.png", 0, 4, 0.5f));		
-	mpRenderer->CreateFrameAnimation("CharacterSwing", FrameAnimation_DESC("CharacterSwing.png", 0, 2, 0.5f));		
-	mpRenderer->CreateFrameAnimation("CharacterSwingF", FrameAnimation_DESC("CharacterSwingF.png", 0, 3, 0.5f));		
+	mpRenderer->CreateFrameAnimation("CharacterSwing", FrameAnimation_DESC("CharacterSwing.png", 0, 2, 0.2f));		
+	mpRenderer->CreateFrameAnimation("CharacterSwingF", FrameAnimation_DESC("CharacterSwingF.png", 0, 3, 0.2f));		
 	mpRenderer->CreateFrameAnimation("CharacterWalk", FrameAnimation_DESC("CharacterWalk.png", 0, 5, 0.2f));
 	mpRenderer->CreateFrameAnimation("CharacterDead", FrameAnimation_DESC("CharacterDead.png", 0, 0, 0.2f));
 	mpRenderer->CreateFrameAnimationFolder("WarriorLeap", FrameAnimation_DESC("WarriorLeap", 0.1f));
@@ -44,96 +51,166 @@ void Player::Start()
 	SetGround(false);
 	RigidBody* rigid = CreateComponent<RigidBody>();
 
-	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart, &Player::IdleEnd);
-	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart, &Player::MoveEnd);
+	
+
+	StateManager.CreateStateMember("Stand", this, &Player::StandUpdate, &Player::StandStart, &Player::StandEnd);
+	StateManager.CreateStateMember("Walk", this, &Player::WalkUpdate, &Player::WalkStart, &Player::WalkEnd);
 	StateManager.CreateStateMember("Dead", this, &Player::DeadUpdate, &Player::DeadStart, &Player::DeadEnd);
 	StateManager.CreateStateMember("Attack1", this, &Player::Attack1Update, &Player::Attack1Start, &Player::Attack1End);
 	StateManager.CreateStateMember("Attack2", this, &Player::Attack2Update, &Player::Attack2Start, &Player::Attack2End);
 	StateManager.CreateStateMember("Alert", this, &Player::AlertUpdate, &Player::AlertStart, &Player::AlertEnd);
 	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart, &Player::JumpEnd);
-	StateManager.CreateStateMember("Ladder", this, &Player::LadderUpdate, &Player::LadderStart, &Player::LadderEnd);
+	StateManager.CreateStateMember("LadderIdle", this, &Player::LadderIdleUpdate, &Player::LadderIdleStart, &Player::LadderIdleEnd);
+	StateManager.CreateStateMember("LadderMove", this, &Player::LadderMoveUpdate, &Player::LadderMoveStart, &Player::LadderMoveEnd);
 	StateManager.CreateStateMember("FinalAttack1", this, &Player::FinalAttack1Update, &Player::FinalAttack1Start, &Player::FinalAttack1End);
 	StateManager.CreateStateMember("FinalAttack2", this, &Player::FinalAttack2Update, &Player::FinalAttack2Start, &Player::FinalAttack2End);
+	StateManager.ChangeState("Stand");
 }
 
 void Player::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst()->IsFree("PlayerLeft") && true == GameEngineInput::GetInst()->IsFree("PlayerRight"))
-	{
-		mpRenderer->ChangeFrameAnimation("CharacterStand");
-	}
-	
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
-	{
-		mpRenderer->GetTransform().PixLocalPositiveX();
-		mpRenderer->ChangeFrameAnimation("CharacterWalk");
-		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
-	}
+	// Check Walk
+	// Check Jump
+	// Check Attack1
+	// Check Attack2
+	// Check Alert
+	// Check FinalAttack1
+	// Check FinalAttack2
+	// Check LadderStand
+	// Check LadderMove
+	// Check Dead
 
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
-	{
-		mpRenderer->GetTransform().PixLocalNegativeX();
-		mpRenderer->ChangeFrameAnimation("CharacterWalk");
-		GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
-	{
-		mpRenderer->ChangeFrameAnimation("CharacterJump");
-		GetTransform().SetWorldMove(GetTransform().GetUpVector() * mfSpeed * 1.5f * _DeltaTime);
-	}
+	StateManager.Update(_DeltaTime);
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDoubleJump"))
 	{
 		mpRenderer->ChangeFrameAnimation("WarriorLeap");
 	}
 
-	mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 5));
+	mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 1));
+#pragma region SwapPixelColor
+	float temp = mf4PixelData.r;
+	mf4PixelData.r = mf4PixelData.b;
+	mf4PixelData.b = temp;
+#pragma endregion
 
-	if (1.f <= mf4PixelData.a) 
-	{ 
+	if (true == mf4PixelData.CompareInt4D(float4::MAGENTA) || true == mf4PixelData.CompareInt4D(float4::CYAN)) // ¾Æ·¡¹Ù´Ú, À­¹Ù´Ú
+	{
 		mbOnGround = true;
 	}
 	else
-	{ 
-		mpRenderer->ChangeFrameAnimation("CharacterJump");
+	{
 		mbOnGround = false;
 	}
 
+	if (true == mf4PixelData.CompareInt4D(float4::YELLOW))
+	{
+		mbOnLadder = true;
+	}
+	else
+	{
+		mbOnLadder = false;
+	}
 }
 
 void Player::End()
 {
 }
 
-void Player::IdleStart(const StateInfo& _Info)
+void Player::StandStart(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 83.f, 85.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterStand");
 }
 
-void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
+void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	// [D]Jump
-	// [D]Move
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 40.f);
+		StateManager.ChangeState("Jump");
+		return;
+	}
+	
+	// [D]Walk
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+	{
+		mpRenderer->GetTransform().PixLocalPositiveX();
+		StateManager.ChangeState("Walk");
+		return;
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+	{
+		mpRenderer->GetTransform().PixLocalNegativeX();
+		StateManager.ChangeState("Walk");
+		return;
+	}
+
 	// [D]Alert
 	// [S]Attack1
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack1"))
+	{
+		StateManager.ChangeState("Attack1");
+		return;
+	}
 	// [S]Attack2
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack2"))
+	{
+		StateManager.ChangeState("Attack2");
+		return;
+	}
 }
 
-void Player::MoveStart(const StateInfo& _Info)
+void Player::WalkStart(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 84.f, 85.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterWalk");
 }
 
-void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
+void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	// [D]Idle
+	// [D]Stand
+	if (true == GameEngineInput::GetInst()->IsFree("PlayerLeft") && true == GameEngineInput::GetInst()->IsFree("PlayerRight")) 
+	{ 
+		StateManager.ChangeState("Stand"); 
+		return;
+	}
+	
 	// [D]Jump
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
+	{
+		if (0 <= PreviousDirection().x) { GetTransform().SetWorldMove(GetTransform().GetUpVector() * 40.f + GetTransform().GetLeftVector() * 40.f); }
+		else { GetTransform().SetWorldMove(GetTransform().GetUpVector() * 40.f + GetTransform().GetRightVector() * 40.f); }
+		StateManager.ChangeState("Jump");
+		return;
+	}
+
 	// [D]Alert
 	// [D]Attack1
 	// [D]Attack2
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+	{
+		mpRenderer->GetTransform().PixLocalPositiveX();
+		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+	{
+		mpRenderer->GetTransform().PixLocalNegativeX();
+		GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
+		return;
+	}
 }
 
 void Player::DeadStart(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 39.f, 63.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterDead");
 	// Start falling tomb effect.
 }
@@ -150,38 +227,44 @@ void Player::DeadEnd(const StateInfo& _Info)
 
 void Player::Attack1Start(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 140.f, 68.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterStab");
 }
 
 void Player::Attack1Update(float _DeltaTime, const StateInfo& _Info)
 {
-	// [D]Move
+	// [D]Walk
 	// [D]Alert
 	// [S]FinalAttack1
 }
 
 void Player::Attack2Start(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 198.f, 128.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterSwing");
 }
 
 void Player::Attack2Update(float _DeltaTime, const StateInfo& _Info)
 {
-	// [D]Move
+	// [D]Walk
 	// [D]Alert
 	// [S]FinalAttack2
 }
 
 void Player::AlertStart(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 86.f, 78.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterAlert");
 }
 
 void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	// [D]Idle
+	// [D]Stand
 	// [D]Jump
-	// [D]Move
+	// [D]Walk
 	// [D]Attack1
 	// [D]Attack2
 	// [S]Dead
@@ -189,47 +272,67 @@ void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::JumpStart(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 83.f, 80.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterJump");
 }
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	// [D]Idle
-	// [D]Move
+	// [D]Stand
+	if (true == mbOnGround) { StateManager.ChangeState("Stand"); return; }
 	// [D]Alert
 	// [D]Ladder
+	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp")) { StateManager.ChangeState("LadderIdle"); return; }
 }
 
-void Player::LadderStart(const StateInfo& _Info)
+void Player::LadderIdleStart(const StateInfo& _Info)
 {
-	mpRenderer->ChangeFrameAnimation("CharacterLadder");
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 42.f, 64.f, 1.f, 1.f });
+	mpRenderer->ChangeFrameAnimation("CharacterLadderIdle");
 }
 
-void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
+void Player::LadderIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	// [D]Jump
-	// [D]Idle
+	// [D]Stand
 	// [D]Alert
+}
+
+void Player::LadderMoveStart(const StateInfo& _Info)
+{
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 42.f, 64.f, 1.f, 1.f });
+	mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
+}
+
+void Player::LadderMoveUpdate(float _DeltaTime, const StateInfo& _Info)
+{
 }
 
 void Player::FinalAttack1Start(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 152.f, 99.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterStabF");
 }
 
 void Player::FinalAttack1Update(float _DeltaTime, const StateInfo& _Info)
 {
-	// [S]Idle
+	// [S]Stand
 	// [S]Alert
 }
 
 void Player::FinalAttack2Start(const StateInfo& _Info)
 {
+	float4 fPreviousScale = PreviousDirection();
+	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 194.f, 108.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterSwingF");
 }
 
 void Player::FinalAttack2Update(float _DeltaTime, const StateInfo& _Info)
 {
-	// [S]Idle
+	// [S]Stand
 	// [S]Alert
 }

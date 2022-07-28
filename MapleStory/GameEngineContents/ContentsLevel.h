@@ -63,5 +63,8 @@ protected:
     void LimitCameraMoving(float4 _f4MapSize);
     PortalCollisionType IsPortalCollided();
     void ChangeLevelWithSecond(std::string _Name, float _Second);
+    void PrintDescription();
+    void PrintPixelColor();
+    
 
 };

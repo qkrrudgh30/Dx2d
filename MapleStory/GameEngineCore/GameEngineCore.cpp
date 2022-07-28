@@ -77,6 +77,9 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 		if (nullptr != CurrentLevel)
 		{
 			CurrentLevel->OffEvent();
+			// 넘어가려는 액터가 이때 존재해야 겠죠?
+
+			CurrentLevel->OverChildMove(NextLevel);
 		}
 
 		CurrentLevel = NextLevel;
@@ -157,7 +160,6 @@ void GameEngineCore::WindowCreate(const std::string& _Name, GameEngineCore* _Use
 
 void GameEngineCore::InitializeLevel(GameEngineLevel* _Level, const std::string _Name)
 {
-	/*
 	{
 		GameEngineCameraActor* actor = _Level->CreateActor<GameEngineCameraActor>();
 		actor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
@@ -169,7 +171,6 @@ void GameEngineCore::InitializeLevel(GameEngineLevel* _Level, const std::string 
 		actor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		actor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 	}
-	*/
 
 	_Level->Start();
 	_Level->SetName(_Name);

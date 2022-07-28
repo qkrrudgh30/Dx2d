@@ -131,6 +131,11 @@ public:
 		return Result;
 	}
 
+	void PushRendererToMainCamera(GameEngineRenderer* _Renderer)
+	{
+		PushRenderer(_Renderer, static_cast<int>(CAMERAORDER::MAINCAMERA));
+	}
+
 protected:
 	
 
@@ -149,6 +154,8 @@ private:
 
 	void RemoveActor(GameEngineActor* _Actor);
 
+	void OverChildMove(GameEngineLevel* _NextLevel);
+
 private:
 	// 0번 백그라운드
 	// 1번 플레이어
@@ -160,10 +167,7 @@ private:
 		PushCamera(_Camera, static_cast<int>(_Order));
 	}
 
-	void PushRendererToMainCamera(GameEngineRenderer* _Renderer)
-	{
-		PushRenderer(_Renderer, static_cast<int>(CAMERAORDER::MAINCAMERA));
-	}
+	
 
 	void PushRendererToUICamera(GameEngineRenderer* _Renderer)
 	{

@@ -9,6 +9,8 @@ private:
 	ContentsLevel*         mpParentLevel;
 	float4                 mf4PixelData;
 	GameEngineStateManager StateManager;
+	static Player*         spPlayer;
+	bool                   mbOnLadder;
 
 public:
 	// constrcuter destructer
@@ -21,19 +23,32 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	static Player* GetPlayer() { return spPlayer; }
+
+	float4 GetPixelData() { return mf4PixelData; }
+
+	float4 PreviousDirection() 
+	{
+		if (0 <= mpRenderer->GetTransform().GetWorldScale().x)
+		{
+			return float4{ 1.f, 1.f, 1.f, 1.f };
+		}
+		else { return float4{ -1.f, 1.f, 1.f, 1.f }; }
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
 
 private:
-	void IdleStart(const StateInfo& _Info);
-	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
-	void IdleEnd(const StateInfo& _Info) {}
+	void StandStart(const StateInfo& _Info);
+	void StandUpdate(float _DeltaTime, const StateInfo& _Info);
+	void StandEnd(const StateInfo& _Info) {}
 
-	void MoveStart(const StateInfo& _Info);
-	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
-	void MoveEnd(const StateInfo& _Info) {}
+	void WalkStart(const StateInfo& _Info);
+	void WalkUpdate(float _DeltaTime, const StateInfo& _Info);
+	void WalkEnd(const StateInfo& _Info) {}
 
 	void DeadStart(const StateInfo& _Info);
 	void DeadUpdate(float _DeltaTime, const StateInfo& _Info);
@@ -55,9 +70,13 @@ private:
 	void JumpUpdate(float _DeltaTime, const StateInfo& _Info);
 	void JumpEnd(const StateInfo& _Info) {}
 
-	void LadderStart(const StateInfo& _Info);
-	void LadderUpdate(float _DeltaTime, const StateInfo& _Info);
-	void LadderEnd(const StateInfo& _Info) {}
+	void LadderIdleStart(const StateInfo& _Info);
+	void LadderIdleUpdate(float _DeltaTime, const StateInfo& _Info);
+	void LadderIdleEnd(const StateInfo& _Info) {}
+
+	void LadderMoveStart(const StateInfo& _Info);
+	void LadderMoveUpdate(float _DeltaTime, const StateInfo& _Info);
+	void LadderMoveEnd(const StateInfo& _Info) {}
 
 	void FinalAttack1Start(const StateInfo& _Info);
 	void FinalAttack1Update(float _DeltaTime, const StateInfo& _Info);

@@ -9,6 +9,7 @@ private:
     static POINT  mptMousePos;
     static float4 mf4MousePos;
     static bool   mbCameraFollowing;
+    GameEngineStatusWindow* mpMainGUIWindow;
 
 public:
     // constrcuter destructer
@@ -35,6 +36,8 @@ public:
     {
         return mbCameraFollowing;
     }
+
+    GameEngineStatusWindow* GetGUIWindow() { return mpMainGUIWindow; }
 
 protected:
     void Start() override;

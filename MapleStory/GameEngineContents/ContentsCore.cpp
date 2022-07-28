@@ -41,9 +41,10 @@ void ContentsCore::Start()
     CutAtlasTexture();
 
     CreateLevels();
-    GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
     CreateRenderingPipeline();
+
+    mpMainGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);    
 }
 
 void ContentsCore::Update(float _DeltaTime)
@@ -95,8 +96,10 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("CamRight", VK_NEXT);
         GameEngineInput::GetInst()->CreateKey("CamUp", VK_HOME);
         GameEngineInput::GetInst()->CreateKey("CamDown", VK_END);
-        GameEngineInput::GetInst()->CreateKey("CamOnOffToggle", VK_F1);
-        GameEngineInput::GetInst()->CreateKey("PCMapOnOffToggle", VK_F2);
+        GameEngineInput::GetInst()->CreateKey("PrintDescription", VK_F1);
+        GameEngineInput::GetInst()->CreateKey("CamOnOffToggle", VK_F2);
+        GameEngineInput::GetInst()->CreateKey("PCMapOnOffToggle", VK_F3);
+        GameEngineInput::GetInst()->CreateKey("PrintPixelColor", VK_F4);
     }
 
     if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
@@ -106,6 +109,8 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
         GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
         GameEngineInput::GetInst()->CreateKey("PlayerJump", VK_SPACE);
+        GameEngineInput::GetInst()->CreateKey("PlayerAttack1", 'F');
+        GameEngineInput::GetInst()->CreateKey("PlayerAttack2", 'D');
         GameEngineInput::GetInst()->CreateKey("PlayerDoubleJump", VK_CONTROL);
     }
 }
@@ -260,7 +265,8 @@ void ContentsCore::CutAtlasTexture()
     /* Character */
     GameEngineTexture::Cut("CharacterAlert.png", 5, 1);
     GameEngineTexture::Cut("CharacterJump.png", 1, 1);
-    GameEngineTexture::Cut("CharacterLadder.png", 2, 1);
+    GameEngineTexture::Cut("CharacterLadderIdle.png", 1, 1);
+    GameEngineTexture::Cut("CharacterLadderMove.png", 2, 1);
     GameEngineTexture::Cut("CharacterStab.png", 3, 1);
     GameEngineTexture::Cut("CharacterStabF.png", 4, 1);
     GameEngineTexture::Cut("CharacterStand.png", 5, 1);
