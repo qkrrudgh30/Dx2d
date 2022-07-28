@@ -24,6 +24,14 @@ TempleOfTime1::~TempleOfTime1()
 
 void TempleOfTime1::OnEvent()
 {
+	if (nullptr == Player::GetPlayer())
+	{
+		Player* NewPlayer = CreateActor<Player>(OBJECTORDER::Character);
+		NewPlayer->SetLevelOverOn();
+		float4 StartPoint = float4{ 163.f, -605.f, OBJECTORDER::Character, 0.f };
+		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
+	}
+	mpPlayer = Player::GetPlayer();
 	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
@@ -47,8 +55,6 @@ void TempleOfTime1::Start()
 	mpTile->GetTransform().SetWorldPosition(CenterPointOfMap);
 	mpCloud->GetTransform().SetWorldPosition(CenterPointOfMap);
 	mpPCMap->GetTransform().SetWorldPosition(CenterPointOfMap);
-
-	
 
 	mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
 	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -605.f, OBJECTORDER::Character, 1.f });

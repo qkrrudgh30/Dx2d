@@ -129,7 +129,7 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Jump
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 40.f);
+		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 90.f);
 		StateManager.ChangeState("Jump");
 		return;
 	}
@@ -279,11 +279,21 @@ void Player::JumpStart(const StateInfo& _Info)
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	
+
 	// [D]Stand
-	if (true == mbOnGround) { StateManager.ChangeState("Stand"); return; }
+	if (true == mbOnGround) 
+	{ 
+		StateManager.ChangeState("Stand"); 
+		return;
+	}
 	// [D]Alert
 	// [D]Ladder
-	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp")) { StateManager.ChangeState("LadderIdle"); return; }
+	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp")) 
+	{ 
+		StateManager.ChangeState("LadderIdle"); 
+		return; 
+	}
 }
 
 void Player::LadderIdleStart(const StateInfo& _Info)

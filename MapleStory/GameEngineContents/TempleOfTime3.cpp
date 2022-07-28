@@ -26,6 +26,12 @@ TempleOfTime3::~TempleOfTime3()
 
 void TempleOfTime3::OnEvent()
 {
+    if (nullptr == Player::GetPlayer())
+    {
+        Player* NewPlayer = CreateActor<Player>(OBJECTORDER::Character);
+        NewPlayer->SetLevelOverOn();
+    }
+    mpPlayer = Player::GetPlayer();
     Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 

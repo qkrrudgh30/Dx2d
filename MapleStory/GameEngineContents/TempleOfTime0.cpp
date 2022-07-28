@@ -31,15 +31,6 @@ TempleOfTime0::~TempleOfTime0()
 
 void TempleOfTime0::Start()
 {
-	if (nullptr == Player::GetPlayer())
-	{
-		Player* NewPlayer = CreateActor<Player>(OBJECTORDER::Character);
-		NewPlayer->SetLevelOverOn();
-		float4 StartPoint = float4{ 260.f, -757.f, OBJECTORDER::Character, 1.f };
-		mpPlayer = Player::GetPlayer();
-		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
-	}
-
 	mpCamera = GetMainCameraActor();
 	mpCamera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 	mpCamera->GetTransform().SetWorldPosition({0.0f, 0.0f, -500.0f});
@@ -70,6 +61,14 @@ void TempleOfTime0::Start()
 
 void TempleOfTime0::OnEvent()
 {
+	if (nullptr == Player::GetPlayer())
+	{
+		Player* NewPlayer = CreateActor<Player>(OBJECTORDER::Character);
+		NewPlayer->SetLevelOverOn();
+		float4 StartPoint = float4{ 260.f, -757.f, OBJECTORDER::Character, 1.f };
+		mpPlayer = Player::GetPlayer();
+		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
+	}
 	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
@@ -118,8 +117,6 @@ void TempleOfTime0::Update(float _DeltaTime)
 	if (-1.f != mfVeilStartSecond && 1.f <= GetAccTime() - mfVeilStartSecond)
 	{
 		mfVeilStartSecond = -1.f;
-		float4 StartPoint = float4{ 163.f, -605.f, OBJECTORDER::Character, 0.f };
-		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
 		GEngine::ChangeLevel("TempleOfTime1");
 	}
 

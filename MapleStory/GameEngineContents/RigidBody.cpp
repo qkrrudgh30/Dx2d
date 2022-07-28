@@ -3,7 +3,7 @@
 #include "ContentsActor.h"
 
 RigidBody::RigidBody() 
-	: mfGravity(200.0f)
+	: mfGravity(400.0f)
 {
 }
 
