@@ -69,6 +69,8 @@ void TempleOfTime0::OnEvent()
 		mpPlayer = Player::GetPlayer();
 		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
 	}
+	mpPlayer = Player::GetPlayer();
+	mpPlayer->SetParentLevel(dynamic_cast<ContentsLevel*>(this));
 	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
@@ -117,6 +119,10 @@ void TempleOfTime0::Update(float _DeltaTime)
 	if (-1.f != mfVeilStartSecond && 1.f <= GetAccTime() - mfVeilStartSecond)
 	{
 		mfVeilStartSecond = -1.f;
+
+		float4 StartPoint = float4{ 173.f, -605.f, OBJECTORDER::Character, 0.f };
+		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
+
 		GEngine::ChangeLevel("TempleOfTime1");
 	}
 
@@ -132,6 +138,10 @@ void TempleOfTime0::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsDown("PrintPixelColor"))
 	{
 		PrintPixelColor();
+	}
+	if (true == GameEngineInput::GetInst()->IsDown("PrintPlayerWorldPosition"))
+	{
+		PrintPlayerWorldPosition();
 	}
 #pragma endregion
 

@@ -97,9 +97,17 @@ void ContentsLevel::ChangeLevelWithSecond(std::string _Name, float _Second)
 void ContentsLevel::PrintDescription()
 {
     GameEngineDebug::OutPutString("F1: 키 설명 출력");
+    GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("F2: 카메라의 플레이어 쫒기 On/Off");
+    GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("F3: 픽셀 충돌 맵 On/Off");
+    GameEngineDebug::OutPutString("");
+    GameEngineDebug::OutPutString("F4: 플레이어 발밑 픽셀컬러 출력");
+    GameEngineDebug::OutPutString("");
+    GameEngineDebug::OutPutString("F5: 플레이어 월드 위치 출력(BOTTOM PIVOT)");
+    GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("방향키: 플레이어 이동");
+    GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("메인 카메라 이동 방법(플레이어 쫒기를 꺼야지만 가능.)");
     GameEngineDebug::OutPutString("    Home: 상, End:  하");
     GameEngineDebug::OutPutString("    Del:  좌, PgDn: 우");
@@ -108,6 +116,7 @@ void ContentsLevel::PrintDescription()
 void ContentsLevel::PrintPixelColor()
 {
     float4 f4PixelData = mpPlayer->GetPixelData();
+    GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("플레이어 발밑(-(y+5)) 픽셀 색상[R, G, B, A]");
     GameEngineDebug::OutPutString(
         "    " +
@@ -115,5 +124,18 @@ void ContentsLevel::PrintPixelColor()
         std::to_string(f4PixelData.g) + ", " +
         std::to_string(f4PixelData.b) + ", " +
         std::to_string(f4PixelData.a) + ", "
+    );
+}
+
+void ContentsLevel::PrintPlayerWorldPosition()
+{
+    GameEngineDebug::OutPutString("");
+    GameEngineDebug::OutPutString("플레이어 월드 위치 [X, Y, Z, W]");
+    GameEngineDebug::OutPutString(
+        "    " +
+        std::to_string(Player::GetPlayer()->GetTransform().GetWorldPosition().x) + ", " +
+        std::to_string(Player::GetPlayer()->GetTransform().GetWorldPosition().y) + ", " +
+        std::to_string(Player::GetPlayer()->GetTransform().GetWorldPosition().z) + ", " +
+        std::to_string(Player::GetPlayer()->GetTransform().GetWorldPosition().w) + ", "
     );
 }

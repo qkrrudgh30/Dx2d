@@ -100,6 +100,7 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("CamOnOffToggle", VK_F2);
         GameEngineInput::GetInst()->CreateKey("PCMapOnOffToggle", VK_F3);
         GameEngineInput::GetInst()->CreateKey("PrintPixelColor", VK_F4);
+        GameEngineInput::GetInst()->CreateKey("PrintPlayerWorldPosition", VK_F5);
     }
 
     if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))

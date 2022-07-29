@@ -31,6 +31,7 @@ void TempleOfTime2::OnEvent()
 		NewPlayer->SetLevelOverOn();
 	}
 	mpPlayer = Player::GetPlayer();
+	mpPlayer->SetParentLevel(dynamic_cast<ContentsLevel*>(this));
 	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
@@ -122,12 +123,15 @@ void TempleOfTime2::Update(float _DeltaTime)
 		mfVeilStartSecond = -1.f;
 		if (PortalCollisionType::PREVIOUS == IsPortalCollided())
 		{
+			mpPlayer = Player::GetPlayer();
+			float4 StartPoint = float4{ 2200.f, -598.f, OBJECTORDER::Character, 1.f };
+			mpPlayer->GetTransform().SetWorldPosition(StartPoint);
 			GEngine::ChangeLevel("TempleOfTime1");
 		}
 		if (PortalCollisionType::NEXT == IsPortalCollided())
 		{
 			mpPlayer = Player::GetPlayer();
-			float4 StartPoint = float4{ 165.f, -660.f, OBJECTORDER::Character, 1.f };
+			float4 StartPoint = float4{ 990.f, -1060.f, OBJECTORDER::Character, 1.f };
 			mpPlayer->GetTransform().SetWorldPosition(StartPoint);
 			GEngine::ChangeLevel("TempleOfTime3");
 		}
@@ -145,6 +149,10 @@ void TempleOfTime2::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsDown("PrintPixelColor"))
 	{
 		PrintPixelColor();
+	}
+	if (true == GameEngineInput::GetInst()->IsDown("PrintPlayerWorldPosition"))
+	{
+		PrintPlayerWorldPosition();
 	}
 #pragma endregion
 

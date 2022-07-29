@@ -46,12 +46,8 @@ void Player::Start()
 	mpRenderer->CreateFrameAnimationFolder("WarriorLeap", FrameAnimation_DESC("WarriorLeap", 0.1f));
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 
-	mpParentLevel = GetLevel<ContentsLevel>();
-
 	SetGround(false);
 	RigidBody* rigid = CreateComponent<RigidBody>();
-
-	
 
 	StateManager.CreateStateMember("Stand", this, &Player::StandUpdate, &Player::StandStart, &Player::StandEnd);
 	StateManager.CreateStateMember("Walk", this, &Player::WalkUpdate, &Player::WalkStart, &Player::WalkEnd);
@@ -79,7 +75,6 @@ void Player::Update(float _DeltaTime)
 	// Check LadderStand
 	// Check LadderMove
 	// Check Dead
-
 	StateManager.Update(_DeltaTime);
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDoubleJump"))
@@ -87,12 +82,14 @@ void Player::Update(float _DeltaTime)
 		mpRenderer->ChangeFrameAnimation("WarriorLeap");
 	}
 
-	mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 1));
-#pragma region SwapPixelColor
-	float temp = mf4PixelData.r;
-	mf4PixelData.r = mf4PixelData.b;
-	mf4PixelData.b = temp;
-#pragma endregion
+	// mpParentLevel = GetLevel<ContentsLevel>();
+	if (nullptr != mpParentLevel)
+	{
+		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 1));
+		float temp = mf4PixelData.r;
+		mf4PixelData.r = mf4PixelData.b;
+		mf4PixelData.b = temp;
+	}
 
 	if (true == mf4PixelData.CompareInt4D(float4::MAGENTA) || true == mf4PixelData.CompareInt4D(float4::CYAN)) // ¾Æ·¡¹Ù´Ú, À­¹Ù´Ú
 	{

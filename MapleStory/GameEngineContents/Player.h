@@ -33,7 +33,15 @@ public:
 		{
 			return float4{ 1.f, 1.f, 1.f, 1.f };
 		}
-		else { return float4{ -1.f, 1.f, 1.f, 1.f }; }
+		else 
+		{
+			return float4{ -1.f, 1.f, 1.f, 1.f }; 
+		}
+	}
+
+	void SetParentLevel(ContentsLevel* _pParentLevel) 
+	{ 
+		mpParentLevel = _pParentLevel; 
 	}
 
 protected:

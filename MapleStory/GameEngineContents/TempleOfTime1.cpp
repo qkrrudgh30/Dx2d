@@ -27,11 +27,12 @@ void TempleOfTime1::OnEvent()
 	if (nullptr == Player::GetPlayer())
 	{
 		Player* NewPlayer = CreateActor<Player>(OBJECTORDER::Character);
+		
 		NewPlayer->SetLevelOverOn();
-		float4 StartPoint = float4{ 163.f, -605.f, OBJECTORDER::Character, 0.f };
-		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
+		
 	}
 	mpPlayer = Player::GetPlayer();
+	mpPlayer->SetParentLevel(dynamic_cast<ContentsLevel*>(this));
 	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
@@ -117,6 +118,9 @@ void TempleOfTime1::Update(float _DeltaTime)
 		mfVeilStartSecond = -1.f;
 		if (PortalCollisionType::PREVIOUS == IsPortalCollided())
 		{
+			mpPlayer = Player::GetPlayer();
+			float4 StartPoint = float4{ 2000.f, -251.f, OBJECTORDER::Character, 1.f };
+			mpPlayer->GetTransform().SetWorldPosition(StartPoint);
 			GEngine::ChangeLevel("TempleOfTime0");
 		}
 		if (PortalCollisionType::NEXT == IsPortalCollided())
@@ -141,9 +145,21 @@ void TempleOfTime1::Update(float _DeltaTime)
 	{
 		PrintPixelColor();
 	}
+	if (true == GameEngineInput::GetInst()->IsDown("PrintPlayerWorldPosition"))
+	{
+		PrintPlayerWorldPosition();
+	}
 #pragma endregion
 
-
+	/*
+	GameEngineDebug::OutPutString(
+		std::to_string(mpPlayer->GetRenderer()->GetTransform().GetWorldPosition().x) + "  " +
+		std::to_string(mpPlayer->GetRenderer()->GetTransform().GetWorldPosition().y) + "  " +
+		std::to_string(mpPlayer->GetRenderer()->GetTransform().GetWorldPosition().z) + "  " +
+		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().x) + "  " +
+		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().y) + "  " +
+		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().z));
+		*/
 	// GameEngineDebug::OutPutString(std::to_string(mpPlayer->GetTransform().GetLocalPosition().x) + "  " + std::to_string(mpPlayer->GetTransform().GetLocalPosition().y));
 }
 

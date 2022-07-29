@@ -65,6 +65,7 @@ protected:
     void ChangeLevelWithSecond(std::string _Name, float _Second);
     void PrintDescription();
     void PrintPixelColor();
+    void PrintPlayerWorldPosition();
     
 
 };
