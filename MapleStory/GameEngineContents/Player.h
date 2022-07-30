@@ -3,6 +3,7 @@
 
 // Ό³Έν :
 class ContentsLevel;
+class RigidBody;
 class Player : public ContentsActor
 {
 private:
@@ -11,6 +12,7 @@ private:
 	GameEngineStateManager StateManager;
 	static Player*         spPlayer;
 	bool                   mbOnLadder;
+	RigidBody*             mpRigidBody;
 
 public:
 	// constrcuter destructer
@@ -50,6 +52,13 @@ protected:
 	void End() override;
 
 private:
+	// Animation notify.
+	void EndAttack1(const FrameAnimation_DESC& _Info);
+	void EndAttack2(const FrameAnimation_DESC& _Info);
+	void EndFinalAttack1(const FrameAnimation_DESC& _Info);
+	void EndFinalAttack2(const FrameAnimation_DESC& _Info);
+
+	// FSM Functions.
 	void StandStart(const StateInfo& _Info);
 	void StandUpdate(float _DeltaTime, const StateInfo& _Info);
 	void StandEnd(const StateInfo& _Info) {}

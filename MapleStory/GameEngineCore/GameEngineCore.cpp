@@ -58,7 +58,7 @@ void GameEngineCore::CoreStart(GameEngineCore* _UserCore)
 	// 엔진 리소스는 완성되어야 합니다.
 	EngineResourcesInitialize();
 
-// 엔진이 뭔가를 할겁니다.
+    // 엔진이 뭔가를 할겁니다.
 	// 준비를 먼저하고.
 	_UserCore->Start();
 }

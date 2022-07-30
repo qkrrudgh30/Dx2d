@@ -93,6 +93,9 @@
     <ClInclude Include="GameEngineShaderResourcesHelper.h">
       <Filter>Object\Component\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\inc\DirectXTex.h">
+      <Filter>ThirdParty\Inc</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineSampler.h">
       <Filter>Resources\Texture</Filter>
     </ClInclude>
@@ -137,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineUIRenderer.h">
       <Filter>Object\Component\Rendering\Content</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\inc\DirectXTex.h">
-      <Filter>ThirdParty\Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

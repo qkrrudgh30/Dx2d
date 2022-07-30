@@ -8,6 +8,7 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 Player* Player::spPlayer = nullptr;
 
@@ -36,18 +37,23 @@ void Player::Start()
 	mpRenderer->CreateFrameAnimation("CharacterJump", FrameAnimation_DESC("CharacterJump.png", 0, 0, 0.5f));
 	mpRenderer->CreateFrameAnimation("CharacterLadderIdle", FrameAnimation_DESC("CharacterLadderIdle.png", 0, 0, 0.5f));
 	mpRenderer->CreateFrameAnimation("CharacterLadderMove", FrameAnimation_DESC("CharacterLadderMove.png", 0, 1, 0.5f));
-	mpRenderer->CreateFrameAnimation("CharacterStab", FrameAnimation_DESC("CharacterStab.png", 0, 2, 0.2f));
-	mpRenderer->CreateFrameAnimation("CharacterStabF", FrameAnimation_DESC("CharacterStabF.png", 0, 3, 0.2f));
+	mpRenderer->CreateFrameAnimation("CharacterStab", FrameAnimation_DESC("CharacterStab.png", 0, 2, 0.2f, false));
+	mpRenderer->AnimationBindEnd("CharacterStab", &Player::EndAttack1, this);
+	mpRenderer->CreateFrameAnimation("CharacterStabF", FrameAnimation_DESC("CharacterStabF.png", 0, 3, 0.2f, false));
+	mpRenderer->AnimationBindEnd("CharacterStabF", &Player::EndFinalAttack1, this);
 	mpRenderer->CreateFrameAnimation("CharacterStand", FrameAnimation_DESC("CharacterStand.png", 0, 4, 0.5f));		
-	mpRenderer->CreateFrameAnimation("CharacterSwing", FrameAnimation_DESC("CharacterSwing.png", 0, 2, 0.2f));		
-	mpRenderer->CreateFrameAnimation("CharacterSwingF", FrameAnimation_DESC("CharacterSwingF.png", 0, 3, 0.2f));		
+	mpRenderer->CreateFrameAnimation("CharacterSwing", FrameAnimation_DESC("CharacterSwing.png", 0, 2, 0.2f, false));
+	mpRenderer->AnimationBindEnd("CharacterSwing", &Player::EndAttack2, this);
+	mpRenderer->CreateFrameAnimation("CharacterSwingF", FrameAnimation_DESC("CharacterSwingF.png", 0, 3, 0.2f, false));
+	mpRenderer->AnimationBindEnd("CharacterSwingF", &Player::EndFinalAttack2, this);
 	mpRenderer->CreateFrameAnimation("CharacterWalk", FrameAnimation_DESC("CharacterWalk.png", 0, 5, 0.2f));
 	mpRenderer->CreateFrameAnimation("CharacterDead", FrameAnimation_DESC("CharacterDead.png", 0, 0, 0.2f));
 	mpRenderer->CreateFrameAnimationFolder("WarriorLeap", FrameAnimation_DESC("WarriorLeap", 0.1f));
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 
 	SetGround(false);
-	RigidBody* rigid = CreateComponent<RigidBody>();
+	mpRigidBody = CreateComponent<RigidBody>();
+	
 
 	StateManager.CreateStateMember("Stand", this, &Player::StandUpdate, &Player::StandStart, &Player::StandEnd);
 	StateManager.CreateStateMember("Walk", this, &Player::WalkUpdate, &Player::WalkStart, &Player::WalkEnd);
@@ -85,13 +91,15 @@ void Player::Update(float _DeltaTime)
 	// mpParentLevel = GetLevel<ContentsLevel>();
 	if (nullptr != mpParentLevel)
 	{
-		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 1));
+		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 10));
 		float temp = mf4PixelData.r;
 		mf4PixelData.r = mf4PixelData.b;
 		mf4PixelData.b = temp;
 	}
 
-	if (true == mf4PixelData.CompareInt4D(float4::MAGENTA) || true == mf4PixelData.CompareInt4D(float4::CYAN)) // ¾Æ·¡¹Ù´Ú, À­¹Ù´Ú
+	// À§¹Ù´Úo »ç´Ù¸®x || 
+	if ((true == mf4PixelData.CompareInt4D(float4::MAGENTA) && false == mf4PixelData.CompareInt4D(float4::YELLOW)) || // ¾Æ·¡¹Ù´Ú
+	    (true == mf4PixelData.CompareInt4D(float4::CYAN) && false == mf4PixelData.CompareInt4D(float4::YELLOW)))
 	{
 		mbOnGround = true;
 	}
@@ -108,17 +116,55 @@ void Player::Update(float _DeltaTime)
 	{
 		mbOnLadder = false;
 	}
+
 }
 
 void Player::End()
 {
 }
 
+void Player::EndAttack1(const FrameAnimation_DESC& _Info)
+{
+	int nRandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 100);
+	if (nRandomNumber <= 60)
+	{
+		StateManager.ChangeState("FinalAttack1");
+	}
+	else
+	{
+		StateManager.ChangeState("Stand");
+	}
+}
+
+void Player::EndAttack2(const FrameAnimation_DESC& _Info)
+{
+	int nRandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 100);
+	if (nRandomNumber <= 60)
+	{
+		StateManager.ChangeState("FinalAttack2");
+	}
+	else
+	{
+		StateManager.ChangeState("Stand");
+	}
+}
+
+void Player::EndFinalAttack1(const FrameAnimation_DESC& _Info)
+{
+	StateManager.ChangeState("Stand");
+}
+
+void Player::EndFinalAttack2(const FrameAnimation_DESC& _Info)
+{
+	StateManager.ChangeState("Stand");
+}
+
+// Attack -> ¸¶Áö¸· ÇÁ·¹ÀÓ -> Stand 
 void Player::StandStart(const StateInfo& _Info)
 {
+	mpRenderer->ChangeFrameAnimation("CharacterStand");
 	float4 fPreviousScale = PreviousDirection();
 	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 83.f, 85.f, 1.f, 1.f });
-	mpRenderer->ChangeFrameAnimation("CharacterStand");
 }
 
 void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -187,7 +233,17 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	// [D]Alert
 	// [D]Attack1
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack1"))
+	{
+		StateManager.ChangeState("Attack1");
+		return;
+	}
 	// [D]Attack2
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack2"))
+	{
+		StateManager.ChangeState("Attack2");
+		return;
+	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
@@ -202,6 +258,8 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
 		return;
 	}
+
+	// []
 }
 
 void Player::DeadStart(const StateInfo& _Info)
@@ -231,6 +289,7 @@ void Player::Attack1Start(const StateInfo& _Info)
 
 void Player::Attack1Update(float _DeltaTime, const StateInfo& _Info)
 {
+	// [D]Stand
 	// [D]Walk
 	// [D]Alert
 	// [S]FinalAttack1
@@ -276,8 +335,6 @@ void Player::JumpStart(const StateInfo& _Info)
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	
-
 	// [D]Stand
 	if (true == mbOnGround) 
 	{ 
@@ -287,7 +344,8 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Alert
 	// [D]Ladder
 	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp")) 
-	{ 
+	{
+		mbOnGround = true;
 		StateManager.ChangeState("LadderIdle"); 
 		return; 
 	}
@@ -295,9 +353,11 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LadderIdleStart(const StateInfo& _Info)
 {
+	mbOnGround = true;
 	float4 fPreviousScale = PreviousDirection();
 	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 42.f, 64.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterLadderIdle");
+
 }
 
 void Player::LadderIdleUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -305,10 +365,17 @@ void Player::LadderIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Jump
 	// [D]Stand
 	// [D]Alert
+
+	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{
+		StateManager.ChangeState("LadderMove");
+		return;
+	}
 }
 
 void Player::LadderMoveStart(const StateInfo& _Info)
 {
+	mbOnGround = true;
 	float4 fPreviousScale = PreviousDirection();
 	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 42.f, 64.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
@@ -316,6 +383,24 @@ void Player::LadderMoveStart(const StateInfo& _Info)
 
 void Player::LadderMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	// [D] LadderStand
+	if (true == GameEngineInput::GetInst()->IsFree("PlayerUp") && true == GameEngineInput::GetInst()->IsFree("PlayerDown"))
+	{
+		StateManager.ChangeState("LadderIdle");
+		return;
+	}
+
+	// [D] LadderMove
+	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetUpVector() * mfSpeed * _DeltaTime);
+		return;
+	}
+	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		GetTransform().SetWorldMove(GetTransform().GetDownVector() * mfSpeed * _DeltaTime);
+		return;
+	}
 }
 
 void Player::FinalAttack1Start(const StateInfo& _Info)
