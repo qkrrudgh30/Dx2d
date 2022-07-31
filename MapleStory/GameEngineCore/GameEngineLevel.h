@@ -131,11 +131,6 @@ public:
 		return Result;
 	}
 
-	void PushRendererToMainCamera(GameEngineRenderer* _Renderer)
-	{
-		PushRenderer(_Renderer, static_cast<int>(CAMERAORDER::MAINCAMERA));
-	}
-
 protected:
 	
 
@@ -167,7 +162,10 @@ private:
 		PushCamera(_Camera, static_cast<int>(_Order));
 	}
 
-	
+	void PushRendererToMainCamera(GameEngineRenderer* _Renderer)
+	{
+		PushRenderer(_Renderer, static_cast<int>(CAMERAORDER::MAINCAMERA));
+	}
 
 	void PushRendererToUICamera(GameEngineRenderer* _Renderer)
 	{

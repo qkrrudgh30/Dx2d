@@ -28,7 +28,7 @@ void Veil::Start()
 {
     float4 windowSize = GameEngineWindow::GetScale();
     mpRenderer = CreateComponent<GameEngineDefaultRenderer>();
-    mpRenderer->GetActor()->GetLevel()->PushRendererToMainCamera(mpRenderer);
+    // mpRenderer->GetActor()->GetLevel()->PushRendererToMainCamera(mpRenderer);
     mpRenderer->SetPipeLine("Color");
     mpRenderer->ShaderResources.SetConstantBufferLink("ResultColor", mf4Color);
     mpRenderer->GetTransform().SetWorldScale({ windowSize.x, windowSize.y, 1.f, 1.f });

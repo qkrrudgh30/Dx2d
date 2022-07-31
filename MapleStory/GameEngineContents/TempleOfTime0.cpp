@@ -80,7 +80,7 @@ void TempleOfTime0::Update(float _DeltaTime)
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
 		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetWorldPosition());
-	}
+	}/*
 	else
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("CamLeft"))
@@ -99,9 +99,12 @@ void TempleOfTime0::Update(float _DeltaTime)
 		{
 			GetMainCameraActorTransform().SetWorldMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
 		}
-	}
+	}*/
 
-	LimitCameraMoving(GetMapSize());
+	if (true == mbLimitCameraMoving)
+	{
+		LimitCameraMoving(GetMapSize());
+	}
 
 	float4 pos = mpCamera->GetTransform().GetWorldPosition();
 	pos.z = OBJECTORDER::Alpha;
@@ -143,6 +146,14 @@ void TempleOfTime0::Update(float _DeltaTime)
 	{
 		PrintPlayerWorldPosition();
 	}
+	if (true == GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+	{
+		FreeCameraOnOff();
+	}
+	if (true == GameEngineInput::GetInst()->IsDown("LimitCameraMovingOnOff"))
+	{
+		LimitCameraMovingOnOff();
+	}
 #pragma endregion
 
 	
@@ -155,8 +166,12 @@ void TempleOfTime0::Update(float _DeltaTime)
 		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().x) + "  " +
 		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().y) + "  " +
 		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().z));
-		*/
-    
+	*/
+	GameEngineDebug::OutPutString(
+		std::to_string(GetMainCameraActor()->GetTransform().GetWorldPosition().x) + ", " +
+		std::to_string(GetMainCameraActor()->GetTransform().GetWorldPosition().y) + ", " +
+		std::to_string(GetMainCameraActor()->GetTransform().GetWorldPosition().z)
+	);
 }
 
 void TempleOfTime0::End()

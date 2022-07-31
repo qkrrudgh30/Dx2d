@@ -34,6 +34,7 @@ protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
     MenuButton*            mpMenuButton;
     PopupMenu*             mpPopupMenu;
     PixelCollisionMap*     mpPCMap;
+    bool                   mbLimitCameraMoving;
 
 public:
     // constrcuter destructer
@@ -66,6 +67,8 @@ protected:
     void PrintDescription();
     void PrintPixelColor();
     void PrintPlayerWorldPosition();
+    void FreeCameraOnOff();
+    void LimitCameraMovingOnOff();
     
 
 };

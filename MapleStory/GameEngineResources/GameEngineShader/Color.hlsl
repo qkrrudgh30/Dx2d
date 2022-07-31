@@ -17,10 +17,30 @@ struct Input
 
 struct Output
 {
+    // 레스터라이저한테 뷰포트를 곱해서 이녀석으로 픽셀을 건져내줘.
     float4 Pos : SV_POSITION;
     
+    // 레스터라이저한테 뷰포트를 곱해서 이녀석으로 픽셀을 건져내줘.
     float4 PosLocal : POSITION;
 };
+
+//cbuffer ResultColor : register(b2)
+//{
+//    float4 PlusColor;
+//    float4 MultyplyColor;
+//}
+
+
+
+// 1000
+// 0100
+// 2010
+// 0301
+
+// 1020
+// 0103
+// 0010
+// 0001
 
 Output Color_VS(Input _Input)
 {

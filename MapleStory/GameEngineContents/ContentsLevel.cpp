@@ -28,6 +28,8 @@ ContentsLevel::ContentsLevel()
     , mf4WindowSize{}
     , mpMenuButton(nullptr)
     , mpPopupMenu(nullptr)
+    , mpPCMap(nullptr)
+    , mbLimitCameraMoving(true)
 {
     mf4WindowSize = GameEngineWindow::GetScale();
 }
@@ -106,6 +108,10 @@ void ContentsLevel::PrintDescription()
     GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("F5: 플레이어 월드 위치 출력(BOTTOM PIVOT)");
     GameEngineDebug::OutPutString("");
+    GameEngineDebug::OutPutString("F6: 프리 카메라 On/Off");
+    GameEngineDebug::OutPutString("");
+    GameEngineDebug::OutPutString("F7: 카메라 이동 제한 On/Off");
+    GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("방향키: 플레이어 이동");
     GameEngineDebug::OutPutString("");
     GameEngineDebug::OutPutString("메인 카메라 이동 방법(플레이어 쫒기를 꺼야지만 가능.)");
@@ -138,4 +144,14 @@ void ContentsLevel::PrintPlayerWorldPosition()
         std::to_string(Player::GetPlayer()->GetTransform().GetWorldPosition().z) + ", " +
         std::to_string(Player::GetPlayer()->GetTransform().GetWorldPosition().w) + ", "
     );
+}
+
+void ContentsLevel::FreeCameraOnOff()
+{
+    GetMainCameraActor()->FreeCameraModeOnOff();
+}
+
+void ContentsLevel::LimitCameraMovingOnOff()
+{
+    mbLimitCameraMoving = !mbLimitCameraMoving;
 }

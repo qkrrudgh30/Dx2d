@@ -101,6 +101,8 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("PCMapOnOffToggle", VK_F3);
         GameEngineInput::GetInst()->CreateKey("PrintPixelColor", VK_F4);
         GameEngineInput::GetInst()->CreateKey("PrintPlayerWorldPosition", VK_F5);
+        GameEngineInput::GetInst()->CreateKey("FreeCameraOnOff", VK_F6);
+        GameEngineInput::GetInst()->CreateKey("LimitCameraMovingOnOff", VK_F7);
     }
 
     if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
@@ -110,11 +112,11 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
         GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
         GameEngineInput::GetInst()->CreateKey("PlayerJump", VK_SPACE);
-        GameEngineInput::GetInst()->CreateKey("PlayerAttack1", 'F');
-        GameEngineInput::GetInst()->CreateKey("PlayerAttack2", 'D');
+        GameEngineInput::GetInst()->CreateKey("PlayerAttack1", 'G');
+        GameEngineInput::GetInst()->CreateKey("PlayerAttack2", 'F');
         GameEngineInput::GetInst()->CreateKey("PlayerDoubleJump", VK_CONTROL);
     }
-}
+}       
 
 void ContentsCore::LoadTextures()
 {
