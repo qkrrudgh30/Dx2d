@@ -13,9 +13,6 @@
     <Filter Include="02_Actors">
       <UniqueIdentifier>{dbd04e80-c744-42ff-934a-b4048e602a54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Actors\Global">
-      <UniqueIdentifier>{2e6a9305-96b8-43bd-9676-cfe81413b586}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02_Actors\Login">
       <UniqueIdentifier>{4735c6bb-d63d-421c-ac3a-a677c860839a}</UniqueIdentifier>
     </Filter>
@@ -34,11 +31,17 @@
     <Filter Include="03_Component">
       <UniqueIdentifier>{ffb3a982-5f22-4629-80f4-5dd10497f708}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Actors\Global\MasterUI">
+    <Filter Include="02_Actors\02_1Global">
+      <UniqueIdentifier>{2e6a9305-96b8-43bd-9676-cfe81413b586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\02_1Global\MasterUI">
       <UniqueIdentifier>{60d8e956-c308-44af-b6ab-b6dce798a2e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Actors\Global\MasterUI\StateBar">
+    <Filter Include="02_Actors\02_1Global\MasterUI\StateBar">
       <UniqueIdentifier>{32cbabd9-9ddc-4729-be74-0fae629d2a19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\02_2Renderer">
+      <UniqueIdentifier>{29221723-ac06-4d74-a35f-820cc6ea3e6f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -65,10 +68,10 @@
       <Filter>01_Levels</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>02_Actors\Global</Filter>
+      <Filter>02_Actors\02_1Global</Filter>
     </ClInclude>
     <ClInclude Include="Enums.h">
-      <Filter>02_Actors\Global</Filter>
+      <Filter>02_Actors\02_1Global</Filter>
     </ClInclude>
     <ClInclude Include="LoginBackground.h">
       <Filter>02_Actors\Login</Filter>
@@ -125,13 +128,13 @@
       <Filter>02_Actors\Temple3</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>02_Actors\Global</Filter>
+      <Filter>02_Actors\02_1Global</Filter>
     </ClInclude>
     <ClInclude Include="ContentsLevel.h">
       <Filter>01_Levels</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>02_Actors\Global\MasterUI</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI</Filter>
     </ClInclude>
     <ClInclude Include="Temple0MonsterSpawn.h">
       <Filter>02_Actors\Temple0</Filter>
@@ -146,7 +149,7 @@
       <Filter>02_Actors</Filter>
     </ClInclude>
     <ClInclude Include="Veil.h">
-      <Filter>02_Actors\Global\MasterUI</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI</Filter>
     </ClInclude>
     <ClInclude Include="Temple0PixelCollisionMap.h">
       <Filter>02_Actors\Temple0</Filter>
@@ -161,31 +164,34 @@
       <Filter>02_Actors\Temple3</Filter>
     </ClInclude>
     <ClInclude Include="PixelCollisionMap.h">
-      <Filter>02_Actors\Global</Filter>
+      <Filter>02_Actors\02_1Global</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>03_Component</Filter>
     </ClInclude>
     <ClInclude Include="ExitButtonOnMenu.h">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClInclude>
     <ClInclude Include="MenuButton.h">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClInclude>
     <ClInclude Include="PopupMenu.h">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClInclude>
     <ClInclude Include="StateBar.h">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClInclude>
     <ClInclude Include="HPGauge.h">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClInclude>
     <ClInclude Include="MPGauge.h">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClInclude>
     <ClInclude Include="EXPGauge.h">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="VeilRenderer.h">
+      <Filter>02_Actors\02_2Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,7 +218,7 @@
       <Filter>01_Levels</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>02_Actors\Global</Filter>
+      <Filter>02_Actors\02_1Global</Filter>
     </ClCompile>
     <ClCompile Include="LoginBackground.cpp">
       <Filter>02_Actors\Login</Filter>
@@ -269,13 +275,13 @@
       <Filter>02_Actors\Temple3</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
-      <Filter>02_Actors\Global</Filter>
+      <Filter>02_Actors\02_1Global</Filter>
     </ClCompile>
     <ClCompile Include="ContentsLevel.cpp">
       <Filter>01_Levels</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>02_Actors\Global\MasterUI</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI</Filter>
     </ClCompile>
     <ClCompile Include="Temple0MonsterSpawn.cpp">
       <Filter>02_Actors\Temple0</Filter>
@@ -290,7 +296,7 @@
       <Filter>02_Actors</Filter>
     </ClCompile>
     <ClCompile Include="Veil.cpp">
-      <Filter>02_Actors\Global\MasterUI</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI</Filter>
     </ClCompile>
     <ClCompile Include="Temple0PixelCollisionMap.cpp">
       <Filter>02_Actors\Temple0</Filter>
@@ -305,31 +311,34 @@
       <Filter>02_Actors\Temple3</Filter>
     </ClCompile>
     <ClCompile Include="PixelCollisionMap.cpp">
-      <Filter>02_Actors\Global</Filter>
+      <Filter>02_Actors\02_1Global</Filter>
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>03_Component</Filter>
     </ClCompile>
     <ClCompile Include="ExitButtonOnMenu.cpp">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClCompile>
     <ClCompile Include="MenuButton.cpp">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClCompile>
     <ClCompile Include="PopupMenu.cpp">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClCompile>
     <ClCompile Include="StateBar.cpp">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClCompile>
     <ClCompile Include="HPGauge.cpp">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClCompile>
     <ClCompile Include="MPGauge.cpp">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClCompile>
     <ClCompile Include="EXPGauge.cpp">
-      <Filter>02_Actors\Global\MasterUI\StateBar</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="VeilRenderer.cpp">
+      <Filter>02_Actors\02_2Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

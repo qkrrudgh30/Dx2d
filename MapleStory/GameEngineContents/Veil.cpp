@@ -10,6 +10,8 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 
+#include "VeilRenderer.h"
+
 VEIL_EFFECT                Veil::meVeilEffect;
 std::queue<VEIL_EFFECT>    Veil::mqVeilEffectJobQueue;
 
@@ -27,7 +29,7 @@ Veil::~Veil()
 void Veil::Start()
 {
     float4 windowSize = GameEngineWindow::GetScale();
-    mpRenderer = CreateComponent<GameEngineDefaultRenderer>();
+    mpRenderer = CreateComponent<VeilRenderer>();
     // mpRenderer->GetActor()->GetLevel()->PushRendererToMainCamera(mpRenderer);
     mpRenderer->SetPipeLine("Color");
     mpRenderer->ShaderResources.SetConstantBufferLink("ResultColor", mf4Color);

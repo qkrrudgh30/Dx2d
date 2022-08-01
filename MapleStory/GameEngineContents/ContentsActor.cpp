@@ -6,8 +6,8 @@
 ContentsActor::ContentsActor()
 	: mpRenderer(nullptr)
 	, mfSpeed(0.f)
-	, muHP(0u)
-	, muMP(0u)
+	, mfHP(0.f)
+	, mfMP(0.f)
 	, muPADamage(0u)
 	, mfPASpeed(0.f)
 	, muMADamage(0u)
@@ -15,6 +15,9 @@ ContentsActor::ContentsActor()
 	, mfWidth(0.f)
 	, mfHeight(0.f)
 	, mbOnGround(false)
+	, mbOnLadder(false)
+	, mbHitted(false)
+	, mbInvincible(false)
 	, mStates{}
 {
 }

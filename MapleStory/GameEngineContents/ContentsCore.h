@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 
 // 설명 : 프로그램 자체를 시작하게 한다.
+class GameEngineStatusWindow;
 class ContentsCore : public GameEngineCore
 {
 private:

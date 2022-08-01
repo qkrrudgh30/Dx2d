@@ -9,10 +9,12 @@ class Player : public ContentsActor
 private:
 	ContentsLevel*         mpParentLevel;
 	float4                 mf4PixelData;
+	float4                 mf4PixelDataOnRightSide;
+	float4                 mf4PixelDataOnLeftSide;
 	GameEngineStateManager StateManager;
 	static Player*         spPlayer;
-	bool                   mbOnLadder;
 	RigidBody*             mpRigidBody;
+	bool                   mbOnAboveGround;
 
 public:
 	// constrcuter destructer

@@ -39,6 +39,7 @@ struct States
 };
 
 class GameEngineTextureRenderer;
+class GameEngineCollision;
 class ContentsActor : public GameEngineActor
 {
 	friend class ContentsLevel;
@@ -47,8 +48,8 @@ protected:
 	GameEngineTextureRenderer* mpRenderer;
 	float                      mfSpeed;
 	float                      mfJumpSpeed;
-	unsigned int               muHP;
-	unsigned int               muMP;
+	float                      mfHP;
+	float                      mfMP;
 	unsigned int               muPADamage;
 	float                      mfPASpeed;
 	unsigned int               muMADamage;
@@ -56,7 +57,11 @@ protected:
 	float                      mfWidth;
 	float                      mfHeight;
 	bool                       mbOnGround;
+	bool                       mbOnLadder;
+	bool                       mbHitted;
+	bool                       mbInvincible;
 	States                     mStates;
+	GameEngineCollision*       mpCollision;
 
 public:
 	// constrcuter destructer
@@ -74,17 +79,17 @@ public:
 	void SetSpeed(float _fSpeed) { mfSpeed = _fSpeed; }
 	float GetSpeed(void) { return mfSpeed; }
 
-	void SetHP(unsigned int _uHP) { muHP = _uHP; }
-	unsigned int GetHP(void) { return muHP; }
+	void SetHP(unsigned int _fHP) { mfHP = _fHP; }
+	unsigned int GetHP(void) { return mfHP; }
 
-	void BeAttacked(unsigned int _uDamage) { muHP -= _uDamage; }
-	void BeHealedHP(unsigned int _uHealingAmount) { muHP += _uHealingAmount; }
+	void BeAttacked(unsigned int _uDamage) { mfHP -= _uDamage; }
+	void BeHealedHP(unsigned int _uHealingAmount) { mfHP += _uHealingAmount; }
 
-	void SetMP(unsigned int _uMP) { muMP = _uMP; }
-	unsigned int GetMP(void) { return muMP; }
+	void SetMP(unsigned int _fMP) { mfMP = _fMP; }
+	unsigned int GetMP(void) { return mfMP; }
 
-	void SpellMagic(unsigned int _uMana) { muMP -= _uMana; }
-	void BeHealedMP(unsigned int _uMana) { muMP += _uMana; }
+	void SpellMagic(unsigned int _fMana) { mfMP -= _fMana; }
+	void BeHealedMP(unsigned int _fMana) { mfMP += _fMana; }
 
 	void SetPADamage(unsigned int _uPADamage) { muPADamage = _uPADamage; }
 	unsigned int GetPADamage(void) { return muPADamage; }
@@ -100,6 +105,18 @@ public:
 
 	void SetGround(bool _bOnGround) { mbOnGround = _bOnGround; }
 	bool IsOnGround() { return mbOnGround; }
+
+	void SetLadder(bool _bOnLadder) { mbOnLadder = _bOnLadder; }
+	bool IsOnLadder() { return mbOnLadder; }
+
+	void SetHitted(bool _bHitted) { mbHitted = _bHitted; }
+	bool IsOnHitted() { return mbHitted; }
+
+	void SetInvincible(bool _bInvincible) { mbInvincible = _bInvincible; }
+	bool IsInvincible() { return mbInvincible; }
+
+	void SetCollision(GameEngineCollision* _pCollision) { mpCollision = _pCollision; }
+	GameEngineCollision* GetCollision() { return mpCollision; }
 
 protected:
 

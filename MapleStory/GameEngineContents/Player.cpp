@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 Player* Player::spPlayer = nullptr;
 
@@ -16,10 +17,13 @@ Player::Player()
 	: mpParentLevel(nullptr)
 	, mf4PixelData()
 	, StateManager()
-	, mbOnLadder(false)
+	, mf4PixelDataOnRightSide()
+	, mf4PixelDataOnLeftSide()
 {
 	mfSpeed = 400.f;
 	spPlayer = this;
+	mfHP = 100.f;
+	mfMP = 100.f;
 }
 
 Player::~Player() 
@@ -28,6 +32,8 @@ Player::~Player()
 
 void Player::Start()
 {
+	mpCollision = CreateComponent<GameEngineCollision>();
+	mpCollision->GetTransform().SetLocalScale(float4{mfWidth, mfHeight, 1.f, 1.f});
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mfWidth = 83.f;
 	mfHeight = 85.f;
@@ -49,6 +55,7 @@ void Player::Start()
 	mpRenderer->CreateFrameAnimation("CharacterWalk", FrameAnimation_DESC("CharacterWalk.png", 0, 5, 0.2f));
 	mpRenderer->CreateFrameAnimation("CharacterDead", FrameAnimation_DESC("CharacterDead.png", 0, 0, 0.2f));
 	mpRenderer->CreateFrameAnimationFolder("WarriorLeap", FrameAnimation_DESC("WarriorLeap", 0.1f));
+
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 
 	SetGround(false);
@@ -71,35 +78,42 @@ void Player::Start()
 
 void Player::Update(float _DeltaTime)
 {
-	// Check Walk
-	// Check Jump
-	// Check Attack1
-	// Check Attack2
-	// Check Alert
-	// Check FinalAttack1
-	// Check FinalAttack2
-	// Check LadderStand
-	// Check LadderMove
-	// Check Dead
 	StateManager.Update(_DeltaTime);
 
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerDoubleJump"))
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerDoubleJump"))
 	{
+		mfMP -= 10.f;
 		mpRenderer->ChangeFrameAnimation("WarriorLeap");
 	}
 
-	// mpParentLevel = GetLevel<ContentsLevel>();
+	mpCollision->IsCollision(CollisionType::CT_AABB2D, static_cast<int>(OBJECTORDER::Mob), CollisionType::CT_AABB2D,
+		[](GameEngineCollision* _This, GameEngineCollision* _Other)
+		{
+			// _This->GetActor()->set
+			// _This->GetActor().mfHP -= 10.f;
+			return true;
+		}
+	);
+
+#pragma region PixelCollision
 	if (nullptr != mpParentLevel)
 	{
 		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 10));
 		float temp = mf4PixelData.r;
 		mf4PixelData.r = mf4PixelData.b;
 		mf4PixelData.b = temp;
+		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x + 100.f, -(GetTransform().GetWorldPosition().y + 10));
+		temp = mf4PixelDataOnRightSide.r;
+		mf4PixelDataOnRightSide.r = mf4PixelDataOnRightSide.b;
+		mf4PixelDataOnRightSide.b = temp;
+		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x - 100.f, -(GetTransform().GetWorldPosition().y + 10));
+		temp = mf4PixelDataOnLeftSide.r;
+		mf4PixelDataOnLeftSide.r = mf4PixelDataOnLeftSide.b;
+		mf4PixelDataOnLeftSide.b = temp;
 	}
 
-	// À§¹Ù´Úo »ç´Ù¸®x || 
-	if ((true == mf4PixelData.CompareInt4D(float4::MAGENTA) && false == mf4PixelData.CompareInt4D(float4::YELLOW)) || // ¾Æ·¡¹Ù´Ú
-	    (true == mf4PixelData.CompareInt4D(float4::CYAN) && false == mf4PixelData.CompareInt4D(float4::YELLOW)))
+	if (true == mf4PixelData.CompareInt4D(float4::MAGENTA) ||
+		true == mf4PixelData.CompareInt4D(float4::CYAN))
 	{
 		mbOnGround = true;
 	}
@@ -117,6 +131,16 @@ void Player::Update(float _DeltaTime)
 		mbOnLadder = false;
 	}
 
+	if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) ||
+		true == mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN))
+	{
+		mbOnAboveGround = true;
+	}
+	else
+	{
+		mbOnAboveGround = false;
+	}
+#pragma endregion
 }
 
 void Player::End()
@@ -192,6 +216,12 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	// [D]Alert
+	if (true == mbHitted && false == mbInvincible)
+	{
+		StateManager.ChangeState("Alert");
+		return;
+	}
+	
 	// [S]Attack1
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack1"))
 	{
@@ -232,6 +262,12 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	// [D]Alert
+	if (true == mbHitted && false == mbInvincible)
+	{
+		StateManager.ChangeState("Alert");
+		return;
+	}
+
 	// [D]Attack1
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack1"))
 	{
@@ -264,6 +300,7 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DeadStart(const StateInfo& _Info)
 {
+	mbInvincible = true;
 	float4 fPreviousScale = PreviousDirection();
 	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 39.f, 63.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterDead");
@@ -272,7 +309,12 @@ void Player::DeadStart(const StateInfo& _Info)
 
 void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	// Wait 10 Seconds.
+	// Wait 3 Seconds. Then change level to login.
+	if (3.f <= StateManager.GetCurStateAccTime())
+	{
+		StateManager.ChangeState("Stand");
+		GEngine::ChangeLevel("LoginLevel");
+	}
 }
 
 void Player::DeadEnd(const StateInfo& _Info)
@@ -311,6 +353,7 @@ void Player::Attack2Update(float _DeltaTime, const StateInfo& _Info)
 
 void Player::AlertStart(const StateInfo& _Info)
 {
+	mbInvincible = true;
 	float4 fPreviousScale = PreviousDirection();
 	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 86.f, 78.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterAlert");
@@ -319,11 +362,22 @@ void Player::AlertStart(const StateInfo& _Info)
 void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	// [D]Stand
+	if (1.f <= StateManager.GetCurStateAccTime())
+	{
+		mbInvincible = false;
+		StateManager.ChangeState("Stand");
+		return;
+	}
 	// [D]Jump
 	// [D]Walk
 	// [D]Attack1
 	// [D]Attack2
 	// [S]Dead
+	if (mfHP <= 0.f)
+	{
+		StateManager.ChangeState("Dead");
+		return;
+	}
 }
 
 void Player::JumpStart(const StateInfo& _Info)
@@ -353,11 +407,10 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LadderIdleStart(const StateInfo& _Info)
 {
-	mbOnGround = true;
+ 	mbOnGround = true;
 	float4 fPreviousScale = PreviousDirection();
 	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 42.f, 64.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterLadderIdle");
-
 }
 
 void Player::LadderIdleUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -366,7 +419,7 @@ void Player::LadderIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Stand
 	// [D]Alert
 
-	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{
 		StateManager.ChangeState("LadderMove");
 		return;
@@ -375,7 +428,6 @@ void Player::LadderIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LadderMoveStart(const StateInfo& _Info)
 {
-	mbOnGround = true;
 	float4 fPreviousScale = PreviousDirection();
 	mpRenderer->GetTransform().SetWorldScale(fPreviousScale * float4{ 42.f, 64.f, 1.f, 1.f });
 	mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
@@ -383,12 +435,19 @@ void Player::LadderMoveStart(const StateInfo& _Info)
 
 void Player::LadderMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	// [D] Stand
+	if (true == mbOnAboveGround)
+	{
+		StateManager.ChangeState("Stand");
+		return;
+	}
 	// [D] LadderStand
 	if (true == GameEngineInput::GetInst()->IsFree("PlayerUp") && true == GameEngineInput::GetInst()->IsFree("PlayerDown"))
 	{
 		StateManager.ChangeState("LadderIdle");
 		return;
 	}
+
 
 	// [D] LadderMove
 	if (true == mbOnLadder && true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
