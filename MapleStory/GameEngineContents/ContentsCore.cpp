@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "ContentsCore.h"
 
+#include "ContentsGUIWindow.h"
+
 #include "LoginLevel.h"
 #include "TempleOfTime0.h"
 #include "TempleOfTime1.h"
@@ -45,6 +47,7 @@ void ContentsCore::Start()
     CreateRenderingPipeline();
 
     mpMainGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);    
+    mpContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsGUIWindow>("ContentsGUIWindow", nullptr);
 }
 
 void ContentsCore::Update(float _DeltaTime)
@@ -145,7 +148,7 @@ void ContentsCore::LoadTextures()
     LoadSkillTextures();
     LoadUITextures();
     LoadNumbersTextures();
-    // LoadSounds();
+    LoadSounds();
 }
 
 void ContentsCore::LoadCharacterTextures()

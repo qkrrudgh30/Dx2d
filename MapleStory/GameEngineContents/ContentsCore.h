@@ -4,6 +4,7 @@
 
 // 설명 : 프로그램 자체를 시작하게 한다.
 class GameEngineStatusWindow;
+class ContentsGUIWindow;
 class ContentsCore : public GameEngineCore
 {
 private:
@@ -11,6 +12,7 @@ private:
     static float4 mf4MousePos;
     static bool   mbCameraFollowing;
     GameEngineStatusWindow* mpMainGUIWindow;
+    ContentsGUIWindow* mpContentsGUIWindow;
 
 public:
     // constrcuter destructer
@@ -39,6 +41,9 @@ public:
     }
 
     GameEngineStatusWindow* GetGUIWindow() { return mpMainGUIWindow; }
+
+    virtual float4 StartWindowSize() override { return { 1280.0f, 720.0f }; };
+    virtual float4 StartWindowPosition() override { return { 0,0 }; };
 
 protected:
     void Start() override;

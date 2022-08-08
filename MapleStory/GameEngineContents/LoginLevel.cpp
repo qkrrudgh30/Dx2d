@@ -60,6 +60,7 @@ void LoginLevel::Update(float _DeltaTime)
     if (-1 != mfVeilStartSecond && 1.f <= GetAccTime() - mfVeilStartSecond)
     {
         GEngine::ChangeLevel("TempleOfTime0");
+        mfVeilStartSecond = -1;
     }
 
     
@@ -69,4 +70,5 @@ void LoginLevel::Update(float _DeltaTime)
 
 void LoginLevel::End()
 {
+    // GameEngineSound::SoundPlayControl("BGM.mp3", );
 }

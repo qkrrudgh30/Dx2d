@@ -10,8 +10,16 @@ enum OBJECTORDER
 	Alpha = 1,
 	Mob = 2,
 	Character = 3,
-	BackGround = 4,
-	UI = 5,
+	CharacterAttack = 4,
+	BackGround = 5,
+	UI = 6,
+};
+
+enum MOVINGSTATE
+{
+	MOVELEFT = -1,
+	STAND = 0,
+	MOVERIGHT = 1
 };
 
 // Ό³Έν :

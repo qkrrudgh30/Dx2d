@@ -193,6 +193,12 @@
     <ClInclude Include="VeilRenderer.h">
       <Filter>02_Actors\02_2Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>02_Actors\02_1Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsGUIWindow.h">
+      <Filter>00_Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -339,6 +345,12 @@
     </ClCompile>
     <ClCompile Include="VeilRenderer.cpp">
       <Filter>02_Actors\02_2Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>02_Actors\02_1Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsGUIWindow.cpp">
+      <Filter>00_Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

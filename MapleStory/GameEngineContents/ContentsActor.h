@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "ContentsLevel.h"
 
 enum
 {
@@ -40,6 +41,7 @@ struct States
 
 class GameEngineTextureRenderer;
 class GameEngineCollision;
+class ContentsLevel;
 class ContentsActor : public GameEngineActor
 {
 	friend class ContentsLevel;
@@ -62,6 +64,11 @@ protected:
 	bool                       mbInvincible;
 	States                     mStates;
 	GameEngineCollision*       mpCollision;
+	float                      mfBeforeAccTime;
+	float                      mfAccTime;
+	float4                     mf4PixelDataOnRightSide;
+	float4                     mf4PixelDataOnLeftSide;
+	ContentsLevel*             mpParentLevel;
 
 public:
 	// constrcuter destructer
@@ -79,17 +86,17 @@ public:
 	void SetSpeed(float _fSpeed) { mfSpeed = _fSpeed; }
 	float GetSpeed(void) { return mfSpeed; }
 
-	void SetHP(unsigned int _fHP) { mfHP = _fHP; }
-	unsigned int GetHP(void) { return mfHP; }
+	void SetHP(float _fHP) { mfHP = _fHP; }
+	float GetHP(void) { return mfHP; }
 
-	void BeAttacked(unsigned int _uDamage) { mfHP -= _uDamage; }
-	void BeHealedHP(unsigned int _uHealingAmount) { mfHP += _uHealingAmount; }
+	void BeAttacked(float _uDamage) { mfHP -= _uDamage; }
+	void BeHealedHP(float _uHealingAmount) { mfHP += _uHealingAmount; }
 
-	void SetMP(unsigned int _fMP) { mfMP = _fMP; }
-	unsigned int GetMP(void) { return mfMP; }
+	void SetMP(float _fMP) { mfMP = _fMP; }
+	float GetMP(void) { return mfMP; }
 
-	void SpellMagic(unsigned int _fMana) { mfMP -= _fMana; }
-	void BeHealedMP(unsigned int _fMana) { mfMP += _fMana; }
+	void SpellMagic(float _fMana) { mfMP -= _fMana; }
+	void BeHealedMP(float _fMana) { mfMP += _fMana; }
 
 	void SetPADamage(unsigned int _uPADamage) { muPADamage = _uPADamage; }
 	unsigned int GetPADamage(void) { return muPADamage; }
@@ -117,6 +124,21 @@ public:
 
 	void SetCollision(GameEngineCollision* _pCollision) { mpCollision = _pCollision; }
 	GameEngineCollision* GetCollision() { return mpCollision; }
+
+	void SetParentLevel(GameEngineLevel* _pParentLevel)
+	{
+		mpParentLevel = dynamic_cast<ContentsLevel*>(_pParentLevel);
+	}
+
+	void SetVincibleAfterSecond()
+	{
+		if (-1.f != mfBeforeAccTime && 1.f <= mfAccTime - mfBeforeAccTime)
+		{
+			mbInvincible = false;
+			mbHitted = false;
+			mfBeforeAccTime = -1.f;
+		}
+	}
 
 protected:
 

@@ -43,8 +43,11 @@ void Veil::Update(float _DeltaTime)
     {
         return;
     }
-    meVeilEffect = mqVeilEffectJobQueue.front();
-    
+    else
+    {
+        meVeilEffect = mqVeilEffectJobQueue.front();
+    }
+
     if (VEIL_EFFECT::FADE_IN == meVeilEffect)
     {
         mf4Color.a -= 1.f * _DeltaTime;

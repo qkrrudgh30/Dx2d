@@ -23,6 +23,6 @@ void MPGauge::Update(float _DeltaTime)
 {
 	Player* pPlayer = Player::GetPlayer();
 	mpUIRenderer->GetTransform().SetLocalScale(float4{ GameEngineWindow::GetScale().x * 0.135f * ((pPlayer->GetMP()) / 100.f), 18.f, 1.f, 1.f });
-	// mpUIRenderer->SetPivot(PIVOTMODE::LEFTTOP); // GetTransform().SetLocalPosition(zero);
+	mpUIRenderer->SetPivot(PIVOTMODE::LEFTTOP); // GetTransform().SetLocalPosition(zero);
 }
 

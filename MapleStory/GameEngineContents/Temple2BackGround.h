@@ -29,6 +29,7 @@ private:
 	float                      mfHeight;
 	float                      mfPositionX;
 	float                      mfPositionY;
+	float4                     mfPrevCameraPosition;
 
 };
 

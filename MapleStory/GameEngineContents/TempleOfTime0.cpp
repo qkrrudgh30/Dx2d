@@ -10,6 +10,7 @@
 #include "Veil.h"
 #include "StateBar.h"
 #include "MenuButton.h"
+#include "Temple2Monster.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -51,6 +52,11 @@ void TempleOfTime0::Start()
 	mpCloud->GetTransform().SetWorldPosition(CenterPointOfMap);
 	mpPCMap->GetTransform().SetWorldPosition(CenterPointOfMap);	
 
+	float4 StartPoint = float4{ 966.f, -777.f, OBJECTORDER::Mob, 1.f };
+	Temple2Monster* mpMonster = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
+	StartPoint.x += 200.f;
+	mpMonster->GetTransform().SetWorldPosition(StartPoint);
+
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::Character);
 	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 2000.f, -258.f, OBJECTORDER::Character, 1.f });
 
@@ -70,7 +76,7 @@ void TempleOfTime0::OnEvent()
 		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
 	}
 	mpPlayer = Player::GetPlayer();
-	mpPlayer->SetParentLevel(dynamic_cast<ContentsLevel*>(this));
+	mpPlayer->SetParentLevel(this);
 	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
 
@@ -116,16 +122,16 @@ void TempleOfTime0::Update(float _DeltaTime)
 		{
 			mfVeilStartSecond = GetAccTime();
 			Veil::SetVeilEffect(VEIL_EFFECT::FADE_OUT);		
+			// Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);		
 		}
 	}
 
-	if (-1.f != mfVeilStartSecond && 1.f <= GetAccTime() - mfVeilStartSecond)
+	if (-1.f != mfVeilStartSecond && 1.0f <= GetAccTime() - mfVeilStartSecond)
 	{
 		mfVeilStartSecond = -1.f;
 
 		float4 StartPoint = float4{ 173.f, -605.f, OBJECTORDER::Character, 0.f };
 		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
-
 		GEngine::ChangeLevel("TempleOfTime1");
 	}
 
@@ -167,11 +173,13 @@ void TempleOfTime0::Update(float _DeltaTime)
 		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().y) + "  " +
 		std::to_string(mpPortalToNext->GetRenderer()->GetTransform().GetWorldPosition().z));
 	*/
+	/*
 	GameEngineDebug::OutPutString(
 		std::to_string(GetMainCameraActor()->GetTransform().GetWorldPosition().x) + ", " +
 		std::to_string(GetMainCameraActor()->GetTransform().GetWorldPosition().y) + ", " +
 		std::to_string(GetMainCameraActor()->GetTransform().GetWorldPosition().z)
 	);
+	*/
 }
 
 void TempleOfTime0::End()

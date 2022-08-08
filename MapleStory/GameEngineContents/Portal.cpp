@@ -15,7 +15,7 @@ void Portal::Start()
 	mfHeight = 257.f;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mpRenderer->GetTransform().SetWorldScale({ mfWidth, mfHeight, 1 });
-	mpRenderer->CreateFrameAnimation("Portal", FrameAnimation_DESC("Portal.png", 0, 7, 0.1f));
+	mpRenderer->CreateFrameAnimationCutTexture("Portal", FrameAnimation_DESC("Portal.png", 0, 7, 0.1f));
 	mpRenderer->ChangeFrameAnimation("Portal");
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 }

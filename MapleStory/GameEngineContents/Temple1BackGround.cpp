@@ -31,10 +31,17 @@ void Temple1BackGround::Start()
 
     mpRenderer->SetTexture("Temple1BackGround.png", 0);
     mpRenderer->ScaleToTexture();
+    mfPrevCameraPosition = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
 }
 
 void Temple1BackGround::Update(float _DeltaTime)
 {
+    float4 fCurCameraPosition = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
+    float4 fCurCameraDir = (fCurCameraPosition - mfPrevCameraPosition).NormalizeReturn();
+
+    mpRenderer->GetTransform().SetWorldMove(fCurCameraDir * float4{ 1.f, 0.01f, 1.f, 1.f } *_DeltaTime * 80.f);
+
+    mfPrevCameraPosition = fCurCameraPosition;
 }
 
 void Temple1BackGround::End()

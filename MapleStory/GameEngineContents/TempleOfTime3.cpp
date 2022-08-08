@@ -57,8 +57,6 @@ void TempleOfTime3::Start()
     mpCloud->GetTransform().SetWorldPosition(CenterPointOfMap);
     mpPCMap->GetTransform().SetWorldPosition(CenterPointOfMap);
 
-    
-
     mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
     mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 969.f, -1067.f, OBJECTORDER::Character, 1.f });
     
@@ -101,7 +99,10 @@ void TempleOfTime3::Update(float _DeltaTime)
         GetMainCameraActorTransform().SetWorldMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
     }
 
-    LimitCameraMoving(GetMapSize());
+    if (true == mbLimitCameraMoving)
+    {
+        LimitCameraMoving(GetMapSize());
+    }
     float4 pos = mpCamera->GetTransform().GetWorldPosition();
     pos.z = OBJECTORDER::Alpha;
     mpVeil->GetTransform().SetWorldPosition(pos);
@@ -122,7 +123,6 @@ void TempleOfTime3::Update(float _DeltaTime)
         mpPlayer = Player::GetPlayer();
         float4 StartPoint = float4{ 1841.f, -660.f, OBJECTORDER::Character, 1.f };
         mpPlayer->GetTransform().SetWorldPosition(StartPoint);
-
         GEngine::ChangeLevel("TempleOfTime2");
     }
 
@@ -142,6 +142,14 @@ void TempleOfTime3::Update(float _DeltaTime)
     if (true == GameEngineInput::GetInst()->IsDown("PrintPlayerWorldPosition"))
     {
         PrintPlayerWorldPosition();
+    }
+    if (true == GameEngineInput::GetInst()->IsDown("FreeCameraOnOff"))
+    {
+        FreeCameraOnOff();
+    }
+    if (true == GameEngineInput::GetInst()->IsDown("LimitCameraMovingOnOff"))
+    {
+        LimitCameraMovingOnOff();
     }
 #pragma endregion
 

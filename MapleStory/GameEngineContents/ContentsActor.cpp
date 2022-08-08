@@ -19,6 +19,13 @@ ContentsActor::ContentsActor()
 	, mbHitted(false)
 	, mbInvincible(false)
 	, mStates{}
+	, mfBeforeAccTime(-1.f)
+	, mfAccTime(0.f)
+	, mf4PixelDataOnRightSide()
+	, mf4PixelDataOnLeftSide()
+	, mpParentLevel(nullptr)
+	, mfJumpSpeed(100.f)
+	, mpCollision(nullptr)
 {
 }
 
