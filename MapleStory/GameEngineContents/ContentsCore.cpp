@@ -15,6 +15,7 @@
 #include <GameEngineCore/GameEngineShader.h>
 #include <GameEngineCore/GameEngineSampler.h>
 #include <GameEngineCore/GameEngineRenderingPipeLine.h>
+#include <GameEngineCore/GameEngineFont.h>
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -45,6 +46,8 @@ void ContentsCore::Start()
     CreateLevels();
 
     CreateRenderingPipeline();
+
+    GameEngineFont::Load("메이플스토리");
 
     mpMainGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);    
     mpContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsGUIWindow>("ContentsGUIWindow", nullptr);

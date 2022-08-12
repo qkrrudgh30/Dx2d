@@ -23,12 +23,18 @@ struct MonsterState
 };
 
 // Ό³Έν :
+class GameEngineTextureRenderer;
+class MonsterHPGauge;
 class Monster : public ContentsActor
 {
 protected:
-	MonsterState mState;
-	static Player* spPlayer;
-	float        mfPreAccTime;
+	MonsterHPGauge*            mpMonsterHP;
+	MonsterState               mState;
+	static Player*             spPlayer;
+	float                      mfPreAccTime;
+	float                      mfDistanceFromPlayer;
+	float4                     mf4DirectionToPlayer;
+	bool                       mbAttack;
 
 public:
 	// constrcuter destructer
@@ -41,20 +47,18 @@ public:
 	Monster& operator=(const Monster& _Other) = delete;
 	Monster& operator=(Monster&& _Other) noexcept = delete;
 
-	void SetVincibleAfterSecond()
+	void SetHittedAfterSecond()
 	{
-		if (-1.f != mfBeforeAccTime && 1.f <= mfAccTime - mfBeforeAccTime)
+		if (-1.f != mfBeforeAccTimeForHit && 5.f <= mfAccTime - mfBeforeAccTimeForHit)
 		{
-			mbInvincible = false;
-			mfBeforeAccTime = -1.f;
+			mbHitted = false;
+			mfBeforeAccTimeForHit = -1.f;
 		}
 	}
 
 protected:
 	virtual void Start() override;
 	virtual void Update(float _fDeltaTime) override;
-
-
 
 };
 

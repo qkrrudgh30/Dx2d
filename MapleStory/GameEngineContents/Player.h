@@ -54,7 +54,7 @@ protected:
 
 private:
 	// Animation notify.
-	void EndAttack1();
+	void EndAttack1(const FrameAnimation_DESC& _Info);
 	void EndAttack2();
 	void EndFinalAttack1();
 	void EndFinalAttack2();

@@ -50,7 +50,9 @@ protected:
 	GameEngineTextureRenderer* mpRenderer;
 	float                      mfSpeed;
 	float                      mfJumpSpeed;
+	float                      mfMaxHP;
 	float                      mfHP;
+	float                      mfMaxMP;
 	float                      mfMP;
 	unsigned int               muPADamage;
 	float                      mfPASpeed;
@@ -64,7 +66,8 @@ protected:
 	bool                       mbInvincible;
 	States                     mStates;
 	GameEngineCollision*       mpCollision;
-	float                      mfBeforeAccTime;
+	float                      mfBeforeAccTimeForVincible;
+	float                      mfBeforeAccTimeForHit;
 	float                      mfAccTime;
 	float4                     mf4PixelDataOnRightSide;
 	float4                     mf4PixelDataOnLeftSide;
@@ -86,11 +89,17 @@ public:
 	void SetSpeed(float _fSpeed) { mfSpeed = _fSpeed; }
 	float GetSpeed(void) { return mfSpeed; }
 
+	void SetMaxHP(float _fMaxHP) { mfMaxHP = _fMaxHP; }
+	float GetMaxHP(void) { return mfMaxHP; }
+
 	void SetHP(float _fHP) { mfHP = _fHP; }
 	float GetHP(void) { return mfHP; }
 
 	void BeAttacked(float _uDamage) { mfHP -= _uDamage; }
 	void BeHealedHP(float _uHealingAmount) { mfHP += _uHealingAmount; }
+
+	void SetMaxMP(float _fMaxMP) { mfMaxMP = _fMaxMP; }
+	float GetMaxMP(void) { return mfMaxMP; }
 
 	void SetMP(float _fMP) { mfMP = _fMP; }
 	float GetMP(void) { return mfMP; }
@@ -132,11 +141,10 @@ public:
 
 	void SetVincibleAfterSecond()
 	{
-		if (-1.f != mfBeforeAccTime && 1.f <= mfAccTime - mfBeforeAccTime)
+		if (-1.f != mfBeforeAccTimeForVincible && 1.f <= mfAccTime - mfBeforeAccTimeForVincible)
 		{
 			mbInvincible = false;
-			mbHitted = false;
-			mfBeforeAccTime = -1.f;
+			mfBeforeAccTimeForVincible = -1.f;
 		}
 	}
 

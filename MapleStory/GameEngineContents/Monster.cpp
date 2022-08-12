@@ -4,6 +4,7 @@
 #include "ContentsLevel.h"
 #include "PixelCollisionMap.h"
 #include "RigidBody.h"
+#include "MonsterHPGauge.h"
 
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineTexture.h>
@@ -17,6 +18,11 @@ Monster::Monster()
 	: mState()
 	, mfPreAccTime(0.f)
 {
+	mfSpeed = 100.f;
+	mfMaxHP = 50.f;
+	mfHP = 50.f;
+	mfMaxMP = 100.f;
+	mfMP = 100.f;
 }
 
 Monster::~Monster() 
@@ -25,22 +31,32 @@ Monster::~Monster()
 
 void Monster::Start()
 {
-	// mpParentLevel = GetLevel();
-	
 	mpCollision = CreateComponent<GameEngineCollision>();
 	mpCollision->ChangeOrder(OBJECTORDER::Mob);
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mfPreAccTime = GetAccTime();
 
-	if (nullptr != Player::GetPlayer())
-	{
-		spPlayer = Player::GetPlayer();
-	}
+	mpMonsterHP = GetLevel()->CreateActor<MonsterHPGauge>();
+	mpMonsterHP->SetParentMonster(this);
+
+	
 }
 
 void Monster::Update(float _DeltaTime)
 {
+	if (nullptr != Player::GetPlayer())
+	{
+		spPlayer = Player::GetPlayer();
+		mf4DirectionToPlayer = (this->GetTransform().GetWorldPosition() - spPlayer->GetTransform().GetWorldPosition()).NormalizeReturn();
+		mf4DirectionToPlayer.y = 0.f; mf4DirectionToPlayer.z = 0.f; mf4DirectionToPlayer.w = 0.f;
+		mfDistanceFromPlayer = (this->GetTransform().GetWorldPosition() - spPlayer->GetTransform().GetWorldPosition()).Length();
+	}
+
+	SetHittedAfterSecond();
+	SetVincibleAfterSecond();
+
 	SetParentLevel(GetLevel());
+	mpMonsterHP->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition() + float4{ -35.f, 150.f, 0.f, 0.f });
 
 	if (
 		true == mf4PixelDataOnRightSide.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }) ||
@@ -55,7 +71,6 @@ void Monster::Update(float _DeltaTime)
 	if (
 		true == mf4PixelDataOnLeftSide.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }) ||
 		true == mf4PixelDataOnLeftSide.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }) 
-		
 		)
 	{
 		mState.AllState = 0;

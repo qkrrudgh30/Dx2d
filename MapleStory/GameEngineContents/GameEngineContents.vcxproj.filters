@@ -199,6 +199,12 @@
     <ClInclude Include="ContentsGUIWindow.h">
       <Filter>00_Core</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterHPGauge.h">
+      <Filter>02_Actors\02_1Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>02_Actors\02_1Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -351,6 +357,12 @@
     </ClCompile>
     <ClCompile Include="ContentsGUIWindow.cpp">
       <Filter>00_Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterHPGauge.cpp">
+      <Filter>02_Actors\02_1Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>02_Actors\02_1Global</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,12 +4,14 @@
 #include "ContentsLevel.h"
 #include "PixelCollisionMap.h"
 #include "RigidBody.h"
+#include <functional>
 
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineCollision.h>
+#include <GameEngineCore/GameEngineFontRenderer.h>
 
 Player* Player::spPlayer = nullptr;
 
@@ -35,7 +37,6 @@ void Player::Start()
 	mpCollision->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 	mpCollision->ChangeOrder(OBJECTORDER::Character);
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
-	mpCollision->Off();
 	mfWidth = 83.f;
 	mfHeight = 85.f;
 	mpRenderer->GetTransform().SetLocalScale({ mfWidth, mfHeight, 1.f, 1.f });
@@ -45,7 +46,7 @@ void Player::Start()
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterLadderIdle", FrameAnimation_DESC("CharacterLadderIdle.png", 0, 0, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterLadderMove", FrameAnimation_DESC("CharacterLadderMove.png", 0, 1, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStab", FrameAnimation_DESC("CharacterStab.png", 0, 2, 0.2f, false));
-	mpRenderer->AnimationBindEnd("CharacterStab", std::bind(&Player::EndAttack1, this));
+	mpRenderer->AnimationBindEnd("CharacterStab", std::bind(&Player::EndAttack1, this, std::placeholders::_1));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStabF", FrameAnimation_DESC("CharacterStabF.png", 0, 3, 0.2f, false));
 	mpRenderer->AnimationBindEnd("CharacterStabF", std::bind(&Player::EndFinalAttack1, this));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStand", FrameAnimation_DESC("CharacterStand.png", 0, 4, 0.5f));
@@ -55,9 +56,8 @@ void Player::Start()
 	mpRenderer->AnimationBindEnd("CharacterSwingF", std::bind(&Player::EndFinalAttack2, this));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterWalk", FrameAnimation_DESC("CharacterWalk.png", 0, 5, 0.2f));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterDead", FrameAnimation_DESC("CharacterDead.png", 0, 0, 0.2f));
-	mpRenderer->CreateFrameAnimationFolder("WarriorLeap", FrameAnimation_DESC("WarriorLeap", 0.1f));
+	mpRenderer->SetScaleModeImage();
 	
-
 	SetGround(false);
 	mpRigidBody = CreateComponent<RigidBody>();
 
@@ -92,23 +92,27 @@ void Player::Start()
 		std::bind(&Player::LadderEnd, this, std::placeholders::_1));
 
     mStateManager.ChangeState("Stand");
+
+	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
+	Font->SetText("안녕하세요", "메이플스토리");
+	Font->SetColor({ 0.0f, 0.0f, 0.0f });
+	Font->SetScreenPostion({ 100.0f, 100.0f });
 }
 
 void Player::Update(float _DeltaTime)
 {
 	mfAccTime += _DeltaTime;
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
-	mpRenderer->SetScaleModeImage();
 
 	SetVincibleAfterSecond();
 
 	mStateManager.Update(_DeltaTime);
 
-	if (true == GameEngineInput::GetInst()->IsDown("PlayerDoubleJump"))
+	/*if (true == GameEngineInput::GetInst()->IsDown("PlayerDoubleJump"))
 	{
 		mfMP -= 10.f;
 		mpRenderer->ChangeFrameAnimation("WarriorLeap");
-	}
+	}*/
 
 	mpCollision->IsCollision(CollisionType::CT_AABB2D, static_cast<int>(OBJECTORDER::Mob), CollisionType::CT_AABB2D,
 		[](GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -128,26 +132,16 @@ void Player::Update(float _DeltaTime)
 #pragma region PixelCollision
 	if (nullptr != mpParentLevel)
 	{
-		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y));
-		float temp = mf4PixelData.r;
-		mf4PixelData.r = mf4PixelData.b;
-		mf4PixelData.b = temp;
-		mf4HeadPixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 80.f));
-		temp = mf4HeadPixelData.r;
-		mf4HeadPixelData.r = mf4HeadPixelData.b;
-		mf4HeadPixelData.b = temp;
-		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x + 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
-		temp = mf4PixelDataOnRightSide.r;
-		mf4PixelDataOnRightSide.r = mf4PixelDataOnRightSide.b;
-		mf4PixelDataOnRightSide.b = temp;
-		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x - 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
-		temp = mf4PixelDataOnLeftSide.r;
-		mf4PixelDataOnLeftSide.r = mf4PixelDataOnLeftSide.b;
-		mf4PixelDataOnLeftSide.b = temp;
+		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 5.f));
+		mf4HeadPixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 80.f));
+		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x + 25.f, -(GetTransform().GetWorldPosition().y + 5.f));
+		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x - 25.f, -(GetTransform().GetWorldPosition().y + 5.f));
 	}
 
 	if (true == mf4PixelData.CompareInt4D(float4::MAGENTA) ||
-		true == mf4PixelData.CompareInt4D(float4::CYAN)
+		true == mf4PixelData.CompareInt4D(float4::CYAN) ||
+		true == mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) ||
+		true == mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN)
 		)
 	{
 		mbOnGround = true;
@@ -157,14 +151,14 @@ void Player::Update(float _DeltaTime)
 		mbOnGround = false;
 	}
 
-	if (true == mf4PixelData.CompareInt4D(float4::YELLOW))
-	{
-		mbOnLadder = true;
-	}
-	else
-	{
-		mbOnLadder = false;
-	}
+	//if (true == mf4PixelData.CompareInt4D(float4::YELLOW))
+	//{
+	//	mbOnLadder = true;
+	//}
+	//else
+	//{
+	//	mbOnLadder = false;
+	//}
 
 	if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) ||
 		true == mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN))
@@ -194,13 +188,13 @@ void Player::End()
 {
 }
 
-void Player::EndAttack1()
+void Player::EndAttack1(const FrameAnimation_DESC& _Info)
 {
 	int nRandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 100);
 	if (nRandomNumber <= 60)
 	{
 		mbInvincible = true;
-		mfBeforeAccTime = GetAccTime();
+		mfBeforeAccTimeForVincible = GetAccTime();
 		mpRenderer->ChangeFrameAnimation("CharacterStabF");
 	}
 	else
@@ -215,7 +209,7 @@ void Player::EndAttack2()
 	if (nRandomNumber <= 60)
 	{
 		mbInvincible = true;
-		mfBeforeAccTime = GetAccTime();
+		mfBeforeAccTimeForVincible = GetAccTime();
 		mpRenderer->ChangeFrameAnimation("CharacterSwingF");
 	}
 	else
@@ -226,11 +220,23 @@ void Player::EndAttack2()
 
 void Player::EndFinalAttack1()
 {
+	GameEngineCollision* AttackCollision = CreateComponent<GameEngineCollision>("AttackCollision");
+	AttackCollision->GetTransform().SetLocalScale(float4{ 200.f, 100.f, 1.f, 1.f });
+	float PreviousDirectionX = PreviousDirection().x;
+	AttackCollision->GetTransform().SetLocalMove(float4{ -PreviousDirectionX * 40.f, 0.f, 0.f, 0.f });
+	AttackCollision->ChangeOrder(OBJECTORDER::CharacterAttack);
+	AttackCollision->Death(0.5f);
 	mStateManager.ChangeState("Stand");
 }
 
 void Player::EndFinalAttack2()
 {
+	GameEngineCollision* AttackCollision = CreateComponent<GameEngineCollision>("AttackCollision");
+	AttackCollision->GetTransform().SetLocalScale(float4{ 200.f, 100.f, 1.f, 1.f });
+	float PreviousDirectionX = PreviousDirection().x;
+	AttackCollision->GetTransform().SetLocalMove(float4{ -PreviousDirectionX * 40.f, 0.f, 0.f, 0.f });
+	AttackCollision->ChangeOrder(OBJECTORDER::CharacterAttack);
+	AttackCollision->Death(0.5f);
 	mStateManager.ChangeState("Stand");
 }
 
@@ -273,7 +279,7 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == mbHitted && false == mbInvincible)
 	{
 		mbInvincible = true;
-		mfBeforeAccTime = GetAccTime();
+		mfBeforeAccTimeForVincible = GetAccTime();
 		mpRenderer->ChangeFrameAnimation("CharacterAlert");
 		if (GetHP() <= 0.f)
 		{
@@ -287,6 +293,7 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		mStateManager.ChangeState("Attack");
 		mpRenderer->ChangeFrameAnimation("CharacterStab");
+		// mpRenderer->CurAnimationReset();
 		return;
 	}
 	// [S]Attack2
@@ -333,7 +340,7 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == mbHitted && false == mbInvincible)
 	{
 		mbInvincible = true;
-		mfBeforeAccTime = GetAccTime();
+		mfBeforeAccTimeForVincible = GetAccTime();
 		// mpRenderer->ChangeFrameAnimation("CharacterAlert");
 		if (GetHP() <= 0.f)
 		{
@@ -342,41 +349,40 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-// [D]Attack1
-if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack1"))
-{
-	mpRenderer->ChangeFrameAnimation("CharacterStab");
-	mStateManager.ChangeState("Attack");
-	return;
-}
-// [D]Attack2
-if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack2"))
-{
-	mpRenderer->ChangeFrameAnimation("CharacterSwing");
-	mStateManager.ChangeState("Attack");
-	return;
-}
-
-// [D]Move (Recursive)
-if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
-{
-	mpRenderer->GetTransform().PixLocalPositiveX();
-	GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
-	return;
-}
-
-if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
-{
-	mpRenderer->GetTransform().PixLocalNegativeX();
-	GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
-	return;
-}
+	// [D]Attack1
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack1"))
+	{
+		mpRenderer->ChangeFrameAnimation("CharacterStab");
+		mStateManager.ChangeState("Attack");
+		return;
+	}
+	// [D]Attack2
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack2"))
+	{
+		mpRenderer->ChangeFrameAnimation("CharacterSwing");
+		mStateManager.ChangeState("Attack");
+		return;
+	}
+	
+	// [D]Move (Recursive)
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+	{
+		mpRenderer->GetTransform().PixLocalPositiveX();
+		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
+		return;
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+	{
+		mpRenderer->GetTransform().PixLocalNegativeX();
+		GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
+		return;
+	}
 }
 
 void Player::DeadStart(const StateInfo& _Info)
 {
 	mbInvincible = true;
-	mfBeforeAccTime = GetAccTime();
+	mfBeforeAccTimeForVincible = GetAccTime();
 	mpRenderer->ChangeFrameAnimation("CharacterDead");
 }
 
@@ -394,13 +400,13 @@ void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::AttackStart(const StateInfo& _Info)
 {
 	mbInvincible = true;
-	mfBeforeAccTime = GetAccTime();
+	mfBeforeAccTimeForVincible = GetAccTime();
 
 	float4 fPreviousScale = PreviousDirection();
 	GameEngineCollision* AttackCollision = CreateComponent<GameEngineCollision>("AttackCollision");
 	AttackCollision->GetTransform().SetLocalScale(float4{ 200.f, 100.f, 1.f, 1.f });
 	float PreviousDirectionX = PreviousDirection().x;
-	AttackCollision->GetTransform().SetLocalMove(float4{ PreviousDirectionX * 40.f, 0.f, 0.f, 0.f });
+	AttackCollision->GetTransform().SetLocalMove(float4{ -PreviousDirectionX * 40.f, 0.f, 0.f, 0.f });
 	AttackCollision->ChangeOrder(OBJECTORDER::CharacterAttack);
 	AttackCollision->Death(0.5f);
 
@@ -415,23 +421,29 @@ void Player::JumpStart(const StateInfo& _Info)
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	// Stand
-	if (
-		true == mf4PixelData.CompareInt4D(float4::CYAN) ||
-		true == mf4PixelData.CompareInt4D(float4::MAGENTA) ||
-		(true == mf4PixelData.CompareInt4D(float4::YELLOW) && 
-			(mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) || mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN)))
-		)
+	if (true == mbOnGround)
 	{
 		mStateManager.ChangeState("Stand");
 		return;
 	}
 
+	//// Stand
+	//if (
+	//	true == mf4PixelData.CompareInt4D(float4::CYAN) ||
+	//	true == mf4PixelData.CompareInt4D(float4::MAGENTA) ||
+	//	(true == mf4PixelData.CompareInt4D(float4::YELLOW) && 
+	//	(mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) || mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN)))
+	//	)
+	//{
+	//	mStateManager.ChangeState("Stand");
+	//	return;
+	//}
+
 	// Alert
 	if (true == mbHitted && false == mbInvincible)
 	{
 		mbInvincible = true;
-		mfBeforeAccTime = GetAccTime();
+		mfBeforeAccTimeForVincible = GetAccTime();
 		mpRenderer->ChangeFrameAnimation("CharacterAlert");
 		if (GetHP() <= 0.f)
 		{
@@ -443,6 +455,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
 		true == mf4HeadPixelData.CompareInt4D(float4::YELLOW))
     {
+		mbOnLadder = true;
 		mStateManager.ChangeState("Ladder");
 		return;
     }
@@ -457,12 +470,13 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 30.f * _DeltaTime);
+		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 80.f * _DeltaTime);
 		mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
 
 		if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) ||
 			true == mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN))
 		{
+			mbOnLadder = false;
 			mStateManager.ChangeState("Stand");
 		}
 
@@ -470,14 +484,14 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetDownVector() * 30.f * _DeltaTime);
+		GetTransform().SetWorldMove(GetTransform().GetDownVector() * 80.f * _DeltaTime);
 		mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
 
 		if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }) &&
 			true == mf4PixelDataOnRightSide.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })&&
-			true == mf4PixelData.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f })
-			)
+			true == mf4PixelData.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }))
 		{
+			mbOnLadder = false;
 			mStateManager.ChangeState("Stand");
 		}
 
@@ -488,7 +502,7 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == mbHitted && false == mbInvincible)
 	{
 		mbInvincible = true;
-		mfBeforeAccTime = GetAccTime();
+		mfBeforeAccTimeForVincible = GetAccTime();
 		// mpRenderer->ChangeFrameAnimation("CharacterAlert");
 		if (GetHP() <= 0.f)
 		{

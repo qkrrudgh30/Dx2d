@@ -14,9 +14,8 @@
 
 Temple2Monster::Temple2Monster() 
 {
-	mfSpeed = 100.f;
-	mfHP = 50.f;
-	mfMP = 100.f;
+	mfWidth = 115.f;
+	mfHeight = 183.f;
 }
 
 Temple2Monster::~Temple2Monster() 
@@ -27,23 +26,21 @@ void Temple2Monster::Start()
 {
 	Monster::Start();
 
-	mfWidth = 115.f;
-	mfHeight = 183.f;
 	mpCollision->GetTransform().SetLocalScale(float4{mfWidth, mfHeight, 1.f, 1.f});
 	
 	mpRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 	mpRenderer->GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Mob, 1.f});
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterStand", FrameAnimation_DESC("Temple2MonsterStand.png", 0, 11, 0.2f));
-	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterMove", FrameAnimation_DESC("Temple2MonsterMove.png", 0, 5, 0.5f));
+	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterMove", FrameAnimation_DESC("Temple2MonsterMove.png", 0, 5, 0.2f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterHitting1", FrameAnimation_DESC("Temple2MonsterHitting1.png", 0, 3, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterHitting2", FrameAnimation_DESC("Temple2MonsterHitting2.png", 0, 6, 0.5f));
-	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterDie", FrameAnimation_DESC("Temple2MonsterDie.png", 0, 11, 0.5f));
-	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack1", FrameAnimation_DESC("Temple2MonsterAttack1.png", 0, 16, 0.5f));
+	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterDie", FrameAnimation_DESC("Temple2MonsterDie.png", 0, 11, 0.2f, false));
+	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack1", FrameAnimation_DESC("Temple2MonsterAttack1.png", 0, 16, 0.1f, false));
 	mpRenderer->AnimationBindEnd("Temple2MonsterAttack1", std::bind(&Temple2Monster::EndAttack1, this));
-	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack2", FrameAnimation_DESC("Temple2MonsterAttack2.png", 0, 16, 0.5f));
-	mpRenderer->AnimationBindEnd("Temple2MonsterAttack1", std::bind(&Temple2Monster::EndAttack1, this));
+	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack2", FrameAnimation_DESC("Temple2MonsterAttack2.png", 0, 16, 0.1f, false));
+	mpRenderer->AnimationBindEnd("Temple2MonsterAttack2", std::bind(&Temple2Monster::EndAttack2, this));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterHitted", FrameAnimation_DESC("Temple2MonsterHitted.png", 0, 0, 0.2f));
-	
+	mpRenderer->ChangeFrameAnimation("Temple2MonsterStand");
 
 	mStateManager.CreateStateMember("Stand",
 		std::bind(&Temple2Monster::StandUpdate, this, std::placeholders::_1, std::placeholders::_2),
@@ -76,7 +73,6 @@ void Temple2Monster::Start()
 		std::bind(&Temple2Monster::AlertEnd, this, std::placeholders::_1));
 
 	mStateManager.ChangeState("Stand");
-
 }
 
 void Temple2Monster::Update(float _DeltaTime)
@@ -85,20 +81,17 @@ void Temple2Monster::Update(float _DeltaTime)
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 	Monster::Update(_DeltaTime);
 	mStateManager.Update(_DeltaTime);
-	mpRenderer->ChangeFrameAnimation("Temple2MonsterStand");
-	SetVincibleAfterSecond();
 
 	mpCollision->IsCollision(CollisionType::CT_AABB2D, static_cast<int>(OBJECTORDER::CharacterAttack), CollisionType::CT_AABB2D,
 		[=](GameEngineCollision* _This, GameEngineCollision* _Other)
 		{
 			ContentsActor* mpThis = dynamic_cast<ContentsActor*>(_This->GetActor());
-			if (false == mbInvincible)
+			if (false == mpThis->IsInvincible())
 			{
 				SetHitted(true);
 				SetHP(GetHP() - 10.f);
+				mStateManager.ChangeState("Alert");
 			}
-
-			mStateManager.ChangeState("Alert");
 
 			return true;
 		}
@@ -106,39 +99,33 @@ void Temple2Monster::Update(float _DeltaTime)
 
 	if (nullptr != mpParentLevel)
 	{
-		float temp = 0.f;
-		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x + 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
-		temp = mf4PixelDataOnRightSide.r;
-		mf4PixelDataOnRightSide.r = mf4PixelDataOnRightSide.b;
-		mf4PixelDataOnRightSide.b = temp;
-		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixel(GetTransform().GetWorldPosition().x - 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
-		temp = mf4PixelDataOnLeftSide.r;
-		mf4PixelDataOnLeftSide.r = mf4PixelDataOnLeftSide.b;
-		mf4PixelDataOnLeftSide.b = temp;
+		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x + 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
+		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x - 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
 	}
-	
-	/*GameEngineDebug::OutPutString(
-		std::string("M") + ": " +
-		std::to_string(mf4PixelDataOnLeftSide.r) + ", " + 
-		std::to_string(mf4PixelDataOnLeftSide.g) + ", " + 
-		std::to_string(mf4PixelDataOnLeftSide.b) + ", " + 
-		std::to_string(mf4PixelDataOnLeftSide.a) + ", " + 
-		std::to_string(mf4PixelDataOnRightSide.r) + ", " +
-		std::to_string(mf4PixelDataOnRightSide.g) + ", " +
-		std::to_string(mf4PixelDataOnRightSide.b) + ", " +
-		std::to_string(mf4PixelDataOnRightSide.a)
-	);*/
-	
-	
-	/*GameEngineDebug::OutPutString(
-		std::to_string(GetTransform().GetWorldPosition().x) + ", " +
-		std::to_string(GetTransform().GetWorldPosition().y) + ", " +
-		std::to_string(GetTransform().GetWorldPosition().z)
-	);*/
-	
 
-	// Check moving available.
+	if (true == mbHitted)
+	{
+		if (mfDistanceFromPlayer <= 400.f)
+		{
+			// attack1 or attack2
+			// GameEngineDebug::OutPutString("Targeted." + std::to_string(mfDistanceFromPlayer));
+			mbAttack = true;
+			if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+			{
+				mStateManager.ChangeState("Attack1");
+				
+			}
+			else
+			{
+				mStateManager.ChangeState("Attack2");
+			}
 
+		}
+		else
+		{
+			// tracing. -> processing at walk state
+		}
+	}
 }
 
 void Temple2Monster::End()
@@ -148,11 +135,13 @@ void Temple2Monster::End()
 void Temple2Monster::EndAttack1()
 {
 	mStateManager.ChangeState("Stand");
+	mbAttack = false;
 }
 
 void Temple2Monster::EndAttack2()
 {
 	mStateManager.ChangeState("Stand");
+	mbAttack = false;
 }
 
 void Temple2Monster::StandStart(const StateInfo& _Info)
@@ -177,24 +166,11 @@ void Temple2Monster::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	// [D]Alert
-	if (true == mbHitted && false == mbInvincible)
+	if (true == mbHitted && false == mbInvincible && false == mbAttack)
 	{
 		mStateManager.ChangeState("Alert");
 		return;
 	}
-
-	//// [S]Attack1
-	//if (true == GameEngineInput::GetInst()->IsPress("Temple2MonsterAttack1"))
-	//{
-	//	mStateManager.ChangeState("Attack1");
-	//	return;
-	//}
-	//// [S]Attack2
-	//if (true == GameEngineInput::GetInst()->IsPress("Temple2MonsterAttack2"))
-	//{
-	//	mStateManager.ChangeState("Attack2");
-	//	return;
-	//}
 }
 
 void Temple2Monster::WalkStart(const StateInfo& _Info)
@@ -235,27 +211,42 @@ void Temple2Monster::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == mState.mbLeftWalk && false == mState.mbRightWalk)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
-		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
+		if (false == mbHitted)
+		{
+			GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
+		}
+		else
+		{
+			GetTransform().SetWorldMove(mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+		}
 		return;
 	}
 
 	if (true == mState.mbRightWalk && false == mState.mbLeftWalk)
 	{
 		mpRenderer->GetTransform().PixLocalNegativeX();
-		GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
+		if (false == mbHitted)
+		{
+			GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
+		}
+		else
+		{
+			GetTransform().SetWorldMove(mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+		}
+		
 		return;
 	}
 }
 
 void Temple2Monster::DeadStart(const StateInfo& _Info)
 {
-	mbInvincible = true;
+	SetInvincible(true);
 	mpRenderer->ChangeFrameAnimation("Temple2MonsterDie");
+	Death(2.f);
 }
 
 void Temple2Monster::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	Death(1.f);
 }
 
 void Temple2Monster::Attack1Start(const StateInfo& _Info)
@@ -279,15 +270,20 @@ void Temple2Monster::Attack2Update(float _DeltaTime, const StateInfo& _Info)
 void Temple2Monster::AlertStart(const StateInfo& _Info)
 {
 	mbInvincible = true;
-	mfBeforeAccTime = GetAccTime();
+	mfBeforeAccTimeForVincible = GetAccTime();
 	mpRenderer->ChangeFrameAnimation("Temple2MonsterHitted");
 }
 
 void Temple2Monster::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (mfHP <= 0.f)
+	if (GetHP() <= 0.f)
 	{
 		mStateManager.ChangeState("Dead");
+		return;
+	}
+
+	if (_Info.StateTime <= 1.f)
+	{
 		return;
 	}
 
@@ -304,14 +300,17 @@ void Temple2Monster::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
 		mStateManager.ChangeState("Walk");
+		SetHitted(false);
 		return;
 	}
 	if (true == mState.mbRightWalk)
 	{
 		mpRenderer->GetTransform().PixLocalNegativeX();
 		mStateManager.ChangeState("Walk");
+		SetHitted(false);
 		return;
 	}
+	
 	//// [S]Attack1
 	//if (true == GameEngineInput::GetInst()->IsPress("Temple2MonsterAttack1"))
 	//{
