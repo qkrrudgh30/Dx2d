@@ -144,7 +144,7 @@ public:
 		if (-1.f != mfBeforeAccTimeForVincible && 1.f <= mfAccTime - mfBeforeAccTimeForVincible)
 		{
 			mbInvincible = false;
-			mfBeforeAccTimeForVincible = -1.f;
+ 			mfBeforeAccTimeForVincible = -1.f;
 		}
 	}
 

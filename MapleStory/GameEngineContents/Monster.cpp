@@ -39,7 +39,7 @@ void Monster::Start()
 	mpMonsterHP = GetLevel()->CreateActor<MonsterHPGauge>();
 	mpMonsterHP->SetParentMonster(this);
 
-	
+	mpRenderer->SetScaleModeImage();
 }
 
 void Monster::Update(float _DeltaTime)

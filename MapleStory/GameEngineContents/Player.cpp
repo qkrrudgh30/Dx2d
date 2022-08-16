@@ -33,9 +33,12 @@ Player::~Player()
 
 void Player::Start()
 {
-	mpCollision = CreateComponent<GameEngineCollision>();
+	mpCollision = CreateComponent<GameEngineCollision>("PlayerCollision");
 	mpCollision->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
+	// mpCollision->GetTransform().SetLocalMove(float4{0.f, 0.f, -100.f, 1.f});
 	mpCollision->ChangeOrder(OBJECTORDER::Character);
+	mpCollision->SetDebugSetting(CollisionType::CT_AABB, float4{1.f, 0.f, 0.f, 0.5f});
+
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mfWidth = 83.f;
 	mfHeight = 85.f;
@@ -91,6 +94,11 @@ void Player::Start()
 		std::bind(&Player::LadderStart, this, std::placeholders::_1),
 		std::bind(&Player::LadderEnd, this, std::placeholders::_1));
 
+	mStateManager.CreateStateMember("Alert",
+		std::bind(&Player::AlertUpdate, this, std::placeholders::_1, std::placeholders::_2),
+		std::bind(&Player::AlertStart, this, std::placeholders::_1),
+		std::bind(&Player::AlertEnd, this, std::placeholders::_1));
+
     mStateManager.ChangeState("Stand");
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
@@ -115,11 +123,11 @@ void Player::Update(float _DeltaTime)
 	}*/
 
 	mpCollision->IsCollision(CollisionType::CT_AABB2D, static_cast<int>(OBJECTORDER::Mob), CollisionType::CT_AABB2D,
-		[](GameEngineCollision* _This, GameEngineCollision* _Other)
+		[=](GameEngineCollision* _This, GameEngineCollision* _Other)
 		{
 			ContentsActor* mpThis = dynamic_cast<ContentsActor*>(_This->GetActor());
 
-			if (false == mpThis->IsInvincible())
+			if (false == mbInvincible)
 			{
 				mpThis->SetHitted(true);
 				mpThis->SetHP(mpThis->GetHP() - 10.f);
@@ -171,17 +179,6 @@ void Player::Update(float _DeltaTime)
 	}
 #pragma endregion
 
-	/*GameEngineDebug::OutPutString(
-		std::string("P") + ": " +
-		std::to_string(mf4PixelDataOnLeftSide.r) + ", " +
-		std::to_string(mf4PixelDataOnLeftSide.g) + ", " +
-		std::to_string(mf4PixelDataOnLeftSide.b) + ", " +
-		std::to_string(mf4PixelDataOnLeftSide.a) + ", " +
-		std::to_string(mf4PixelDataOnRightSide.r) + ", " +
-		std::to_string(mf4PixelDataOnRightSide.g) + ", " +
-		std::to_string(mf4PixelDataOnRightSide.b) + ", " +
-		std::to_string(mf4PixelDataOnRightSide.a)
-	);*/
 }
 
 void Player::End()
@@ -278,13 +275,7 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Alert
 	if (true == mbHitted && false == mbInvincible)
 	{
-		mbInvincible = true;
-		mfBeforeAccTimeForVincible = GetAccTime();
-		mpRenderer->ChangeFrameAnimation("CharacterAlert");
-		if (GetHP() <= 0.f)
-		{
-			mStateManager.ChangeState("Dead");
-		}
+		mStateManager.ChangeState("Alert");
 		return;
 	}
 
@@ -339,13 +330,7 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Alert
 	if (true == mbHitted && false == mbInvincible)
 	{
-		mbInvincible = true;
-		mfBeforeAccTimeForVincible = GetAccTime();
-		// mpRenderer->ChangeFrameAnimation("CharacterAlert");
-		if (GetHP() <= 0.f)
-		{
-			mStateManager.ChangeState("Dead");
-		}
+		mStateManager.ChangeState("Alert");
 		return;
 	}
 
@@ -442,14 +427,9 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	// Alert
 	if (true == mbHitted && false == mbInvincible)
 	{
-		mbInvincible = true;
-		mfBeforeAccTimeForVincible = GetAccTime();
-		mpRenderer->ChangeFrameAnimation("CharacterAlert");
-		if (GetHP() <= 0.f)
-		{
-			mStateManager.ChangeState("Dead");
-		}
-		return;
+		mStateManager.ChangeState("Alert");
+		
+		
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
@@ -501,16 +481,41 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 	// Alert
 	if (true == mbHitted && false == mbInvincible)
 	{
-		mbInvincible = true;
-		mfBeforeAccTimeForVincible = GetAccTime();
-		// mpRenderer->ChangeFrameAnimation("CharacterAlert");
-		if (GetHP() <= 0.f)
-		{
-			mStateManager.ChangeState("Dead");
-		}
+		mStateManager.ChangeState("Alert");
 		return;
 	}
 
 	mpRenderer->ChangeFrameAnimation("CharacterLadderIdle");
 	
+}
+
+void Player::AlertStart(const StateInfo& _Info)
+{
+	mbInvincible = true;
+	mfBeforeAccTimeForVincible = GetAccTime();
+	mpRenderer->ChangeFrameAnimation("CharacterAlert");
+}
+
+void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (GetHP() <= 0.f)
+	{
+		mStateManager.ChangeState("Dead");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+	{
+		mpRenderer->GetTransform().PixLocalPositiveX();
+		mStateManager.ChangeState("Walk");
+		mbHitted = false;
+		return;
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+	{
+		mpRenderer->GetTransform().PixLocalNegativeX();
+		mStateManager.ChangeState("Walk");
+		mbHitted = false;
+		return;
+	}
 }

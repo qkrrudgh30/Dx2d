@@ -49,7 +49,7 @@ public:
 
 	void SetHittedAfterSecond()
 	{
-		if (-1.f != mfBeforeAccTimeForHit && 5.f <= mfAccTime - mfBeforeAccTimeForHit)
+		if (-1.f != mfBeforeAccTimeForHit && 30.f <= mfAccTime - mfBeforeAccTimeForHit)
 		{
 			mbHitted = false;
 			mfBeforeAccTimeForHit = -1.f;

@@ -77,6 +77,8 @@ void Temple2Monster::Start()
 
 void Temple2Monster::Update(float _DeltaTime)
 {
+	// Update()에서는 boolean update만.
+	// State::update()에서는 boolean에 따른 상태 변화.
 	mfAccTime += _DeltaTime;
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 	Monster::Update(_DeltaTime);
@@ -89,8 +91,9 @@ void Temple2Monster::Update(float _DeltaTime)
 			if (false == mpThis->IsInvincible())
 			{
 				SetHitted(true);
+				SetInvincible(true);
 				SetHP(GetHP() - 10.f);
-				mStateManager.ChangeState("Alert");
+				// mStateManager.ChangeState("Alert");
 			}
 
 			return true;
@@ -102,30 +105,6 @@ void Temple2Monster::Update(float _DeltaTime)
 		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x + 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
 		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x - 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
 	}
-
-	if (true == mbHitted)
-	{
-		if (mfDistanceFromPlayer <= 400.f)
-		{
-			// attack1 or attack2
-			// GameEngineDebug::OutPutString("Targeted." + std::to_string(mfDistanceFromPlayer));
-			mbAttack = true;
-			if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
-			{
-				mStateManager.ChangeState("Attack1");
-				
-			}
-			else
-			{
-				mStateManager.ChangeState("Attack2");
-			}
-
-		}
-		else
-		{
-			// tracing. -> processing at walk state
-		}
-	}
 }
 
 void Temple2Monster::End()
@@ -134,14 +113,14 @@ void Temple2Monster::End()
 
 void Temple2Monster::EndAttack1()
 {
-	mStateManager.ChangeState("Stand");
-	mbAttack = false;
+	// mStateManager.ChangeState("Alert");
+	// mbAttack = false;
 }
 
 void Temple2Monster::EndAttack2()
 {
-	mStateManager.ChangeState("Stand");
-	mbAttack = false;
+	// mStateManager.ChangeState("Alert");
+	// mbAttack = false;
 }
 
 void Temple2Monster::StandStart(const StateInfo& _Info)
@@ -166,10 +145,16 @@ void Temple2Monster::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	// [D]Alert
-	if (true == mbHitted && false == mbInvincible && false == mbAttack)
+	if (true == mbHitted && false == mbInvincible)
 	{
 		mStateManager.ChangeState("Alert");
 		return;
+	}
+
+	// Attack
+	if (true == mbHitted && true == mbInvincible)
+	{
+		mStateManager;
 	}
 }
 
@@ -194,19 +179,6 @@ void Temple2Monster::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	//// [D]Attack1
-	//if (true == GameEngineInput::GetInst()->IsDown("Temple2MonsterAttack1"))
-	//{
-	//	mStateManager.ChangeState("Attack1");
-	//	return;
-	//}
-	//// [D]Attack2
-	//if (true == GameEngineInput::GetInst()->IsDown("Temple2MonsterAttack2"))
-	//{
-	//	mStateManager.ChangeState("Attack2");
-	//	return;
-	//}
-
 	// [D]Move (Recursive)
 	if (true == mState.mbLeftWalk && false == mState.mbRightWalk)
 	{
@@ -217,7 +189,29 @@ void Temple2Monster::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 		else
 		{
-			GetTransform().SetWorldMove(mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+			GetTransform().SetWorldMove(-mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+
+			if (-mf4DirectionToPlayer.x <= 0.f)
+			{
+				mpRenderer->GetTransform().PixLocalPositiveX();
+			}
+			else
+			{
+				mpRenderer->GetTransform().PixLocalNegativeX();
+			}
+
+			if (mfDistanceFromPlayer <= 400.f)
+			{
+				mbAttack = true;
+				if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+				{
+					mStateManager.ChangeState("Attack1");
+				}
+				else
+				{
+					mStateManager.ChangeState("Attack2");
+				}
+			}
 		}
 		return;
 	}
@@ -231,9 +225,30 @@ void Temple2Monster::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 		else
 		{
-			GetTransform().SetWorldMove(mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+			GetTransform().SetWorldMove(-mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+
+			if (-mf4DirectionToPlayer.x <= 0.f)
+			{
+				mpRenderer->GetTransform().PixLocalPositiveX();
+			}
+			else
+			{
+				mpRenderer->GetTransform().PixLocalNegativeX();
+			}
+
+			if (mfDistanceFromPlayer <= 400.f)
+			{
+				mbAttack = true;
+				if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+				{
+					mStateManager.ChangeState("Attack1");
+				}
+				else
+				{
+					mStateManager.ChangeState("Attack2");
+				}
+			}
 		}
-		
 		return;
 	}
 }
@@ -256,6 +271,22 @@ void Temple2Monster::Attack1Start(const StateInfo& _Info)
 
 void Temple2Monster::Attack1Update(float _DeltaTime, const StateInfo& _Info)
 {
+	if (mfDistanceFromPlayer <= 400.f)
+	{
+		mbAttack = true;
+		if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+		{
+			mStateManager.ChangeState("Attack1");
+		}
+		else
+		{
+			mStateManager.ChangeState("Attack2");
+		}
+	}
+	else
+	{
+		mStateManager.ChangeState("Walk");
+	}
 }
 
 void Temple2Monster::Attack2Start(const StateInfo& _Info)
@@ -265,6 +296,22 @@ void Temple2Monster::Attack2Start(const StateInfo& _Info)
 
 void Temple2Monster::Attack2Update(float _DeltaTime, const StateInfo& _Info)
 {
+	if (mfDistanceFromPlayer <= 400.f)
+	{
+		mbAttack = true;
+		if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+		{
+			mStateManager.ChangeState("Attack1");
+		}
+		else
+		{
+			mStateManager.ChangeState("Attack2");
+		}
+	}
+	else
+	{
+		mStateManager.ChangeState("Walk");
+	}
 }
 
 void Temple2Monster::AlertStart(const StateInfo& _Info)
@@ -282,20 +329,28 @@ void Temple2Monster::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	if (_Info.StateTime <= 1.f)
+	if (_Info.StateTime <= 0.5f)
 	{
 		return;
 	}
 
-	//// [D]Stand
-	//if (1.f <= _Info.StateTime)
-	//{
-	//	mbInvincible = false;
-	//	mbHitted = false;
-	//	mStateManager.ChangeState("Stand");
-	//	return;
-	//}
-	// [D]Walk
+	if (mfDistanceFromPlayer <= 400.f)
+	{
+		mbAttack = true;
+		if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+		{
+			mStateManager.ChangeState("Attack1");
+		}
+		else
+		{
+			mStateManager.ChangeState("Attack2");
+		}
+	}
+	else
+	{
+		mStateManager.ChangeState("Walk");
+	}
+	/*
 	if (true == mState.mbLeftWalk)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
@@ -310,19 +365,5 @@ void Temple2Monster::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 		SetHitted(false);
 		return;
 	}
-	
-	//// [S]Attack1
-	//if (true == GameEngineInput::GetInst()->IsPress("Temple2MonsterAttack1"))
-	//{
-	//	mStateManager.ChangeState("Attack1");
-	//	return;
-	//}
-	//// [S]Attack2
-	//if (true == GameEngineInput::GetInst()->IsPress("Temple2MonsterAttack2"))
-	//{
-	//	mStateManager.ChangeState("Attack2");
-	//	return;
-	//}
-	// [S]Dead
-	
+	*/
 }

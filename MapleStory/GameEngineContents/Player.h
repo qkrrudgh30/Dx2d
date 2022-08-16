@@ -84,6 +84,10 @@ private:
 	void LadderUpdate(float _DeltaTime, const StateInfo& _Info);
 	void LadderEnd(const StateInfo& _Info) {}
 
+	void AlertStart(const StateInfo& _Info);
+	void AlertUpdate(float _DeltaTime, const StateInfo& _Info);
+	void AlertEnd(const StateInfo& _Info) {}
+
 	/* Skill */
 
 };
