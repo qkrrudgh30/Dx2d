@@ -56,17 +56,33 @@ void TempleOfTime2::Start()
 	mpCloud->GetTransform().SetLocalPosition(CenterPointOfMap);
 	mpPCMap->GetTransform().SetLocalPosition(CenterPointOfMap);
 
-    float4 StartPoint = float4{ 396.f, -320.f, OBJECTORDER::Character, 1.f };
+    float4 StartPoint = float4{ 396.f, -318.f, OBJECTORDER::Character, 1.f };
 	Temple2Monster* mpMonster2 = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
 	mpMonster2->GetTransform().SetWorldPosition(StartPoint);
 
-	StartPoint = float4{ 1130.f, -320.f, OBJECTORDER::Character, 1.f };
+	StartPoint = float4{ 1130.f, -318.f, OBJECTORDER::Character, 1.f };
 	Temple2Monster* mpMonster3 = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
 	mpMonster3->GetTransform().SetWorldPosition(StartPoint);
 
-	StartPoint = float4{ 1660.f, -320.f, OBJECTORDER::Character, 1.f };
+	StartPoint = float4{ 1660.f, -318.f, OBJECTORDER::Character, 1.f };
 	Temple2Monster* mpMonster4 = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
 	mpMonster4->GetTransform().SetWorldPosition(StartPoint);
+
+	StartPoint = float4{ 512.f, -664.f, OBJECTORDER::Character, 1.f };
+	Temple2Monster* mpMonster5 = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
+	mpMonster5->GetTransform().SetWorldPosition(StartPoint);
+
+	StartPoint = float4{ 1010.f, -664.f, OBJECTORDER::Character, 1.f };
+	Temple2Monster* mpMonster6 = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
+	mpMonster6->GetTransform().SetWorldPosition(StartPoint);
+
+	StartPoint = float4{ 1330.f, -664.f, OBJECTORDER::Character, 1.f };
+	Temple2Monster* mpMonster7 = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
+	mpMonster7->GetTransform().SetWorldPosition(StartPoint);
+
+	StartPoint = float4{ 1640.f, -664.f, OBJECTORDER::Character, 1.f };
+	Temple2Monster* mpMonster8 = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
+	mpMonster8->GetTransform().SetWorldPosition(StartPoint);
 
 	mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
 	mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 165.f, -660.f, OBJECTORDER::Character, 1.f });

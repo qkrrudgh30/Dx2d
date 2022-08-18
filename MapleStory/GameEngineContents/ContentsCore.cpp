@@ -334,12 +334,12 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("Temple2MonsterHitted.png", 1, 1);
 
     GameEngineTexture::Cut("Temple3MonsterStand.png", 12, 1);
-    // GameEngineTexture::Cut("Temple3MonsterMove.png", 6, 1);
-    // GameEngineTexture::Cut("Temple3MonsterHitting1.png", 4, 1);
+    GameEngineTexture::Cut("Temple3MonsterMove.png", 12, 1);
+    GameEngineTexture::Cut("Temple3MonsterHitting1.png", 4, 1);
     GameEngineTexture::Cut("Temple3MonsterHitting2.png", 7, 1);
-    // GameEngineTexture::Cut("Temple3MonsterDie.png", 12, 1);
-    GameEngineTexture::Cut("Temple3MonsterAttack1.png", 17, 1);
-    GameEngineTexture::Cut("Temple3MonsterAttack2.png", 17, 1);
+    GameEngineTexture::Cut("Temple3MonsterDie.png", 17, 1);
+    GameEngineTexture::Cut("Temple3MonsterAttack1.png", 35, 1);
+    GameEngineTexture::Cut("Temple3MonsterAttack2.png", 23, 1);
     GameEngineTexture::Cut("Temple3MonsterHitted.png", 1, 1);
 
     GameEngineTexture::Cut("Temple3BossStand.png", 8, 1);
@@ -350,7 +350,7 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("Temple3BossHitting2.png", 5, 1);
     GameEngineTexture::Cut("Temple3BossBullet1.png", 4, 1);
     GameEngineTexture::Cut("Temple3BossDie.png", 17, 1);
-    GameEngineTexture::Cut("Temple3BossAttack1.png", 15, 1);
+    GameEngineTexture::Cut("Temple3BossAttack1.png", 13, 1);
     GameEngineTexture::Cut("Temple3BossAttack2.png", 15, 1);
     GameEngineTexture::Cut("Temple3BossHitted.png", 1, 1);
 

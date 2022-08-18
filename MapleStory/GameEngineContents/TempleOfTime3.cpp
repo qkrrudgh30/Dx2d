@@ -59,16 +59,38 @@ void TempleOfTime3::Start()
 
     mpPortalToPrevious = CreateActor<Portal>(OBJECTORDER::UI);
     mpPortalToPrevious->GetTransform().SetWorldPosition(float4{ 969.f, -1067.f, OBJECTORDER::Character, 1.f });
-    
-    float4 MapHalfSize = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::Mob, 1.f };
-    Temple3Monster* newMob = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
-    float4 StartPoint = float4{ 969.f, -1067.f, OBJECTORDER::Character, 0.f };
-    StartPoint.x += 200.f;
-    newMob->GetTransform().SetWorldPosition(StartPoint);
 
-    Temple3Boss* newBoss = CreateActor<Temple3Boss>(OBJECTORDER::Mob);
-    StartPoint.x += 200.f;
-    newBoss->GetTransform().SetWorldPosition(StartPoint);
+    float4 StartPoint = float4{ 273.f, -1064.f, OBJECTORDER::Character, 1.f };
+    Temple3Monster* mpMonster1 = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
+    mpMonster1->GetTransform().SetWorldPosition(StartPoint);
+
+    StartPoint = float4{ 706.f, -1064.f, OBJECTORDER::Character, 1.f };
+    Temple3Monster* mpMonster2 = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
+    mpMonster2->GetTransform().SetWorldPosition(StartPoint);
+
+    StartPoint = float4{ 1212.f, -1064.f, OBJECTORDER::Character, 1.f };
+    Temple3Monster* mpMonster3 = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
+    mpMonster3->GetTransform().SetWorldPosition(StartPoint);
+
+    StartPoint = float4{ 1632.f, -1064.f, OBJECTORDER::Character, 1.f };
+    Temple3Monster* mpMonster4 = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
+    mpMonster4->GetTransform().SetWorldPosition(StartPoint);
+
+    StartPoint = float4{ 1100.f, -709.f, OBJECTORDER::Character, 1.f };
+    Temple3Monster* mpMonster5 = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
+    mpMonster5->GetTransform().SetWorldPosition(StartPoint);
+
+    StartPoint = float4{ 1664.f, -709.f, OBJECTORDER::Character, 1.f };
+    Temple3Monster* mpMonster6 = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
+    mpMonster6->GetTransform().SetWorldPosition(StartPoint);
+
+    StartPoint = float4{ 291.f, -709.f, OBJECTORDER::Character, 1.f };
+    Temple3Monster* mpMonster7 = CreateActor<Temple3Monster>(OBJECTORDER::Mob);
+    mpMonster7->GetTransform().SetWorldPosition(StartPoint);
+
+    StartPoint = float4{ 1069.f, -366.f, OBJECTORDER::Character, 1.f };
+    Temple3Boss* mpBoss = CreateActor<Temple3Boss>(OBJECTORDER::Mob);
+    mpBoss->GetTransform().SetWorldPosition(StartPoint);
 
     mpStateBar = CreateActor<StateBar>(OBJECTORDER::UI);
 

@@ -52,11 +52,6 @@ void TempleOfTime0::Start()
 	mpCloud->GetTransform().SetWorldPosition(CenterPointOfMap);
 	mpPCMap->GetTransform().SetWorldPosition(CenterPointOfMap);	
 
-	float4 StartPoint = float4{ 966.f, -777.f, OBJECTORDER::Mob, 1.f };
-	Temple2Monster* mpMonster = CreateActor<Temple2Monster>(OBJECTORDER::Mob);
-	StartPoint.x += 200.f;
-	mpMonster->GetTransform().SetWorldPosition(StartPoint);
-
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::Character);
 	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 2000.f, -258.f, OBJECTORDER::Character, 1.f });
 
