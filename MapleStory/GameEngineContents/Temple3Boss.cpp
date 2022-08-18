@@ -227,7 +227,7 @@ void Temple3Boss::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Temple3Boss::DeadStart(const StateInfo& _Info)
 {
-	SetInvincible(true);
+	mbInvincible = true;
 	mpRenderer->ChangeFrameAnimation("Temple3BossDie");
 	Death(2.f);
 }

@@ -227,7 +227,8 @@ void Temple2Monster::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Temple2Monster::DeadStart(const StateInfo& _Info)
 {
-	SetInvincible(true);
+	// SetInvincible(true);
+	mbInvincible = true;
 	mpRenderer->ChangeFrameAnimation("Temple2MonsterDie");
 	Death(2.f);
 }
