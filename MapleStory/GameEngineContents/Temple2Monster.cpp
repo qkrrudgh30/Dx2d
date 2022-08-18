@@ -12,13 +12,13 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
-Temple2Monster::Temple2Monster() 
+Temple2Monster::Temple2Monster()
 {
 	mfWidth = 115.f;
 	mfHeight = 183.f;
 }
 
-Temple2Monster::~Temple2Monster() 
+Temple2Monster::~Temple2Monster()
 {
 }
 
@@ -26,18 +26,18 @@ void Temple2Monster::Start()
 {
 	Monster::Start();
 
-	mpCollision->GetTransform().SetLocalScale(float4{mfWidth, mfHeight, 1.f, 1.f});
-	
+	mpCollision->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
+
 	mpRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
-	mpRenderer->GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Mob, 1.f});
+	mpRenderer->GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Mob, 1.f });
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterStand", FrameAnimation_DESC("Temple2MonsterStand.png", 0, 11, 0.2f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterMove", FrameAnimation_DESC("Temple2MonsterMove.png", 0, 5, 0.2f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterHitting1", FrameAnimation_DESC("Temple2MonsterHitting1.png", 0, 3, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterHitting2", FrameAnimation_DESC("Temple2MonsterHitting2.png", 0, 6, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterDie", FrameAnimation_DESC("Temple2MonsterDie.png", 0, 11, 0.2f, false));
-	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack1", FrameAnimation_DESC("Temple2MonsterAttack1.png", 0, 16, 0.1f, false));
+	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack1", FrameAnimation_DESC("Temple2MonsterAttack1.png", 0, 16, 0.1f));
 	mpRenderer->AnimationBindEnd("Temple2MonsterAttack1", std::bind(&Temple2Monster::EndAttack1, this));
-	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack2", FrameAnimation_DESC("Temple2MonsterAttack2.png", 0, 16, 0.1f, false));
+	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterAttack2", FrameAnimation_DESC("Temple2MonsterAttack2.png", 0, 16, 0.1f));
 	mpRenderer->AnimationBindEnd("Temple2MonsterAttack2", std::bind(&Temple2Monster::EndAttack2, this));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterHitted", FrameAnimation_DESC("Temple2MonsterHitted.png", 0, 0, 0.2f));
 	mpRenderer->ChangeFrameAnimation("Temple2MonsterStand");
@@ -92,8 +92,10 @@ void Temple2Monster::Update(float _DeltaTime)
 			{
 				SetHitted(true);
 				SetInvincible(true);
+				mbAttack = true;
+				mfBeforeAccTimeForHit = GetAccTime();
 				SetHP(GetHP() - 10.f);
-				// mStateManager.ChangeState("Alert");
+				mStateManager.ChangeState("Alert");
 			}
 
 			return true;
@@ -113,13 +115,13 @@ void Temple2Monster::End()
 
 void Temple2Monster::EndAttack1()
 {
-	// mStateManager.ChangeState("Alert");
+	mStateManager.ChangeState("Stand");
 	// mbAttack = false;
 }
 
 void Temple2Monster::EndAttack2()
 {
-	// mStateManager.ChangeState("Alert");
+	mStateManager.ChangeState("Stand");
 	// mbAttack = false;
 }
 
@@ -131,6 +133,8 @@ void Temple2Monster::StandStart(const StateInfo& _Info)
 void Temple2Monster::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	// [D]Walk
+	/**/
+
 	if (true == mState.mbLeftWalk)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
@@ -149,12 +153,6 @@ void Temple2Monster::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		mStateManager.ChangeState("Alert");
 		return;
-	}
-
-	// Attack
-	if (true == mbHitted && true == mbInvincible)
-	{
-		mStateManager;
 	}
 }
 
@@ -179,78 +177,52 @@ void Temple2Monster::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	// [D]Move (Recursive)
-	if (true == mState.mbLeftWalk && false == mState.mbRightWalk)
+	if (false == mbAttack)
 	{
-		mpRenderer->GetTransform().PixLocalPositiveX();
-		if (false == mbHitted)
+		if (true == mState.mbLeftWalk)
 		{
+			mpRenderer->GetTransform().PixLocalPositiveX();
 			GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
+			return;
 		}
-		else
+		if (true == mState.mbRightWalk)
 		{
-			GetTransform().SetWorldMove(-mf4DirectionToPlayer * mfSpeed * _DeltaTime);
-
-			if (-mf4DirectionToPlayer.x <= 0.f)
-			{
-				mpRenderer->GetTransform().PixLocalPositiveX();
-			}
-			else
-			{
-				mpRenderer->GetTransform().PixLocalNegativeX();
-			}
-
-			if (mfDistanceFromPlayer <= 400.f)
-			{
-				mbAttack = true;
-				if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
-				{
-					mStateManager.ChangeState("Attack1");
-				}
-				else
-				{
-					mStateManager.ChangeState("Attack2");
-				}
-			}
-		}
-		return;
-	}
-
-	if (true == mState.mbRightWalk && false == mState.mbLeftWalk)
-	{
-		mpRenderer->GetTransform().PixLocalNegativeX();
-		if (false == mbHitted)
-		{
+			mpRenderer->GetTransform().PixLocalNegativeX();
 			GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
+			return;
+		}
+	}
+	else
+	{
+		GetTransform().SetWorldMove(-mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+
+		if (-mf4DirectionToPlayer.x <= 0.f)
+		{
+			mpRenderer->GetTransform().PixLocalPositiveX();
 		}
 		else
 		{
-			GetTransform().SetWorldMove(-mf4DirectionToPlayer * mfSpeed * _DeltaTime);
+			mpRenderer->GetTransform().PixLocalNegativeX();
+		}
 
-			if (-mf4DirectionToPlayer.x <= 0.f)
+		if (mfDistanceFromPlayer <= 400.f)
+		{
+			// mbAttack = true;
+			if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
 			{
-				mpRenderer->GetTransform().PixLocalPositiveX();
+				mStateManager.ChangeState("Attack1");
+				return;
 			}
 			else
 			{
-				mpRenderer->GetTransform().PixLocalNegativeX();
-			}
-
-			if (mfDistanceFromPlayer <= 400.f)
-			{
-				mbAttack = true;
-				if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
-				{
-					mStateManager.ChangeState("Attack1");
-				}
-				else
-				{
-					mStateManager.ChangeState("Attack2");
-				}
+				mStateManager.ChangeState("Attack2");
+				return;
 			}
 		}
-		return;
 	}
+
+
+
 }
 
 void Temple2Monster::DeadStart(const StateInfo& _Info)
@@ -271,22 +243,26 @@ void Temple2Monster::Attack1Start(const StateInfo& _Info)
 
 void Temple2Monster::Attack1Update(float _DeltaTime, const StateInfo& _Info)
 {
-	if (mfDistanceFromPlayer <= 400.f)
+	if (true == mbAttack)
 	{
-		mbAttack = true;
-		if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+		if (mfDistanceFromPlayer <= 400.f)
 		{
-			mStateManager.ChangeState("Attack1");
+			// mbAttack = true;
+			if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+			{
+				mStateManager.ChangeState("Attack1");
+			}
+			else
+			{
+				mStateManager.ChangeState("Attack2");
+			}
 		}
 		else
 		{
-			mStateManager.ChangeState("Attack2");
+			mStateManager.ChangeState("Walk");
 		}
 	}
-	else
-	{
-		mStateManager.ChangeState("Walk");
-	}
+
 }
 
 void Temple2Monster::Attack2Start(const StateInfo& _Info)
@@ -296,21 +272,24 @@ void Temple2Monster::Attack2Start(const StateInfo& _Info)
 
 void Temple2Monster::Attack2Update(float _DeltaTime, const StateInfo& _Info)
 {
-	if (mfDistanceFromPlayer <= 400.f)
+	if (true == mbAttack)
 	{
-		mbAttack = true;
-		if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+		if (mfDistanceFromPlayer <= 400.f)
 		{
-			mStateManager.ChangeState("Attack1");
+			// mbAttack = true;
+			if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
+			{
+				mStateManager.ChangeState("Attack1");
+			}
+			else
+			{
+				mStateManager.ChangeState("Attack2");
+			}
 		}
 		else
 		{
-			mStateManager.ChangeState("Attack2");
+			mStateManager.ChangeState("Walk");
 		}
-	}
-	else
-	{
-		mStateManager.ChangeState("Walk");
 	}
 }
 
@@ -326,6 +305,7 @@ void Temple2Monster::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (GetHP() <= 0.f)
 	{
 		mStateManager.ChangeState("Dead");
+		SetHitted(false);
 		return;
 	}
 
@@ -340,30 +320,20 @@ void Temple2Monster::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 		if (1.f - ((GetMaxHP() - GetHP()) / GetMaxHP()) <= 0.4f)
 		{
 			mStateManager.ChangeState("Attack1");
+			SetHitted(false);
+			return;
 		}
 		else
 		{
 			mStateManager.ChangeState("Attack2");
+			SetHitted(false);
+			return;
 		}
 	}
 	else
 	{
 		mStateManager.ChangeState("Walk");
-	}
-	/*
-	if (true == mState.mbLeftWalk)
-	{
-		mpRenderer->GetTransform().PixLocalPositiveX();
-		mStateManager.ChangeState("Walk");
 		SetHitted(false);
 		return;
 	}
-	if (true == mState.mbRightWalk)
-	{
-		mpRenderer->GetTransform().PixLocalNegativeX();
-		mStateManager.ChangeState("Walk");
-		SetHitted(false);
-		return;
-	}
-	*/
 }

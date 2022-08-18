@@ -52,6 +52,7 @@ public:
 		if (-1.f != mfBeforeAccTimeForHit && 30.f <= mfAccTime - mfBeforeAccTimeForHit)
 		{
 			mbHitted = false;
+			mbAttack = false;
 			mfBeforeAccTimeForHit = -1.f;
 		}
 	}
