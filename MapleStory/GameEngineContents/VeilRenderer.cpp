@@ -13,8 +13,6 @@ VeilRenderer::~VeilRenderer()
 void VeilRenderer::Start()
 {
 	GameEngineRenderer::Start();
-	PushRendererToMainCamera();
-
-	
+	PushRendererToMainCamera();	
 }
 

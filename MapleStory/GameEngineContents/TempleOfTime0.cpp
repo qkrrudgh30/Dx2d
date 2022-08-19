@@ -49,7 +49,7 @@ void TempleOfTime0::Start()
 	float4 CenterPointOfMap = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::UI, 0.f };
 	mpBackGround->GetTransform().SetWorldPosition(CenterPointOfMap);
 	mpTile->GetTransform().SetWorldPosition(CenterPointOfMap);
-	mpCloud->GetTransform().SetWorldPosition(CenterPointOfMap);
+	mpCloud->GetTransform().SetWorldPosition(CenterPointOfMap + float4{0.f, 60.f, 0.f, 0.f});
 	mpPCMap->GetTransform().SetWorldPosition(CenterPointOfMap);	
 
 	mpPortalToNext = CreateActor<Portal>(OBJECTORDER::Character);
@@ -60,7 +60,7 @@ void TempleOfTime0::Start()
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
 }
 
-void TempleOfTime0::OnEvent()
+void TempleOfTime0::LevelStartEvent()
 {
 	if (nullptr == Player::GetPlayer())
 	{

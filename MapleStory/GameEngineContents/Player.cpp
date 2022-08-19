@@ -104,7 +104,7 @@ void Player::Start()
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	Font->SetText("안녕하세요", "메이플스토리");
 	Font->SetColor({ 0.0f, 0.0f, 0.0f });
-	Font->SetScreenPostion({ 100.0f, 100.0f });
+	Font->SetScreenPostion({ 100.0f, 100.0f, -460.f, 1.f });
 }
 
 void Player::Update(float _DeltaTime)
@@ -140,10 +140,18 @@ void Player::Update(float _DeltaTime)
 #pragma region PixelCollision
 	if (nullptr != mpParentLevel)
 	{
-		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 5.f));
-		mf4HeadPixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x, -(GetTransform().GetWorldPosition().y + 80.f));
-		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x + 25.f, -(GetTransform().GetWorldPosition().y + 5.f));
-		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x - 25.f, -(GetTransform().GetWorldPosition().y + 5.f));
+		mf4PixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x), 
+			static_cast<int>(-(GetTransform().GetWorldPosition().y + 5.f)));
+		mf4HeadPixelData = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x),
+			static_cast<int>(-(GetTransform().GetWorldPosition().y + 80.f)));
+		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x + 25.f), 
+			static_cast<int>(-(GetTransform().GetWorldPosition().y + 5.f)));
+		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x - 25.f), 
+			static_cast<int>(-(GetTransform().GetWorldPosition().y + 5.f)));
 	}
 
 	if (true == mf4PixelData.CompareInt4D(float4::MAGENTA) ||

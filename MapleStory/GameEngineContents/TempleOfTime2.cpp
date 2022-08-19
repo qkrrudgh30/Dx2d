@@ -23,7 +23,7 @@ TempleOfTime2::~TempleOfTime2()
 {
 }
 
-void TempleOfTime2::OnEvent()
+void TempleOfTime2::LevelStartEvent()
 {
 	if (nullptr == Player::GetPlayer())
 	{
@@ -53,7 +53,7 @@ void TempleOfTime2::Start()
 	float4 CenterPointOfMap = float4{ GetMapSize().x / 2.f, -(GetMapSize().y / 2.f), OBJECTORDER::UI, 1.f };
 	mpBackGround->GetTransform().SetLocalPosition(CenterPointOfMap);
 	mpTile->GetTransform().SetLocalPosition(CenterPointOfMap);
-	mpCloud->GetTransform().SetLocalPosition(CenterPointOfMap);
+	mpCloud->GetTransform().SetLocalPosition(CenterPointOfMap + float4{ 0.f, 30.f, 0.f, 0.f });
 	mpPCMap->GetTransform().SetLocalPosition(CenterPointOfMap);
 
     float4 StartPoint = float4{ 396.f, -318.f, OBJECTORDER::Character, 1.f };

@@ -23,7 +23,7 @@ public:
     LoginLevel& operator=(LoginLevel&& _Other) noexcept = delete;
 
 protected:
-    void OnEvent() override;
+    void LevelStartEvent() override;
     void Start() override;
     void Update(float _DeltaTime) override;
     void End() override;

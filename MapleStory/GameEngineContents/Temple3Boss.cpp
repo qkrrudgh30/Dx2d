@@ -30,7 +30,7 @@ void Temple3Boss::Start()
 
 	mpRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 	mpRenderer->GetTransform().SetWorldPosition(float4{ 0.f, 0.f, OBJECTORDER::Mob, 1.f });
-	mpRenderer->CreateFrameAnimationCutTexture("Temple3BossStand", FrameAnimation_DESC("Temple3BossStand.png", 0, 11, 0.2f));
+	mpRenderer->CreateFrameAnimationCutTexture("Temple3BossStand", FrameAnimation_DESC("Temple3BossStand.png", 0, 7, 0.2f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple3BossMove", FrameAnimation_DESC("Temple3BossMove.png", 0, 5, 0.2f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple3BossHitting1", FrameAnimation_DESC("Temple3BossHitting1.png", 0, 3, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple3BossHitting2", FrameAnimation_DESC("Temple3BossHitting2.png", 0, 6, 0.5f));
@@ -104,8 +104,12 @@ void Temple3Boss::Update(float _DeltaTime)
 
 	if (nullptr != mpParentLevel)
 	{
-		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x + 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
-		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x - 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
+		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x + 100.f),
+			static_cast<int>(-(GetTransform().GetWorldPosition().y - 5.f)));
+		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x - 100.f),
+			static_cast<int>(-(GetTransform().GetWorldPosition().y - 5.f)));
 	}
 }
 
@@ -133,8 +137,6 @@ void Temple3Boss::StandStart(const StateInfo& _Info)
 void Temple3Boss::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	// [D]Walk
-	/**/
-
 	if (true == mState.mbLeftWalk)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();

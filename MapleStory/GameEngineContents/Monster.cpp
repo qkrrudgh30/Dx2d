@@ -63,6 +63,7 @@ void Monster::Update(float _DeltaTime)
 		true == mf4PixelDataOnRightSide.CompareInt4D(float4{ 0.f, 0.f, 0.f, 0.f }) 
 		)
 	{
+		// if (this->GetNameCopy().)
 		mState.AllState = 0;
 		mState.mbLeftWalk = true;
 		return;

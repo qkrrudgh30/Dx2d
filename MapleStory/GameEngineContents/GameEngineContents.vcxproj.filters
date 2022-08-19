@@ -205,6 +205,12 @@
     <ClInclude Include="Effect.h">
       <Filter>02_Actors\02_1Global</Filter>
     </ClInclude>
+    <ClInclude Include="QuickSlot.h">
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>02_Actors\02_1Global\MasterUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -363,6 +369,12 @@
     </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>02_Actors\02_1Global</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickSlot.cpp">
+      <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>02_Actors\02_1Global\MasterUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

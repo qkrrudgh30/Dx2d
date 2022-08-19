@@ -24,7 +24,7 @@ LoginLevel::~LoginLevel()
 {
 }
 
-void LoginLevel::OnEvent()
+void LoginLevel::LevelStartEvent()
 {
     Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
 }
@@ -62,8 +62,6 @@ void LoginLevel::Update(float _DeltaTime)
         GEngine::ChangeLevel("TempleOfTime0");
         mfVeilStartSecond = -1;
     }
-
-    
 
     // GameEngineDebug::OutPutString(std::to_string(GetMainCamera()->GetScreenPosition().x) + "  " + std::to_string(GetMainCamera()->GetScreenPosition().y));
 }

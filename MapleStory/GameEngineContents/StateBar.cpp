@@ -4,6 +4,7 @@
 #include "HPGauge.h"
 #include "MPGauge.h"
 #include "EXPGauge.h"
+#include "QuickSlot.h"
 
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
@@ -60,6 +61,10 @@ void StateBar::Start()
 	mpShortCutButtonRenderer->SetTexture("ShortCutButton.png");
 	mpShortCutButtonRenderer->GetTransform().SetLocalScale(float4{ GameEngineWindow::GetScale().x * 0.09125f, 35.f, 1.f, 1.f });
 	mpShortCutButtonRenderer->GetTransform().SetLocalPosition(float4{ 579.f, -GameEngineWindow::GetScale().y / 2.f + 17.f, OBJECTORDER::UIGaugeBG, 1.f });
+
+	mpQuickSlot = GetLevel()->CreateActor<QuickSlot>();
+	mpQuickSlot->GetTransform().SetLocalPosition(float4{ 565.f, -255.f, OBJECTORDER::UIGauge, 1.f });
+
 
 	mpMenuButton = GetLevel()->CreateActor<MenuButton>();
 	

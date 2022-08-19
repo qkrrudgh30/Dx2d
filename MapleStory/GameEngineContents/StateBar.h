@@ -7,6 +7,7 @@ class MenuButton;
 class HPGauge;
 class MPGauge;
 class EXPGauge;
+class QuickSlot;
 class StateBar : public GameEngineActor
 {
 private:
@@ -16,11 +17,12 @@ private:
 	GameEngineUIRenderer* mpGaugeBackGroundRenderer;
 	GameEngineUIRenderer* mpCashShopButtonRenderer;
 	GameEngineUIRenderer* mpShortCutButtonRenderer;
-	float4                     mf4CameraPos;
-	MenuButton*                mpMenuButton;
-	HPGauge*                   mpHPGauge;
-	MPGauge*                   mpMPGauge;
-	EXPGauge*                  mpEXPGauge;
+	float4 mf4CameraPos;
+	MenuButton* mpMenuButton;
+	HPGauge* mpHPGauge;
+	MPGauge* mpMPGauge;
+	EXPGauge* mpEXPGauge;
+	QuickSlot* mpQuickSlot;
 
 public:
 	// constrcuter destructer

@@ -104,8 +104,12 @@ void Temple2Monster::Update(float _DeltaTime)
 
 	if (nullptr != mpParentLevel)
 	{
-		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x + 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
-		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(GetTransform().GetWorldPosition().x - 100.f, -(GetTransform().GetWorldPosition().y + 10.f));
+		mf4PixelDataOnRightSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x + 100.f),
+			static_cast<int>(-(GetTransform().GetWorldPosition().y + 10.f)));
+		mf4PixelDataOnLeftSide = mpParentLevel->GetPCMap()->GetRenderer()->GetCurTexture()->GetPixelToFloat4(
+			static_cast<int>(GetTransform().GetWorldPosition().x - 100.f),
+			static_cast<int>(-(GetTransform().GetWorldPosition().y + 10.f)));
 	}
 }
 
