@@ -41,7 +41,7 @@ private:
 
 	void DeadStart(const StateInfo& _Info);
 	void DeadUpdate(float _DeltaTime, const StateInfo& _Info);
-	void DeadEnd(const StateInfo& _Info) {};
+	void DeadEnd(const StateInfo& _Info);
 
 	void Attack1Start(const StateInfo& _Info);
 	void Attack1Update(float _DeltaTime, const StateInfo& _Info);

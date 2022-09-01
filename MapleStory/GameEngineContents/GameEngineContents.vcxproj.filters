@@ -43,6 +43,12 @@
     <Filter Include="02_Actors\02_2Renderer">
       <UniqueIdentifier>{29221723-ac06-4d74-a35f-820cc6ea3e6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02_Actors\02_1Global\MasterUI\Inventory">
+      <UniqueIdentifier>{0b67515a-028a-4d34-8012-11b249d7922d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Actors\02_1Global\Item">
+      <UniqueIdentifier>{706b18a1-58c7-406b-a2bd-f39ce42d7a54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -209,7 +215,16 @@
       <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
-      <Filter>02_Actors\02_1Global\MasterUI</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="ETCMenuButton.h">
+      <Filter>02_Actors\02_1Global\MasterUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>02_Actors\02_1Global\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Meso.h">
+      <Filter>02_Actors\02_1Global\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,7 +389,16 @@
       <Filter>02_Actors\02_1Global\MasterUI\StateBar</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
-      <Filter>02_Actors\02_1Global\MasterUI</Filter>
+      <Filter>02_Actors\02_1Global\MasterUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="ETCMenuButton.cpp">
+      <Filter>02_Actors\02_1Global\MasterUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>02_Actors\02_1Global\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Meso.cpp">
+      <Filter>02_Actors\02_1Global\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

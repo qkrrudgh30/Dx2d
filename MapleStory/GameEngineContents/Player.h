@@ -4,6 +4,7 @@
 // Ό³Έν :
 class ContentsLevel;
 class RigidBody;
+class Inventory;
 class Player : public ContentsActor
 {
 private:
@@ -13,7 +14,8 @@ private:
 	static Player*         spPlayer;
 	RigidBody*             mpRigidBody;
 	bool                   mbOnAboveGround;
-
+	Inventory* mpInventory;
+	unsigned int muAccMeso;
 
 public:
 	// constrcuter destructer
@@ -32,6 +34,8 @@ public:
 	float4 GetHeadPixelData() { return mf4HeadPixelData; }
 	float4 GetPixelDataOnLeftSide() { return mf4PixelDataOnLeftSide; }
 	float4 GetPixelDataOnRightSide() { return mf4PixelDataOnRightSide; }
+
+	unsigned int GetAccMeso() { return muAccMeso; }
 
 	float4 PreviousDirection()
 	{

@@ -17,6 +17,9 @@
 #include <GameEngineBase/GameEngineWindow.h>
 
 TempleOfTime3::TempleOfTime3()
+    : mpBackGround(nullptr)
+    , mpTile(nullptr)
+    , mpCloud(nullptr)
 {
 }
 

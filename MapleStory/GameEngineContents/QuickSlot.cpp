@@ -21,11 +21,6 @@ void QuickSlot::Start()
 	mpUIRenderer->SetTexture("QuickSlot.png");
 	mpUIRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 	
-
-	// GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-	// Font->SetText("델", "메이플스토리");
-	// Font->SetColor(float4{ 0.0f, 0.0f, 0.0f, 1.f });
-	// Font->SetScreenPostion(float4{ 200.0f, 200.0f, -360.f, 1.f });
 }
 
 void QuickSlot::Update(float _DeltaTime)

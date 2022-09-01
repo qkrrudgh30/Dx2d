@@ -4,6 +4,8 @@
 #include "ContentsLevel.h"
 #include "PixelCollisionMap.h"
 #include "RigidBody.h"
+#include "Inventory.h"
+#include "Item.h"
 #include <functional>
 
 #include <GameEngineBase/GameEngineDebug.h>
@@ -20,6 +22,8 @@ Player::Player()
 	, mStateManager()
 	, mbOnAboveGround(false)
 	, mpRigidBody(nullptr)
+	, mpInventory(nullptr)
+	, muAccMeso(0u)
 {
 	mfSpeed = 400.f;
 	spPlayer = this;
@@ -35,7 +39,6 @@ void Player::Start()
 {
 	mpCollision = CreateComponent<GameEngineCollision>("PlayerCollision");
 	mpCollision->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
-	// mpCollision->GetTransform().SetLocalMove(float4{0.f, 0.f, -100.f, 1.f});
 	mpCollision->ChangeOrder(OBJECTORDER::Character);
 	mpCollision->SetDebugSetting(CollisionType::CT_AABB, float4{1.f, 0.f, 0.f, 0.5f});
 
@@ -105,10 +108,16 @@ void Player::Start()
 	Font->SetText("안녕하세요", "메이플스토리");
 	Font->SetColor({ 0.0f, 0.0f, 0.0f });
 	Font->SetScreenPostion({ 100.0f, 100.0f, -460.f, 1.f });
+
+	
 }
 
 void Player::Update(float _DeltaTime)
 {
+	if (nullptr == mpInventory)
+	{
+		mpInventory = Inventory::GetInventory();
+	}
 	mfAccTime += _DeltaTime;
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 
@@ -131,6 +140,28 @@ void Player::Update(float _DeltaTime)
 			{
 				mpThis->SetHitted(true);
 				mpThis->SetHP(mpThis->GetHP() - 10.f);
+			}
+
+			return true;
+		}
+	);
+
+	mpCollision->IsCollision(CollisionType::CT_AABB2D, static_cast<int>(OBJECTORDER::ItemType), CollisionType::CT_AABB2D,
+		[=](GameEngineCollision* _This, GameEngineCollision* _Other)
+		{
+			ContentsActor* mpThis = dynamic_cast<ContentsActor*>(_This->GetActor());
+			if (false == mpThis->IsInvincible())
+			{
+				if (true == GameEngineInput::GetInst()->IsDown("GetItem"))
+				{
+					Item* item = static_cast<Item*>(_Other->GetParent());
+					if (OBJECTORDER::MesoItem == item->GetItemInfo())
+					{
+						muAccMeso += item->GetMesoAmount();
+						_Other->GetActor()->Death(0.5f);
+						_Other->Death();
+					}
+				}
 			}
 
 			return true;
@@ -186,6 +217,11 @@ void Player::Update(float _DeltaTime)
 		mbOnAboveGround = false;
 	}
 #pragma endregion
+
+	if (nullptr != mpInventory && true == GameEngineInput::GetInst()->IsDown("InventoryOnOff"))
+	{
+		mpInventory->OnOffSwitch();
+	}
 
 }
 

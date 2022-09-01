@@ -3,8 +3,7 @@
 
 // Ό³Έν :
 class GameEngineUIRenderer;
-class PopupMenu;
-class MenuButton : public GameEngineActor
+class ETCMenuButton : public GameEngineActor
 {
 public:
 	GameEngineUIRenderer* mpRenderer;
@@ -13,19 +12,18 @@ public:
 	POINT                      mptMousePos;
 	float4                     mf4MousePos;
 	float4                     mf4ButtonPos;
-	PopupMenu*                 mpPopupMenu;
 	bool                       mbToggle;
 
 public:
 	// constrcuter destructer
-	MenuButton();
-	~MenuButton();
+	ETCMenuButton();
+	~ETCMenuButton();
 
 	// delete Function
-	MenuButton(const MenuButton& _Other) = delete;
-	MenuButton(MenuButton&& _Other) noexcept = delete;
-	MenuButton& operator=(const MenuButton& _Other) = delete;
-	MenuButton& operator=(MenuButton&& _Other) noexcept = delete;
+	ETCMenuButton(const ETCMenuButton& _Other) = delete;
+	ETCMenuButton(ETCMenuButton&& _Other) noexcept = delete;
+	ETCMenuButton& operator=(const ETCMenuButton& _Other) = delete;
+	ETCMenuButton& operator=(ETCMenuButton&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;

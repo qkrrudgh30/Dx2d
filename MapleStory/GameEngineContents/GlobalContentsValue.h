@@ -12,7 +12,20 @@ enum OBJECTORDER
 	Character = 3,
 	CharacterAttack = 4,
 	BackGround = 5,
-	UI = 6,
+	ItemType = 6,
+	
+	MesoItem = 7,
+	Meso1 = 8,
+	Meso2 = 9,
+	Meso3 = 10,
+	Etc1 = 11,
+	Etc2 = 12,
+	Etc3 = 13,
+	Portion1 = 14,
+	Portion2 = 15,
+	Portion3 = 16,
+	
+	UI = 17,
 };
 
 enum MOVINGSTATE

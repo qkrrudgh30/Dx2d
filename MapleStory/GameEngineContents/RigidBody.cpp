@@ -4,6 +4,7 @@
 
 RigidBody::RigidBody() 
 	: mfGravity(400.0f)
+	, mpParent(nullptr)
 {
 }
 
@@ -18,6 +19,7 @@ void RigidBody::Start()
 
 void RigidBody::Update(float _DeltaTime)
 {
+	if (nullptr == mpParent) { return; }
 	if (false == mpParent->IsOnGround() && false == mpParent->IsOnLadder())
 	{ 
 		mpParent->GetTransform().SetWorldMove(float4{ 0.f, -mfGravity * _DeltaTime, 0.f, 0.f });

@@ -17,6 +17,9 @@ Player* Monster::spPlayer = nullptr;
 Monster::Monster() 
 	: mState()
 	, mfPreAccTime(0.f)
+	, mbAttack(false)
+	, mfDistanceFromPlayer(0.f)
+	, mpMonsterHP(nullptr)
 {
 	mfSpeed = 100.f;
 	mfMaxHP = 50.f;

@@ -25,6 +25,8 @@ bool ContentsCore::mbCameraFollowing;
 
 ContentsCore::ContentsCore() 
     : GameEngineCore()
+    , mpContentsGUIWindow(nullptr)
+    , mpMainGUIWindow(nullptr)
 {
     mbCameraFollowing = true;
 }
@@ -120,6 +122,8 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("PlayerJump", VK_SPACE);
         GameEngineInput::GetInst()->CreateKey("PlayerAttack1", 'G');
         GameEngineInput::GetInst()->CreateKey("PlayerAttack2", 'F');
+        GameEngineInput::GetInst()->CreateKey("InventoryOnOff", 'I');
+        GameEngineInput::GetInst()->CreateKey("GetItem", 'Z');
         GameEngineInput::GetInst()->CreateKey("PlayerDoubleJump", VK_CONTROL);
     }
 }       
@@ -289,9 +293,9 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("BluePortion.png", 1, 1);
     GameEngineTexture::Cut("DodoItem.png", 1, 1);
     GameEngineTexture::Cut("Elixir.png", 1, 1);
-    GameEngineTexture::Cut("MesoBag.png", 1, 1);
-    GameEngineTexture::Cut("MesoBunch.png", 1, 1);
-    GameEngineTexture::Cut("MesoPeny.png", 1, 1);
+    GameEngineTexture::Cut("MesoBag.png", 4, 1);
+    GameEngineTexture::Cut("MesoBunch.png", 4, 1);
+    GameEngineTexture::Cut("MesoPeny.png", 4, 1);
     GameEngineTexture::Cut("Monster1Item.png", 1, 1);
     GameEngineTexture::Cut("Monster2Item.png", 1, 1);
     GameEngineTexture::Cut("WhitePortion.png", 1, 1);
@@ -358,6 +362,9 @@ void ContentsCore::CutAtlasTexture()
     /* Skill */
     /* UI */
     GameEngineTexture::Cut("MenuButton.png", 3, 1);
+    GameEngineTexture::Cut("InventoryBackGround.png", 1, 1);
+    GameEngineTexture::Cut("ETCMenu.png", 2, 1);
+    GameEngineTexture::Cut("ConsumptionMenu.png", 2, 1);
     
 }
 

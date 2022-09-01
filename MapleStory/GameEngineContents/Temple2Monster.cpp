@@ -5,6 +5,7 @@
 #include "PixelCollisionMap.h"
 #include "RigidBody.h"
 #include "Player.h"
+#include "Meso.h"
 
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineTexture.h>
@@ -115,6 +116,7 @@ void Temple2Monster::Update(float _DeltaTime)
 
 void Temple2Monster::End()
 {
+	
 }
 
 void Temple2Monster::EndAttack1()
@@ -231,6 +233,9 @@ void Temple2Monster::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Temple2Monster::DeadStart(const StateInfo& _Info)
 {
+	Meso* meso = GetLevel()->CreateActor<Meso>(OBJECTORDER::Meso1);
+	meso->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition());
+
 	// SetInvincible(true);
 	mbInvincible = true;
 	mpRenderer->ChangeFrameAnimation("Temple2MonsterDie");
@@ -239,6 +244,12 @@ void Temple2Monster::DeadStart(const StateInfo& _Info)
 
 void Temple2Monster::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	mbInvincible = true;
+}
+
+void Temple2Monster::DeadEnd(const StateInfo& _Info)
+{
+	mbInvincible = true;
 }
 
 void Temple2Monster::Attack1Start(const StateInfo& _Info)

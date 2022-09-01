@@ -178,6 +178,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="ETCMenuButton.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ExitButtonOnMenu.h">
       <SubType>
       </SubType>
@@ -206,6 +210,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LoginBackground.h">
       <SubType>
       </SubType>
@@ -227,6 +235,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Merchandiser.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Meso.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -400,6 +412,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ETCMenuButton.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ExitButtonOnMenu.cpp">
       <SubType>
       </SubType>
@@ -428,6 +444,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LoginBackground.cpp">
       <SubType>
       </SubType>
@@ -449,6 +469,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Merchandiser.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Meso.cpp">
       <SubType>
       </SubType>
     </ClCompile>

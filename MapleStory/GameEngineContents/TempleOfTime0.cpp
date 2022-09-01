@@ -11,6 +11,7 @@
 #include "StateBar.h"
 #include "MenuButton.h"
 #include "Temple2Monster.h"
+#include "Inventory.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -21,8 +22,10 @@
 
 #include <string>
 
-
 TempleOfTime0::TempleOfTime0()
+	: mpBackGround(nullptr)
+	, mpTile(nullptr)
+	, mpCloud(nullptr)
 {
 }
 
@@ -69,6 +72,10 @@ void TempleOfTime0::LevelStartEvent()
 		float4 StartPoint = float4{ 260.f, -757.f, OBJECTORDER::Character, 1.f };
 		mpPlayer = Player::GetPlayer();
 		mpPlayer->GetTransform().SetWorldPosition(StartPoint);
+
+		Inventory* inventory = CreateActor<Inventory>(OBJECTORDER::UIGauge);
+		inventory->SetLevelOverOn();
+		inventory->GetTransform().SetLocalPosition(float4{ 0.f, -10.f, OBJECTORDER::UIGauge, 1.f });
 	}
 	mpPlayer = Player::GetPlayer();
 	mpPlayer->SetParentLevel(this);

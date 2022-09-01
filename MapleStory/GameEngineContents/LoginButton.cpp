@@ -25,6 +25,7 @@ void LoginButton::Start()
 	mfHeight = 53.f;
 	mpRenderer = CreateComponent<GameEngineTextureRenderer>();
 	mpRenderer->GetTransform().SetWorldScale({ mfWidth, mfHeight, 1 });
+	// mpRenderer->SetFolderTextureToIndex("LoginButton.png", 0);
 	mpRenderer->SetTexture("LoginButton.png", 0);
 }
 
