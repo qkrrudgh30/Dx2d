@@ -165,7 +165,7 @@ void Inventory::Update(float _DeltaTime)
 			}
 			else
 			{
-				switch (mvItemsVector[muItemsIndex].second.meItemType)
+				switch (mvItemsVector[4 * i + j].second.meItemType)
 				{
 				case static_cast<int>(OBJECTORDER::Portion1):
 					mvItemsVector[4 * i + j].first->SetTexture("WhitePortion.png");
