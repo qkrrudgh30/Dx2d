@@ -6,6 +6,7 @@
 #include "RigidBody.h"
 #include "Player.h"
 #include "Meso.h"
+#include "Portion.h"
 
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineTexture.h>
@@ -232,6 +233,9 @@ void Temple3Boss::DeadStart(const StateInfo& _Info)
 {
 	Meso* meso = GetLevel()->CreateActor<Meso>(OBJECTORDER::Meso3);
 	meso->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition());
+
+	Portion* portion = GetLevel()->CreateActor<Portion>(OBJECTORDER::Portion3);
+	portion->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition() + float4{ 31.f, 0.f, 0.f, 0.f });
 
 	mbInvincible = true;
 	mpRenderer->ChangeFrameAnimation("Temple3BossDie");
