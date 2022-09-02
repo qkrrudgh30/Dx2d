@@ -1,5 +1,6 @@
 #pragma once
 #include "ContentsActor.h"
+#include <queue>
 
 // Ό³Έν :
 class ContentsLevel;
@@ -16,6 +17,8 @@ private:
 	bool                   mbOnAboveGround;
 	Inventory* mpInventory;
 	unsigned int muAccMeso;
+	unsigned int muItemIndex;
+	std::queue<int> mqAcquiredItems;
 
 public:
 	// constrcuter destructer
@@ -49,7 +52,7 @@ public:
 		}
 	}
 
-
+	std::queue<int> GetItemsQueue() { return mqAcquiredItems; }
 
 protected:
 	void Start() override;
@@ -86,7 +89,7 @@ private:
 
 	void LadderStart(const StateInfo& _Info);
 	void LadderUpdate(float _DeltaTime, const StateInfo& _Info);
-	void LadderEnd(const StateInfo& _Info) {}
+	void LadderEnd(const StateInfo& _Info) { mbInvincible = false; }
 
 	void AlertStart(const StateInfo& _Info);
 	void AlertUpdate(float _DeltaTime, const StateInfo& _Info);

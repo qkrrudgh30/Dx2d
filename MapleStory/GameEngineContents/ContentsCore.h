@@ -5,6 +5,7 @@
 // 설명 : 프로그램 자체를 시작하게 한다.
 class GameEngineStatusWindow;
 class ContentsGUIWindow;
+class ShortKeyGUIWindow;
 class ContentsCore : public GameEngineCore
 {
 private:
@@ -13,6 +14,7 @@ private:
     static bool   mbCameraFollowing;
     GameEngineStatusWindow* mpMainGUIWindow;
     ContentsGUIWindow* mpContentsGUIWindow;
+    ShortKeyGUIWindow* mpShortKeyGUIWindow;
 
 public:
     // constrcuter destructer

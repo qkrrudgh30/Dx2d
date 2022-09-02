@@ -1,6 +1,24 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+enum class InventoryInfo
+{
+	InventorySize = 24,
+	InventoryWidth = 4,
+	InventoryHeight = 6,
+	ItemWidth = 32,
+	ItemHeight = 32,
+	ItemWidthOffset = 10,
+	ItemHeightOffset = 10,
+};
+
+class ItemInfo
+{
+public:
+	int meItemType;
+	unsigned int muItemCount;
+};
+
 // Ό³Έν :
 class GameEngineTextureRenderer;
 class GameEngineUIRenderer;
@@ -27,9 +45,8 @@ private:
 	unsigned int muAccMeso;
 	float4 mf4MesoFontPosition;
 	GameEngineFontRenderer* mpFontRenderer;
-
-	// std::vector<int> 
-
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>> mvItemsVector;
+	unsigned int muItemsIndex;
 
 public:
 	// constrcuter destructer
@@ -43,6 +60,8 @@ public:
 	Inventory& operator=(Inventory&& _Other) noexcept = delete;
 
 	static Inventory* GetInventory() { return spInventory; }
+
+	int FindItem(int _nObjectOrder);
 
 protected:
 	void Start() override;

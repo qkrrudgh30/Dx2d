@@ -17,6 +17,8 @@
 
 Player* Player::spPlayer = nullptr;
 
+
+
 Player::Player()
 	: mf4PixelData()
 	, mStateManager()
@@ -24,6 +26,7 @@ Player::Player()
 	, mpRigidBody(nullptr)
 	, mpInventory(nullptr)
 	, muAccMeso(0u)
+	, muItemIndex(0u)
 {
 	mfSpeed = 400.f;
 	spPlayer = this;
@@ -107,7 +110,8 @@ void Player::Start()
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	Font->SetText("안녕하세요", "메이플스토리");
 	Font->SetColor({ 0.0f, 0.0f, 0.0f });
-	Font->SetScreenPostion({ 100.0f, 100.0f, -460.f, 1.f });
+	Font->ChangeCamera(CAMERAORDER::UICAMERA);
+	Font->SetScreenPostion(GetTransform().GetWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f + mfWidth, (GameEngineWindow::GetScale().y / 2.f) + mfHeight, 0.f, 0.f });
 
 	
 }
@@ -158,9 +162,30 @@ void Player::Update(float _DeltaTime)
 					if (OBJECTORDER::MesoItem == item->GetItemInfo())
 					{
 						muAccMeso += item->GetMesoAmount();
-						_Other->GetActor()->Death(0.5f);
-						_Other->Death();
 					}
+					if (OBJECTORDER::Portion1 == item->GetItemInfo())
+					{
+						//if () // 이미 있다면
+						//{
+
+						//}
+						//else  // 없다면
+						//{ 
+						//}
+						
+						mqAcquiredItems.push(static_cast<int>(OBJECTORDER::Portion1));
+					}
+					if (OBJECTORDER::Portion2 == item->GetItemInfo())
+					{
+						mqAcquiredItems.push(static_cast<int>(OBJECTORDER::Portion2));
+					}
+					if (OBJECTORDER::Portion3 == item->GetItemInfo())
+					{
+						mqAcquiredItems.push(static_cast<int>(OBJECTORDER::Portion3));
+					}
+					_Other->GetActor()->Death(0.5f);
+					_Other->Death();
+					++muItemIndex;
 				}
 			}
 
@@ -343,6 +368,14 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * 30.f);
 	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
+		true == mf4PixelData.CompareInt4D(float4::YELLOW))
+	{
+		mbOnLadder = true;
+		mStateManager.ChangeState("Ladder");
+		return;
+	}
 }
 
 void Player::WalkStart(const StateInfo& _Info)
@@ -404,6 +437,15 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		mpRenderer->GetTransform().PixLocalNegativeX();
 		GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
+		return;
+	}
+
+	// Ladder
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") && 
+		true == mf4PixelData.CompareInt4D(float4::YELLOW))
+	{
+		mbOnLadder = true;
+		mStateManager.ChangeState("Ladder");
 		return;
 	}
 }
@@ -492,6 +534,7 @@ void Player::LadderStart(const StateInfo& _Info)
 
 void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	mbInvincible = true;
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetUpVector() * 80.f * _DeltaTime);

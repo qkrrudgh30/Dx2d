@@ -9,6 +9,9 @@
 Player* Inventory::spPlayer = nullptr;
 Inventory* Inventory::spInventory = nullptr;
 
+
+
+
 Inventory::Inventory() 
 	: mfWidth(0.f)
 	, mfHeight(0.f)
@@ -23,15 +26,29 @@ Inventory::Inventory()
 	, muAccMeso(0u)
 	, mf4MesoFontPosition()
 	, mbOnDrag(false)
+	, muItemsIndex(0u)
 {
 	spInventory = this;
 	mfWidth = 175.f;
 	mfHeight = 289.f;
-
+	mvItemsVector.reserve(static_cast<size_t>(InventoryInfo::InventorySize));
 }
 
 Inventory::~Inventory() 
 {
+}
+
+int Inventory::FindItem(int _nObjectOrder)
+{
+	for (int i = 0; i < mvItemsVector.size(); ++i)
+	{
+		if (_nObjectOrder == mvItemsVector[i].second.meItemType)
+		{
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 void Inventory::Start()
@@ -57,6 +74,23 @@ void Inventory::Start()
 	
 	mpFontRenderer->SetScreenPostion(GetTransform().GetWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f + mfWidth - 34.f, (GameEngineWindow::GetScale().y / 2.f) + mfHeight - 13.f, 0.f, 0.f });
 	// mpFontRenderer->SetScreenPostion(GetTransform().GetWorldPosition());
+
+	for (int i = 0; i < static_cast<int>(InventoryInfo::InventorySize); ++i)
+	{
+		GameEngineUIRenderer* ItemSlot = CreateComponent<GameEngineUIRenderer>("ItemSlot" + std::to_string(i));
+		ItemSlot->SetPivot(PIVOTMODE::LEFTTOP);
+		ItemSlot->GetTransform().SetLocalScale(float4{ static_cast<float>(InventoryInfo::ItemWidth), static_cast<float>(InventoryInfo::ItemHeight), 1.f, 1.f });
+		mvItemsVector.push_back(std::make_pair(ItemSlot, ItemInfo{ OBJECTORDER::End, 0u }));
+
+		int j = i / 4;
+		int k = i % 4;
+		mvItemsVector[4 * j + k].first->GetTransform().SetLocalPosition(float4{
+					35.f * k + 9.f,
+					-34.f * j - 50.f,
+					mvItemsVector[4 * j + k].first->GetTransform().GetWorldPosition().z,
+					mvItemsVector[4 * j + k].first->GetTransform().GetWorldPosition().w,
+			});
+	}
 
 	this->Off();
 }
@@ -104,8 +138,50 @@ void Inventory::Update(float _DeltaTime)
 	}
 #pragma endregion
 
-#pragma region InventoryMesoRendering
-	
+#pragma region InventoryItemRendering
+	for (size_t i = 0; i < spPlayer->GetItemsQueue().size(); ++i)
+	{
+		int item = spPlayer->GetItemsQueue().front(); spPlayer->GetItemsQueue().pop();
+		int res = FindItem(item);
+		if (-1 == res)
+		{
+			mvItemsVector[muItemsIndex].second.meItemType = item;
+			++mvItemsVector[muItemsIndex].second.muItemCount;
+			++muItemsIndex;
+		}
+		else
+		{
+			++mvItemsVector[res].second.muItemCount;
+		}
+	}
+
+	for (size_t i = 0; i < static_cast<size_t>(InventoryInfo::InventoryHeight); ++i)
+	{
+		for (size_t j = 0; j < static_cast<size_t>(InventoryInfo::InventoryWidth); ++j)
+		{
+			if (0u == mvItemsVector[4 * i + j].second.muItemCount)
+			{
+				mvItemsVector[4 * i + j].first->SetTexture("NSet.png");
+			}
+			else
+			{
+				switch (mvItemsVector[muItemsIndex].second.meItemType)
+				{
+				case static_cast<int>(OBJECTORDER::Portion1):
+					mvItemsVector[4 * i + j].first->SetTexture("WhitePortion.png");
+					break;
+				case static_cast<int>(OBJECTORDER::Portion2):
+					mvItemsVector[4 * i + j].first->SetTexture("BluePortion.png");
+					break;
+				case static_cast<int>(OBJECTORDER::Portion3):
+					mvItemsVector[4 * i + j].first->SetTexture("Elixir.png");
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
 	
 #pragma endregion
 	muAccMeso = spPlayer->GetAccMeso();

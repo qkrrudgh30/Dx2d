@@ -2,6 +2,7 @@
 #include "ContentsCore.h"
 
 #include "ContentsGUIWindow.h"
+#include "ShortKeyGUIWindow.h"
 
 #include "LoginLevel.h"
 #include "TempleOfTime0.h"
@@ -27,6 +28,7 @@ ContentsCore::ContentsCore()
     : GameEngineCore()
     , mpContentsGUIWindow(nullptr)
     , mpMainGUIWindow(nullptr)
+    , mpShortKeyGUIWindow(nullptr)
 {
     mbCameraFollowing = true;
 }
@@ -53,6 +55,7 @@ void ContentsCore::Start()
 
     mpMainGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);    
     mpContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsGUIWindow>("ContentsGUIWindow", nullptr);
+    mpShortKeyGUIWindow = GameEngineGUI::CreateGUIWindow<ShortKeyGUIWindow>("ShortKeyGUIWindow", nullptr);
 }
 
 void ContentsCore::Update(float _DeltaTime)
@@ -290,15 +293,15 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("FallTomb.png", 4, 1);
 
     /* Item */
+    GameEngineTexture::Cut("WhitePortion.png", 1, 1);
     GameEngineTexture::Cut("BluePortion.png", 1, 1);
-    GameEngineTexture::Cut("DodoItem.png", 1, 1);
     GameEngineTexture::Cut("Elixir.png", 1, 1);
     GameEngineTexture::Cut("MesoBag.png", 4, 1);
     GameEngineTexture::Cut("MesoBunch.png", 4, 1);
     GameEngineTexture::Cut("MesoPeny.png", 4, 1);
-    GameEngineTexture::Cut("Monster1Item.png", 1, 1);
-    GameEngineTexture::Cut("Monster2Item.png", 1, 1);
-    GameEngineTexture::Cut("WhitePortion.png", 1, 1);
+    GameEngineTexture::Cut("Temple2MonsterItem.png", 1, 1);
+    GameEngineTexture::Cut("Temple3MonsterItem.png", 1, 1);
+    GameEngineTexture::Cut("Temple3BossItem.png", 1, 1);
 
     /* Map */
     GameEngineTexture::Cut("LoginBackground.png", 1, 1);
