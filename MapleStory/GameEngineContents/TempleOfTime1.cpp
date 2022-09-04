@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Veil.h"
 #include "StateBar.h"
+#include "NPC.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -68,16 +69,24 @@ void TempleOfTime1::Start()
 	mpStateBar = CreateActor<StateBar>(OBJECTORDER::UI);
 
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
+
+	mpNPC = CreateActor<NPC>(OBJECTORDER::Character);
+	mpNPC->GetTransform().SetWorldPosition(float4{ 1390.f, -600.f, OBJECTORDER::Character, 1.f });
 }
 
 void TempleOfTime1::Update(float _DeltaTime)
 {
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
-		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
+		// mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
+		float4 f4CurrentPosition = mpCamera->GetTransform().GetWorldPosition();
+		float4 f4DestinationPosition = mpPlayer->GetTransform().GetWorldPosition();
+		float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _DeltaTime * 10.f);
+
+		mpCamera->GetTransform().SetWorldPosition(f4MoveToPosition);
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("CamLeft"))
+	/*if (true == GameEngineInput::GetInst()->IsPress("CamLeft"))
 	{
 		GetMainCameraActorTransform().SetWorldMove(-GetMainCameraActorTransform().GetRightVector() * 100 * _DeltaTime);
 	}
@@ -92,7 +101,7 @@ void TempleOfTime1::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsPress("CamDown"))
 	{
 		GetMainCameraActorTransform().SetWorldMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
-	}
+	}*/
 
 	if (true == mbLimitCameraMoving)
 	{

@@ -6,6 +6,7 @@
 #include "RigidBody.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "QuickSlot.h"
 #include <functional>
 
 #include <GameEngineBase/GameEngineDebug.h>
@@ -17,7 +18,17 @@
 
 Player* Player::spPlayer = nullptr;
 
-
+enum
+{
+	ESHITF,
+	EINSERT,
+	EHM,
+	EPUP,
+	ECTRL,
+	EDELETE,
+	EEND,
+	EPDN
+};
 
 Player::Player()
 	: mf4PixelData()
@@ -28,7 +39,7 @@ Player::Player()
 	, muAccMeso(0u)
 	, muItemIndex(0u)
 {
-	mfSpeed = 400.f;
+	mfSpeed = 200.f;
 	spPlayer = this;
 	mfHP = 50.f;
 	mfMP = 100.f;
@@ -111,7 +122,7 @@ void Player::Start()
 	Font->SetText("안녕하세요", "메이플스토리");
 	Font->SetColor({ 0.0f, 0.0f, 0.0f });
 	Font->ChangeCamera(CAMERAORDER::UICAMERA);
-	Font->SetScreenPostion(GetTransform().GetWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f + mfWidth, (GameEngineWindow::GetScale().y / 2.f) + mfHeight, 0.f, 0.f });
+	// Font->SetScreenPostion(GetTransform().GetWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f + mfWidth, (GameEngineWindow::GetScale().y / 2.f) + mfHeight, 0.f, 0.f });
 
 	
 }
@@ -121,7 +132,15 @@ void Player::Update(float _DeltaTime)
 	if (nullptr == mpInventory)
 	{
 		mpInventory = Inventory::GetInventory();
+		return;
 	}
+
+	if (nullptr == mpQuickSlot)
+	{
+		mpQuickSlot = QuickSlot::GetQuickSlot();
+		return;
+	}
+
 	mfAccTime += _DeltaTime;
 	mpRenderer->SetPivot(PIVOTMODE::BOT);
 
@@ -165,14 +184,6 @@ void Player::Update(float _DeltaTime)
 					}
 					if (OBJECTORDER::Portion1 == item->GetItemInfo())
 					{
-						//if () // 이미 있다면
-						//{
-
-						//}
-						//else  // 없다면
-						//{ 
-						//}
-						
 						mqAcquiredItems.push(static_cast<int>(OBJECTORDER::Portion1));
 					}
 					if (OBJECTORDER::Portion2 == item->GetItemInfo())
@@ -245,8 +256,39 @@ void Player::Update(float _DeltaTime)
 
 	if (nullptr != mpInventory && true == GameEngineInput::GetInst()->IsDown("InventoryOnOff"))
 	{
-		mpInventory->OnOffSwitch();
+		mpInventory->RendererOnOff();
 	}
+
+#pragma region ConsumePortion
+	int nItemType = 0;
+	if (true == GameEngineInput::GetInst()->IsDown("DELETE"))
+	{
+		nItemType = mpQuickSlot->Consume(EDELETE);
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("INSERT"))
+	{
+		nItemType = mpQuickSlot->Consume(EINSERT);
+	}
+
+	switch (nItemType)
+	{
+	case 0:
+		break;
+	case 15:
+		SetHP(GetHP() + 10.f);
+		break;
+	case 16:
+		SetMP(GetMP() + 10.f);
+		break;
+	case 17:
+		break;
+	default:
+		break;
+	}
+
+#pragma endregion
+
 
 }
 
@@ -430,13 +472,16 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
-		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
+
+		// float4 f4CurrentPosition = GetTransform
+
+		GetTransform().SetLocalMove(GetTransform().GetLeftVector() * mfSpeed * _DeltaTime);
 		return;
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
 		mpRenderer->GetTransform().PixLocalNegativeX();
-		GetTransform().SetWorldMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
+		GetTransform().SetLocalMove(GetTransform().GetRightVector() * mfSpeed * _DeltaTime);
 		return;
 	}
 

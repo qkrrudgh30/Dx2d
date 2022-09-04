@@ -42,7 +42,7 @@ void Portion::Start()
 
 	case OBJECTORDER::Portion3:
 		muAmount = 50u;
-		mpRenderer->ChangeFrameAnimation("WhitePortion");
+		mpRenderer->ChangeFrameAnimation("Elixir");
 		break;
 
 	default:

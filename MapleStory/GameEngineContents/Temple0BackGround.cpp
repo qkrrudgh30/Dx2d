@@ -37,12 +37,19 @@ void Temple0BackGround::Start()
 
 void Temple0BackGround::Update(float _DeltaTime)
 {
-    float4 fCurCameraPosition = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
-    float4 fCurCameraDir = (fCurCameraPosition - mfPrevCameraPosition).NormalizeReturn();
+    // float4 f4CurrentPosition = GetTransform().GetWorldPosition();
+    // float4 f4DestinationPosition = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
+    // float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, 0.2f);
+    // float4 fMoveAmount = 
 
-    mpRenderer->GetTransform().SetWorldMove(fCurCameraDir * float4{1.f, 0.01f, 1.f, 1.f} *_DeltaTime * 80.f);
+    // mpRenderer->GetTransform().SetWorldPosition(f4MoveToPosition);
 
-    mfPrevCameraPosition = fCurCameraPosition;
+    // float4 fCurCameraPosition = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
+    // float4 fCurCameraDir = (fCurCameraPosition - mfPrevCameraPosition).NormalizeReturn();
+    // 
+    // mpRenderer->GetTransform().SetWorldMove(fCurCameraDir * float4{1.f, 0.01f, 1.f, 1.f} *_DeltaTime * 80.f);
+    // 
+    // mfPrevCameraPosition = fCurCameraPosition;
 }
 
 void Temple0BackGround::End()

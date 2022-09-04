@@ -232,6 +232,15 @@
     <ClInclude Include="Portion.h">
       <Filter>02_Actors\02_1Global\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>03_Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseSlot.h">
+      <Filter>02_Actors\02_1Global</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>02_Actors\Temple1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -411,6 +420,15 @@
     </ClCompile>
     <ClCompile Include="Portion.cpp">
       <Filter>02_Actors\02_1Global\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>03_Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseSlot.cpp">
+      <Filter>02_Actors\02_1Global</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>02_Actors\Temple1</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

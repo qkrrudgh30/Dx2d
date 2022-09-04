@@ -22,7 +22,7 @@ private:
 	HPGauge* mpHPGauge;
 	MPGauge* mpMPGauge;
 	EXPGauge* mpEXPGauge;
-	QuickSlot* mpQuickSlot;
+	
 
 public:
 	// constrcuter destructer

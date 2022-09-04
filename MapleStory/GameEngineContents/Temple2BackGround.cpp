@@ -39,7 +39,7 @@ void Temple2BackGround::Update(float _DeltaTime)
     float4 fCurCameraPosition = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
     float4 fCurCameraDir = (fCurCameraPosition - mfPrevCameraPosition).NormalizeReturn();
 
-    mpRenderer->GetTransform().SetWorldMove(fCurCameraDir * float4{ 1.f, 0.01f, 1.f, 1.f } *_DeltaTime * 80.f);
+    // mpRenderer->GetTransform().SetWorldMove(fCurCameraDir * float4{ 1.f, 0.01f, 1.f, 1.f } *_DeltaTime * 80.f);
 
     mfPrevCameraPosition = fCurCameraPosition;
 }

@@ -16,6 +16,7 @@ class Veil;
 class StateBar;
 class MenuButton;
 class PopupMenu;
+class QuickSlot;
 class PixelCollisionMap;
 class ContentsLevel : public GameEngineLevel
 {
@@ -33,6 +34,7 @@ protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
     StateBar*              mpStateBar;
     MenuButton*            mpMenuButton;
     PopupMenu*             mpPopupMenu;
+    QuickSlot*             mpQuickSlot;
     PixelCollisionMap*     mpPCMap;
     bool                   mbLimitCameraMoving;
 

@@ -6,12 +6,14 @@ class Temple1BackGround;
 class Temple1Tile;
 class Temple1Cloud;
 class Temple1PixelCollisionMap;
+class NPC;
 class TempleOfTime1 : public ContentsLevel
 {
 private:
 	Temple1BackGround* mpBackGround;
 	Temple1Tile* mpTile;
 	Temple1Cloud* mpCloud;
+	NPC* mpNPC;
 
 public:
 	// constrcuter destructer

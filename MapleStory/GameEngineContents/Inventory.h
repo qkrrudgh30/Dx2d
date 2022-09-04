@@ -15,8 +15,15 @@ enum class InventoryInfo
 class ItemInfo
 {
 public:
-	int meItemType;
+	int mnItemType;
 	unsigned int muItemCount;
+
+	ItemInfo()
+		: mnItemType(static_cast<int>(OBJECTORDER::End))
+		, muItemCount(0u)
+	{
+
+	}
 };
 
 // Ό³Έν :
@@ -24,6 +31,7 @@ class GameEngineTextureRenderer;
 class GameEngineUIRenderer;
 class ETCMenuButton;
 class GameEngineFontRenderer;
+class MouseSlot;
 class Inventory : public GameEngineActor
 {
 private:
@@ -45,8 +53,11 @@ private:
 	unsigned int muAccMeso;
 	float4 mf4MesoFontPosition;
 	GameEngineFontRenderer* mpFontRenderer;
-	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>> mvItemsVector;
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo*>> mvItemsVector;
+	std::vector<GameEngineFontRenderer*> mvItemCountFont;
 	unsigned int muItemsIndex;
+	MouseSlot* mpMouseSlot;
+	bool mbInvenOnOff;
 
 public:
 	// constrcuter destructer
@@ -60,6 +71,10 @@ public:
 	Inventory& operator=(Inventory&& _Other) noexcept = delete;
 
 	static Inventory* GetInventory() { return spInventory; }
+
+	MouseSlot* GetMouseSlot() { return mpMouseSlot; }
+
+	void RendererOnOff();
 
 	int FindItem(int _nObjectOrder);
 

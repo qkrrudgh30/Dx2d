@@ -27,6 +27,8 @@ public:
 		return (1.0f - Time) * p1 + Time * p2;
 	}
 
+	
+
 	// 보통 누적된 시간을 Time
 	static float LerpLimit(float p1, float p2, float Time)
 	{
@@ -532,6 +534,8 @@ public:
 
 		return *this;
 	}
+
+
 
 	float4 DegreeRotationToQuaternionReturn() const
 	{

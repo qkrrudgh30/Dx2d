@@ -250,7 +250,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MouseSlot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MPGauge.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -492,7 +504,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MouseSlot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MPGauge.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
       <SubType>
       </SubType>
     </ClCompile>

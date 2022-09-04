@@ -7,6 +7,7 @@
 #include "Veil.h"
 #include "MenuButton.h"
 #include "PopupMenu.h"
+#include "QuickSlot.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -29,6 +30,7 @@ ContentsLevel::ContentsLevel()
     , mpMenuButton(nullptr)
     , mpPopupMenu(nullptr)
     , mpPCMap(nullptr)
+    , mpQuickSlot(nullptr)
     , mbLimitCameraMoving(true)
 {
     mf4WindowSize = GameEngineWindow::GetScale();

@@ -6,8 +6,15 @@
 class ContentsLevel;
 class RigidBody;
 class Inventory;
+class QuickSlot;
 class Player : public ContentsActor
 {
+	friend class Inventory;
+
+public:
+	std::queue<int> mqAcquiredItems;
+
+
 private:
 	float4                 mf4PixelData;
 	float4                 mf4HeadPixelData;
@@ -18,7 +25,7 @@ private:
 	Inventory* mpInventory;
 	unsigned int muAccMeso;
 	unsigned int muItemIndex;
-	std::queue<int> mqAcquiredItems;
+	QuickSlot* mpQuickSlot;
 
 public:
 	// constrcuter destructer
@@ -53,6 +60,13 @@ public:
 	}
 
 	std::queue<int> GetItemsQueue() { return mqAcquiredItems; }
+
+	int GetItemInQueue() 
+	{ 
+		int res = mqAcquiredItems.front();
+		mqAcquiredItems.pop();
+		return res;  
+	}
 
 protected:
 	void Start() override;

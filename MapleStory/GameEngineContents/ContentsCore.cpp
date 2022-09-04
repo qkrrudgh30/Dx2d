@@ -103,10 +103,10 @@ void ContentsCore::CreateKeys()
 {
     if (false == GameEngineInput::GetInst()->IsKey("CamLeft"))
     {
-        GameEngineInput::GetInst()->CreateKey("CamLeft", VK_DELETE);
+        GameEngineInput::GetInst()->CreateKey("DELETE", VK_DELETE);
+        GameEngineInput::GetInst()->CreateKey("INSERT", VK_INSERT);
         GameEngineInput::GetInst()->CreateKey("CamRight", VK_NEXT);
         GameEngineInput::GetInst()->CreateKey("CamUp", VK_HOME);
-        GameEngineInput::GetInst()->CreateKey("CamDown", VK_END);
         GameEngineInput::GetInst()->CreateKey("PrintDescription", VK_F1);
         GameEngineInput::GetInst()->CreateKey("CamOnOffToggle", VK_F2);
         GameEngineInput::GetInst()->CreateKey("PCMapOnOffToggle", VK_F3);
@@ -368,6 +368,11 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("InventoryBackGround.png", 1, 1);
     GameEngineTexture::Cut("ETCMenu.png", 2, 1);
     GameEngineTexture::Cut("ConsumptionMenu.png", 2, 1);
+
+    // NPC
+    GameEngineTexture::Cut("JohannaStand.png", 1, 1);
+    GameEngineTexture::Cut("JohannaSay.png", 12, 1);
+    GameEngineTexture::Cut("JohannaEye.png", 7, 1);
     
 }
 

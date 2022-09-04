@@ -1,16 +1,16 @@
 #include "PreCompile.h"
 #include "Inventory.h"
+#include "Player.h"
+#include "MouseSlot.h"
 
 #include <GameEngineCore/GameEngineUIRenderer.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
-#include "Player.h"
+
+#include <queue>
 
 Player* Inventory::spPlayer = nullptr;
 Inventory* Inventory::spInventory = nullptr;
-
-
-
 
 Inventory::Inventory() 
 	: mfWidth(0.f)
@@ -27,22 +27,56 @@ Inventory::Inventory()
 	, mf4MesoFontPosition()
 	, mbOnDrag(false)
 	, muItemsIndex(0u)
+	, mbInvenOnOff(true)
 {
 	spInventory = this;
 	mfWidth = 175.f;
 	mfHeight = 289.f;
 	mvItemsVector.reserve(static_cast<size_t>(InventoryInfo::InventorySize));
+	mvItemCountFont.reserve(static_cast<size_t>(InventoryInfo::InventorySize));
 }
 
 Inventory::~Inventory() 
 {
 }
 
+void Inventory::RendererOnOff()
+{
+	mpRenderer->OnOffSwitch();
+
+	auto begIter = mvItemsVector.begin();
+	auto endIter = mvItemsVector.end();
+	while (begIter != endIter)
+	{
+		begIter->first->OnOffSwitch();
+
+		++begIter;
+	}
+
+	/*std::vector<GameEngineFontRenderer*>::iterator begIter2 = mvItemCountFont.begin();
+	std::vector<GameEngineFontRenderer*>::iterator endIter2 = mvItemCountFont.end();
+	while (begIter2 != endIter2)
+	{
+		begIter2.
+
+		++begIter2;
+	}*/
+
+	for (int i = 0; i < mvItemCountFont.size(); ++i)
+	{
+		mvItemCountFont[i]->OnOffSwitch();
+	}
+
+	mpFontRenderer->OnOffSwitch();
+
+	mbInvenOnOff = !mbInvenOnOff;
+}
+
 int Inventory::FindItem(int _nObjectOrder)
 {
 	for (int i = 0; i < mvItemsVector.size(); ++i)
 	{
-		if (_nObjectOrder == mvItemsVector[i].second.meItemType)
+		if (_nObjectOrder == mvItemsVector[i].second->mnItemType)
 		{
 			return i;
 		}
@@ -59,11 +93,11 @@ void Inventory::Start()
 	mpRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 	mpRenderer->SetPivot(PIVOTMODE::LEFTTOP);
 
-	mpETCRenderer = CreateComponent<GameEngineUIRenderer>("EtcRenderer");
-	mpETCRenderer->SetTexture("ETCMenu.png",0);
-	mpETCRenderer->ScaleToCutTexture(0);
-	// mpETCRenderer->GetTransform().SetLocalScale(float4{22.f, 18.f, 1.f, 1.f});
-	mpETCRenderer->GetTransform().SetLocalMove(float4{20.f, -34.f, 0.f, 0.f});
+	// mpETCRenderer = CreateComponent<GameEngineUIRenderer>("EtcRenderer");
+	// mpETCRenderer->SetTexture("ETCMenu.png",0);
+	// mpETCRenderer->ScaleToCutTexture(0);
+	// // mpETCRenderer->GetTransform().SetLocalScale(float4{22.f, 18.f, 1.f, 1.f});
+	// mpETCRenderer->GetTransform().SetLocalMove(float4{20.f, -34.f, 0.f, 0.f});
 
 	mpFontRenderer = CreateComponent<GameEngineFontRenderer>();
 	mpFontRenderer->SetText("0", "메이플스토리");
@@ -80,7 +114,8 @@ void Inventory::Start()
 		GameEngineUIRenderer* ItemSlot = CreateComponent<GameEngineUIRenderer>("ItemSlot" + std::to_string(i));
 		ItemSlot->SetPivot(PIVOTMODE::LEFTTOP);
 		ItemSlot->GetTransform().SetLocalScale(float4{ static_cast<float>(InventoryInfo::ItemWidth), static_cast<float>(InventoryInfo::ItemHeight), 1.f, 1.f });
-		mvItemsVector.push_back(std::make_pair(ItemSlot, ItemInfo{ OBJECTORDER::End, 0u }));
+		ItemInfo* temp = new ItemInfo();
+		mvItemsVector.push_back(std::make_pair(ItemSlot, temp));
 
 		int j = i / 4;
 		int k = i % 4;
@@ -90,9 +125,27 @@ void Inventory::Start()
 					mvItemsVector[4 * j + k].first->GetTransform().GetWorldPosition().z,
 					mvItemsVector[4 * j + k].first->GetTransform().GetWorldPosition().w,
 			});
+
+		GameEngineFontRenderer* ItemSlotFont = CreateComponent<GameEngineFontRenderer>();
+		ItemSlotFont->SetText("0", "메이플스토리");
+		// ItemSlotFont->Off();
+		ItemSlotFont->SetColor({ 0.0f, 0.0f, 0.0f });
+		ItemSlotFont->SetSize(15.f);
+		ItemSlotFont->SetLeftAndRightSort(LeftAndRightSort::RIGHT);
+		ItemSlotFont->SetScreenPostion( float4{
+				GetTransform().GetWorldPosition().x + 35.f * k + 9.f,
+				-(GetTransform().GetWorldPosition().y - 35.f * j - 50.f),
+		});
+		ItemSlotFont->ChangeCamera(CAMERAORDER::UICAMERA);
+		mvItemCountFont.push_back(ItemSlotFont);
 	}
 
-	this->Off();
+	mpMouseSlot = GetLevel()->CreateActor<MouseSlot>(OBJECTORDER::UI);
+	mpMouseSlot->SetLevelOverOn();
+
+	// this->Off();
+	RendererOnOff();
+	// this->GetTransform().SetWorldPosition(float4{0.f, 3000.f, 1000.f, 0.f});
 }
 
 void Inventory::Update(float _DeltaTime)
@@ -103,6 +156,11 @@ void Inventory::Update(float _DeltaTime)
 		spPlayer = Player::GetPlayer();
 		return;		
 	}
+
+	//if (nullptr == mpMouseSlot)
+	//{
+	//	mpMouseSlot = GetLevel()->CreateActor<MouseSlot>(OBJECTORDER::UI);
+	//}
 	
 
 #pragma region InventoryDragDrop
@@ -141,31 +199,40 @@ void Inventory::Update(float _DeltaTime)
 #pragma region InventoryItemRendering
 	for (size_t i = 0; i < spPlayer->GetItemsQueue().size(); ++i)
 	{
-		int item = spPlayer->GetItemsQueue().front(); spPlayer->GetItemsQueue().pop();
+		int item = spPlayer->GetItemInQueue();
 		int res = FindItem(item);
 		if (-1 == res)
 		{
-			mvItemsVector[muItemsIndex].second.meItemType = item;
-			++mvItemsVector[muItemsIndex].second.muItemCount;
+			mvItemsVector[muItemsIndex].second->mnItemType = item;
+			++mvItemsVector[muItemsIndex].second->muItemCount;
 			++muItemsIndex;
 		}
 		else
 		{
-			++mvItemsVector[res].second.muItemCount;
+			++mvItemsVector[res].second->muItemCount;
 		}
 	}
+	
 
 	for (size_t i = 0; i < static_cast<size_t>(InventoryInfo::InventoryHeight); ++i)
 	{
 		for (size_t j = 0; j < static_cast<size_t>(InventoryInfo::InventoryWidth); ++j)
 		{
-			if (0u == mvItemsVector[4 * i + j].second.muItemCount)
+			mvItemCountFont[4 * i + j]->SetScreenPostion(float4{
+				GameEngineWindow::GetScale().x / 2.f + GetTransform().GetWorldPosition().x + 35.f * j + 40.f,
+				-(GameEngineWindow::GetScale().y / -2.f + GetTransform().GetWorldPosition().y - 35.f * i - 70.f),
+				});
+
+			if (0u == mvItemsVector[4 * i + j].second->muItemCount)
 			{
-				mvItemsVector[4 * i + j].first->SetTexture("NSet.png");
+				mvItemsVector[4 * i + j].first->SetTexture("Clear.png");
+				mvItemCountFont[4 * i + j]->Off();
 			}
 			else
 			{
-				switch (mvItemsVector[4 * i + j].second.meItemType)
+				if (true == mbInvenOnOff) { mvItemCountFont[4 * i + j]->On(); }
+				mvItemCountFont[4 * i + j]->SetText(std::to_string(mvItemsVector[4 * i + j].second->muItemCount), "메이플스토리");
+				switch (mvItemsVector[4 * i + j].second->mnItemType)
 				{
 				case static_cast<int>(OBJECTORDER::Portion1):
 					mvItemsVector[4 * i + j].first->SetTexture("WhitePortion.png");
@@ -184,6 +251,31 @@ void Inventory::Update(float _DeltaTime)
 	}
 	
 #pragma endregion
+
+#pragma region ItemDrag
+	float4 f4MouseSlotPosition = mpMouseSlot->GetTransform().GetWorldPosition();
+
+	for (size_t i = 0; i < static_cast<size_t>(InventoryInfo::InventoryHeight); ++i)
+	{
+		for (size_t j = 0; j < static_cast<size_t>(InventoryInfo::InventoryWidth); ++j)
+		{
+			float4 MouseOnItemCheckPosition = mvItemsVector[4 * i + j].first->GetTransform().GetWorldPosition();
+
+			if (MouseOnItemCheckPosition.x <= f4MouseSlotPosition.x && f4MouseSlotPosition.x <= MouseOnItemCheckPosition.x + mfWidth
+				&& f4MouseSlotPosition.y <= MouseOnItemCheckPosition.y && MouseOnItemCheckPosition.y - 30.f <= f4MouseSlotPosition.y)
+			{
+				if (true == GameEngineInput::GetInst()->IsDown("MouseLButtonDown"))
+				{
+					std::string name = mvItemsVector[4 * i + j].first->GetCurTexture()->GetNameCopy();
+					mpMouseSlot->SetRenderer(name);
+					mpMouseSlot->SetSelectedItemPointer(mvItemsVector[4 * i + j]);
+				}
+			}
+		}
+	}
+#pragma endregion
+
+
 	muAccMeso = spPlayer->GetAccMeso();
 	mpFontRenderer->SetText(std::to_string(muAccMeso), "메이플스토리");
 

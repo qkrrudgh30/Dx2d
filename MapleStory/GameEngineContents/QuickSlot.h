@@ -1,13 +1,42 @@
 #pragma once
 
+enum class QuickSlotInfo
+{
+	QuickSlotSize = 8,
+	QuickSlotWidth = 4,
+	QuickSlotHeight = 2,
+	ItemWidth = 32,
+	ItemHeight = 32,
+	ItemWidthOffset = 10,
+	ItemHeightOffset = 10,
+};
+
 // Ό³Έν :
+class GameEngineTextureRenderer;
 class GameEngineUIRenderer;
+class ETCMenuButton;
+class GameEngineFontRenderer;
+class MouseSlot;
+class ItemInfo;
 class QuickSlot : public GameEngineActor
 {
 private:
 	GameEngineUIRenderer* mpUIRenderer;
 	float                 mfWidth;
 	float                 mfHeight;
+
+	static Inventory* spInventory;
+	static Player* spPlayer;
+	static QuickSlot* spQuickSlot;
+	GameEngineTextureRenderer* mpRenderer;
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo*>> mvItemsVector;
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo*>> mvOriginalItemsVector;
+	std::vector<GameEngineFontRenderer*> mvItemCountFont;
+	std::vector<GameEngineFontRenderer*> mvHotKeyFont;
+	std::vector<std::string> mvHotkeyStrings;
+	unsigned int muItemsIndex;
+	MouseSlot* mpMouseSlot;
+	std::pair<GameEngineUIRenderer*, ItemInfo*> mpEmpty;
 
 public:
 	// constrcuter destructer
@@ -19,6 +48,10 @@ public:
 	QuickSlot(QuickSlot&& _Other) noexcept = delete;
 	QuickSlot& operator=(const QuickSlot& _Other) = delete;
 	QuickSlot& operator=(QuickSlot&& _Other) noexcept = delete;
+
+	static QuickSlot* GetQuickSlot() { return spQuickSlot; }
+
+	int Consume(int _Key);
 
 protected:
 	void Start() override;

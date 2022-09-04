@@ -12,6 +12,8 @@
 #include "MenuButton.h"
 #include "Temple2Monster.h"
 #include "Inventory.h"
+#include "MouseSlot.h"
+#include "QuickSlot.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -19,6 +21,7 @@
 #include <GameEngineBase/GameEngineTransform.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
+#include <GameEngineCore/GameEngineCamera.h>
 
 #include <string>
 
@@ -59,8 +62,11 @@ void TempleOfTime0::Start()
 	mpPortalToNext->GetTransform().SetWorldPosition(float4{ 2000.f, -258.f, OBJECTORDER::Character, 1.f });
 
 	mpStateBar = CreateActor<StateBar>(OBJECTORDER::UI);
-	
+	mpQuickSlot = CreateActor<QuickSlot>();
+	mpQuickSlot->GetTransform().SetLocalPosition(float4{ 565.f, -255.f, OBJECTORDER::UIGauge, 1.f });
+
 	mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
+	mpCamera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 }
 
 void TempleOfTime0::LevelStartEvent()
@@ -76,7 +82,15 @@ void TempleOfTime0::LevelStartEvent()
 		Inventory* inventory = CreateActor<Inventory>(OBJECTORDER::UIGauge);
 		inventory->SetLevelOverOn();
 		inventory->GetTransform().SetLocalPosition(float4{ 0.f, -10.f, OBJECTORDER::UIGauge, 1.f });
+
+		QuickSlot* quickSlot = CreateActor<QuickSlot>(OBJECTORDER::UIGauge);
+		quickSlot->SetLevelOverOn();
+		quickSlot->GetTransform().SetLocalPosition(float4{ 565.f, -255.f, OBJECTORDER::UIGauge, 1.f });
+
 	}
+
+	// if (nullptr == )
+
 	mpPlayer = Player::GetPlayer();
 	mpPlayer->SetParentLevel(this);
 	Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);
@@ -84,11 +98,18 @@ void TempleOfTime0::LevelStartEvent()
 
 void TempleOfTime0::Update(float _DeltaTime)
 {
-	
+	// 1 2 0.2 -> 0.8 + 0.4 -> 1.2
+    // 1 2 0.3 -> 0.7 + 0.6 -> 1.3
+
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
-		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetWorldPosition());
-	}/*
+		float4 f4CurrentPosition = mpCamera->GetTransform().GetWorldPosition();
+		float4 f4DestinationPosition = mpPlayer->GetTransform().GetWorldPosition();
+		float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _DeltaTime * 10.f);
+
+		mpCamera->GetTransform().SetWorldPosition(f4MoveToPosition);
+	}
+	/*
 	else
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("CamLeft"))
@@ -107,7 +128,8 @@ void TempleOfTime0::Update(float _DeltaTime)
 		{
 			GetMainCameraActorTransform().SetWorldMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
 		}
-	}*/
+	}
+	*/
 
 	if (true == mbLimitCameraMoving)
 	{
