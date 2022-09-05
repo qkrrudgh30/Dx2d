@@ -46,6 +46,7 @@ public:
 	float4 GetPixelDataOnRightSide() { return mf4PixelDataOnRightSide; }
 
 	unsigned int GetAccMeso() { return muAccMeso; }
+	void SetAccMeso(unsigned int _Meso) { muAccMeso = _Meso; }
 
 	float4 PreviousDirection()
 	{
@@ -65,7 +66,12 @@ public:
 	{ 
 		int res = mqAcquiredItems.front();
 		mqAcquiredItems.pop();
-		return res;  
+		return res;
+	}
+
+	void PushItemInQueue(int _ObjectOrder)
+	{
+		mqAcquiredItems.push(_ObjectOrder);
 	}
 
 protected:

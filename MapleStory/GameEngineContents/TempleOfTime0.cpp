@@ -86,7 +86,6 @@ void TempleOfTime0::LevelStartEvent()
 		QuickSlot* quickSlot = CreateActor<QuickSlot>(OBJECTORDER::UIGauge);
 		quickSlot->SetLevelOverOn();
 		quickSlot->GetTransform().SetLocalPosition(float4{ 565.f, -255.f, OBJECTORDER::UIGauge, 1.f });
-
 	}
 
 	// if (nullptr == )

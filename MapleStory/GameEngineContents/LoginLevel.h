@@ -9,6 +9,8 @@
 class LoginBackground;
 class LoginButton;
 class ExitButton;
+class Player;
+class QuickSlot;
 class LoginLevel : public ContentsLevel
 {
 public:
@@ -32,5 +34,7 @@ private:
     LoginBackground* mpLoginBackground;
     LoginButton*     mpLoginButton;
     ExitButton*      mpExitButton;
+    Player* mpPlayer;
+    QuickSlot* mpQuickSlot;
 };
 

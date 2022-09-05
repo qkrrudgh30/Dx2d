@@ -3,8 +3,8 @@
 
 enum OBJECTORDER
 {
-	UIGauge = -350,
-	UIGaugeBG = -300,
+	UIGaugeBG = -400,
+	UIGauge = -300,
 	UIBackBoard = -200,
 	UIBackGround = -150,
 	Alpha = 1,
@@ -27,6 +27,7 @@ enum OBJECTORDER
 	Portion3 = 17,
 
 	UI = 18,
+	ENPC = 18,
 	End
 };
 

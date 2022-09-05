@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "GlobalContentsValue.h"
 #include "ContentsLevel.h"
+#include "Store.h"
 
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineTexture.h>
@@ -37,6 +38,14 @@ void NPC::Start()
 	mpRenderer->CreateFrameAnimationCutTexture("JohannaEye", FrameAnimation_DESC("JohannaEye.png", 0, 6, 0.2f));
 	mpRenderer->AnimationBindEnd("JohannaEye", std::bind(&NPC::EndEye, this, std::placeholders::_1));
 	mpRenderer->ChangeFrameAnimation("JohannaStand");
+
+	mpCollision = CreateComponent<GameEngineCollision>("NPCCollision");
+	mpCollision->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
+	mpCollision->ChangeOrder(OBJECTORDER::ENPC);
+	mpCollision->SetDebugSetting(CollisionType::CT_AABB, float4{ 1.f, 0.f, 0.f, 0.5f });
+
+	mpStore = GetLevel()->CreateActor<Store>();
+
 }
 
 void NPC::Update(float _DeltaTime)
@@ -50,16 +59,29 @@ void NPC::Update(float _DeltaTime)
 	float4 f4MousePosition = GetLevel()->GetUICamera()->GetMouseWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f, -GameEngineWindow::GetScale().y / 2.f, 0.f, 0.f };
 	float4 f4NPCPosition = GetTransform().GetWorldPosition();
 
-	if (f4NPCPosition.x - 280.f <= f4MousePosition.x && f4MousePosition.x <= f4NPCPosition.x - 200.f
-	    && f4NPCPosition.y + mfHeight / 2.f <= f4MousePosition.y && f4MousePosition.y <= f4NPCPosition.y + mfHeight * 3 / 2.f
-		)
-	{
-		if (false == mbStoreOn && true == GameEngineInput::GetInst()->IsUp("MouseLButtonDown"))
+	// if (f4NPCPosition.x - 280.f <= f4MousePosition.x && f4MousePosition.x <= f4NPCPosition.x - 200.f
+	//     && f4NPCPosition.y + mfHeight / 2.f <= f4MousePosition.y && f4MousePosition.y <= f4NPCPosition.y + mfHeight * 3 / 2.f
+	// 	)
+	// {
+	// 	if (false == mbStoreOn && true == GameEngineInput::GetInst()->IsUp("MouseLButtonDown"))
+	// 	{
+	// 		int a = 100;
+	// 		mbStoreOn = true;
+	// 	}
+	// }
+
+	mpCollision->IsCollision(CollisionType::CT_AABB2D, static_cast<int>(OBJECTORDER::Character), CollisionType::CT_AABB2D,
+		[=](GameEngineCollision* _This, GameEngineCollision* _Other)
 		{
-			int a = 100;
-			mbStoreOn = true;
+			if (true == GameEngineInput::GetInst()->IsUp("NPCConversation"))
+			{
+				mpStore->On();
+			}
+
+			return true;
 		}
-	}
+	);
+
 }
 
 void NPC::End()

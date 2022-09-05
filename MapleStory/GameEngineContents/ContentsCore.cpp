@@ -114,6 +114,7 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("PrintPlayerWorldPosition", VK_F5);
         GameEngineInput::GetInst()->CreateKey("FreeCameraOnOff", VK_F6);
         GameEngineInput::GetInst()->CreateKey("LimitCameraMovingOnOff", VK_F7);
+        GameEngineInput::GetInst()->CreateKey("NPCConversation", 'Y');
     }
 
     if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
@@ -368,6 +369,9 @@ void ContentsCore::CutAtlasTexture()
     GameEngineTexture::Cut("InventoryBackGround.png", 1, 1);
     GameEngineTexture::Cut("ETCMenu.png", 2, 1);
     GameEngineTexture::Cut("ConsumptionMenu.png", 2, 1);
+    GameEngineTexture::Cut("StoreBuyButton.png", 3, 1);
+    GameEngineTexture::Cut("StoreExitButton.png", 3, 1);
+    GameEngineTexture::Cut("PopupMenuBackGround.png", 3, 1);
 
     // NPC
     GameEngineTexture::Cut("JohannaStand.png", 1, 1);

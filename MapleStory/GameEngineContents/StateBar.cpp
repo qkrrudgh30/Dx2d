@@ -62,10 +62,8 @@ void StateBar::Start()
 	mpShortCutButtonRenderer->GetTransform().SetLocalScale(float4{ GameEngineWindow::GetScale().x * 0.09125f, 35.f, 1.f, 1.f });
 	mpShortCutButtonRenderer->GetTransform().SetLocalPosition(float4{ 579.f, -GameEngineWindow::GetScale().y / 2.f + 17.f, OBJECTORDER::UIGauge-1, 1.f });
 
-	
-
-	mpMenuButton = GetLevel()->CreateActor<MenuButton>();
-	
+	mpMenuButton = GetLevel()->CreateActor<MenuButton>();	
+	// mpMenuButton->GetTransform().SetLocalPosition(float4{ 462.f, -GameEngineWindow::GetScale().y / 2.f + 17.f, -100, 1.f });
 }
 
 void StateBar::Update(float _DeltaTime)

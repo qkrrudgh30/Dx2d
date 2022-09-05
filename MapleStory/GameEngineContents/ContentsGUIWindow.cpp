@@ -67,7 +67,7 @@ void ContentsGUIWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 
 	ImGui::BeginChild("Scrolling");
-	float4 mf4MousePos = pPlayer->GetLevel()->GetUICamera()->GetMouseWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f, -GameEngineWindow::GetScale().y / 2.f, 0.f, 0.f }; 
+	float4 mf4MousePos = pPlayer->GetLevel()->GetUICamera()->GetMouseWorldPosition()+float4{ GameEngineWindow::GetScale().x / 2.f, -GameEngineWindow::GetScale().y / 2.f, 0.f, 0.f };
 	ImGui::TextColored(ImVec4(0, 1, 0, 1), "Mouse Position On UICamera:  %4.2f, %4.2f, %4.2f, %4.2f",
 		mf4MousePos.x,
 		mf4MousePos.y,

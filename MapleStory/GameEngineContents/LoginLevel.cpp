@@ -9,6 +9,8 @@
 #include "LoginButton.h"
 #include "ExitButton.h"
 #include "Veil.h"
+#include "Player.h"
+#include "QuickSlot.h"
 
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
@@ -63,10 +65,25 @@ void LoginLevel::Update(float _DeltaTime)
         mfVeilStartSecond = -1;
     }
 
+    if (nullptr == mpPlayer)
+    {
+        mpPlayer = Player::GetPlayer();
+        return;
+    }
+
+    if (nullptr == mpQuickSlot)
+    {
+        mpQuickSlot = QuickSlot::GetQuickSlot();
+        return;
+    }
+    mpQuickSlot->Off();
+    mpPlayer->Off();
     // GameEngineDebug::OutPutString(std::to_string(GetMainCamera()->GetScreenPosition().x) + "  " + std::to_string(GetMainCamera()->GetScreenPosition().y));
 }
 
 void LoginLevel::End()
 {
     // GameEngineSound::SoundPlayControl("BGM.mp3", );
+    mpQuickSlot->On();
+    mpPlayer->On();
 }

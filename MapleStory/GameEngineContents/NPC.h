@@ -3,11 +3,13 @@
 
 // Ό³Έν :
 class Player;
+class Store;
 class NPC : public ContentsActor
 {
 private:
 	Player* mpPlayer;
 	bool mbStoreOn;
+	Store* mpStore;
 
 public:
 	// constrcuter destructer

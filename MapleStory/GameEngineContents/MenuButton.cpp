@@ -32,13 +32,12 @@ void MenuButton::Start()
 	mfHeight = 35.f;
 	mfWidth = GameEngineWindow::GetScale().x * 0.09125f;
 	mpRenderer->GetTransform().SetLocalScale(float4{ GameEngineWindow::GetScale().x * 0.09125f, 35.f, 1.f, 1.f });
-	mpRenderer->GetTransform().SetLocalPosition(float4{ 462.f, -GameEngineWindow::GetScale().y / 2.f + 17.f, OBJECTORDER::UIBackBoard, 1.f });
+	mpRenderer->GetTransform().SetLocalPosition(float4{ 462.f, -GameEngineWindow::GetScale().y / 2.f + 17.f, OBJECTORDER::UIBackGround, 1.f });
 
 	mpRenderer->SetTexture("MenuButton.png", 0);
 
 	mpPopupMenu = GetLevel()->CreateActor<PopupMenu>();
-	
-
+	mpPopupMenu->GetTransform().SetLocalPosition(float4{ 455.f, -GameEngineWindow::GetScale().y / 2.f + 130.f, OBJECTORDER::UIBackGround, 1.f });
 	// mpPopupMenu->GetTransform().SetWorldPosition(float4{});
 }
 

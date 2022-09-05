@@ -49,6 +49,9 @@
     <Filter Include="02_Actors\02_1Global\Item">
       <UniqueIdentifier>{706b18a1-58c7-406b-a2bd-f39ce42d7a54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02_Actors\02_1Global\MasterUI\Store">
+      <UniqueIdentifier>{5b615b67-7c1c-4194-8f27-109e109555c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContentsCore.h">
@@ -241,6 +244,9 @@
     <ClInclude Include="NPC.h">
       <Filter>02_Actors\Temple1</Filter>
     </ClInclude>
+    <ClInclude Include="Store.h">
+      <Filter>02_Actors\02_1Global\MasterUI\Store</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -429,6 +435,9 @@
     </ClCompile>
     <ClCompile Include="NPC.cpp">
       <Filter>02_Actors\Temple1</Filter>
+    </ClCompile>
+    <ClCompile Include="Store.cpp">
+      <Filter>02_Actors\02_1Global\MasterUI\Store</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
