@@ -38,7 +38,6 @@ void MenuButton::Start()
 
 	mpPopupMenu = GetLevel()->CreateActor<PopupMenu>();
 	mpPopupMenu->GetTransform().SetLocalPosition(float4{ 455.f, -GameEngineWindow::GetScale().y / 2.f + 130.f, OBJECTORDER::UIBackGround, 1.f });
-	// mpPopupMenu->GetTransform().SetWorldPosition(float4{});
 }
 
 void MenuButton::Update(float _DeltaTime)

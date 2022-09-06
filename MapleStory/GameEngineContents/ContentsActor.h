@@ -45,6 +45,8 @@ class ContentsLevel;
 class ContentsActor : public GameEngineActor
 {
 	friend class ContentsLevel;
+	friend class Physics;
+	friend class RigidBody;
 
 protected:
 	GameEngineTextureRenderer* mpRenderer;
@@ -72,6 +74,11 @@ protected:
 	float4                     mf4PixelDataOnRightSide;
 	float4                     mf4PixelDataOnLeftSide;
 	ContentsLevel*             mpParentLevel;
+
+	// 물리 관련
+	float                      mfAccelation;
+	float                      mfVelocity;
+	float4                     mf4MoveAmount;
 
 public:
 	// constrcuter destructer

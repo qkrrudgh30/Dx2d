@@ -124,8 +124,8 @@ void ContentsCore::CreateKeys()
         GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
         GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
         GameEngineInput::GetInst()->CreateKey("PlayerJump", VK_SPACE);
-        GameEngineInput::GetInst()->CreateKey("PlayerAttack1", 'G');
-        GameEngineInput::GetInst()->CreateKey("PlayerAttack2", 'F');
+        GameEngineInput::GetInst()->CreateKey("PlayerAttack1", 'F');
+        GameEngineInput::GetInst()->CreateKey("PlayerAttack2", 'D');
         GameEngineInput::GetInst()->CreateKey("InventoryOnOff", 'I');
         GameEngineInput::GetInst()->CreateKey("GetItem", 'Z');
         GameEngineInput::GetInst()->CreateKey("PlayerDoubleJump", VK_CONTROL);
@@ -364,6 +364,8 @@ void ContentsCore::CutAtlasTexture()
 
     /* Numbers */
     /* Skill */
+    GameEngineTexture::Cut("LeapAttack.png", 8, 1);
+    GameEngineTexture::Cut("SlashBlast.png", 11, 1);
     /* UI */
     GameEngineTexture::Cut("MenuButton.png", 3, 1);
     GameEngineTexture::Cut("InventoryBackGround.png", 1, 1);

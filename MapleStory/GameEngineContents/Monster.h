@@ -35,6 +35,7 @@ protected:
 	float                      mfDistanceFromPlayer;
 	float4                     mf4DirectionToPlayer;
 	bool                       mbAttack;
+	GameEngineTextureRenderer* mpEffect;
 
 public:
 	// constrcuter destructer

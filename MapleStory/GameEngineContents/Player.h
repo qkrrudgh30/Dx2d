@@ -10,10 +10,10 @@ class QuickSlot;
 class Player : public ContentsActor
 {
 	friend class Inventory;
+	
 
 public:
 	std::queue<int> mqAcquiredItems;
-
 
 private:
 	float4                 mf4PixelData;
@@ -26,6 +26,14 @@ private:
 	unsigned int muAccMeso;
 	unsigned int muItemIndex;
 	QuickSlot* mpQuickSlot;
+	// float4 mf4MoveAmount;
+
+	GameEngineTextureRenderer* mpEffect;
+	GameEngineTextureRenderer* mpPowerStrikeEffect;
+	GameEngineTextureRenderer* mpSlashBlastEffect;
+	GameEngineTextureRenderer* mpWorriorLeapEffect;
+
+	
 
 public:
 	// constrcuter destructer
@@ -82,7 +90,17 @@ protected:
 private:
 	// Animation notify.
 	void EndAttack1(const FrameAnimation_DESC& _Info);
+	void EndAttack1Effect() 
+	{ 
+		mpEffect->ChangeFrameAnimation("SlashBlast");
+		mpEffect->Off(); 
+	}
 	void EndAttack2();
+	void EndAttack2Effect() 
+	{ 
+		mpEffect->ChangeFrameAnimation("LeapAttack");
+		mpEffect->Off(); 
+	}
 	void EndFinalAttack1();
 	void EndFinalAttack2();
 

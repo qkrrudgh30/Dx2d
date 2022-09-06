@@ -3,7 +3,7 @@
 #include "ContentsActor.h"
 
 RigidBody::RigidBody() 
-	: mfGravity(400.0f)
+	: mfGravity(100.0f)
 	, mpParent(nullptr)
 {
 }
@@ -23,6 +23,7 @@ void RigidBody::Update(float _DeltaTime)
 	if (false == mpParent->IsOnGround() && false == mpParent->IsOnLadder())
 	{ 
 		mpParent->GetTransform().SetWorldMove(float4{ 0.f, -mfGravity * _DeltaTime, 0.f, 0.f });
+		// mpParent->mf4MoveAmount += float4{ 0.f, -mfGravity * _DeltaTime, 0.f, 0.f };
 	}
 }
 

@@ -20,6 +20,7 @@ Monster::Monster()
 	, mbAttack(false)
 	, mfDistanceFromPlayer(0.f)
 	, mpMonsterHP(nullptr)
+	, mpEffect(nullptr)
 {
 	mfSpeed = 100.f;
 	mfMaxHP = 50.f;
