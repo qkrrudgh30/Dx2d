@@ -226,8 +226,8 @@ void ContentsCore::LoadSkillTextures()
         GameEngineTexture::Load(Textures[i].GetFullPath());
     }
 
-    Dir.Move("WarriorLeap");
-    GameEngineFolderTexture::Load(Dir.GetFullPath());
+    // Dir.Move("WarriorLeap");
+    // GameEngineFolderTexture::Load(Dir.GetFullPath());
 }
 
 void ContentsCore::LoadUITextures()
