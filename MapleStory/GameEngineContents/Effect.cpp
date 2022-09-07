@@ -1,9 +1,11 @@
 #include "PreCompile.h"
 #include "Effect.h"
 
+enum { DAMAGENUMBERCOUNT = 3 };
+
 Effect::Effect() 
-	: mpRenderer(nullptr)
 {
+	mvDamageFonts.reserve(DAMAGENUMBERCOUNT);
 }
 
 Effect::~Effect() 
@@ -12,9 +14,17 @@ Effect::~Effect()
 
 void Effect::Start()
 {
-	mpRenderer->CreateFrameAnimationFolder("WarriorLeap", FrameAnimation_DESC("WarriorLeap", 0.1f));
-	mpRenderer->CreateFrameAnimationCutTexture("LeapAttack", FrameAnimation_DESC("LeapAttack.png", 0, 7, 0.1f, false));
-	mpRenderer->CreateFrameAnimationCutTexture("SlashBlast", FrameAnimation_DESC("SlashBlast.png", 0, 10, 0.1f, false));
+	// mpParent = dynamic_cast<ContentsActor*>();
+
+	GameEngineTextureRenderer* Temp;
+	for (size_t i = 0; i < DAMAGENUMBERCOUNT; ++i)
+	{
+		Temp = CreateComponent<GameEngineTextureRenderer>();
+		Temp->SetTexture("Clear.png");
+		Temp->GetTransform().SetWorldScale(float4{37.f, 38.f, 1.f, 1.f});
+		// Temp->GetTransform().SetWorldMove(float4{37.f * -i, 0.f, 0.f, 0.f});
+		mvDamageFonts.push_back(Temp);
+	}
 }
 
 void Effect::Update(float _DeltaTime)

@@ -7,7 +7,9 @@ class Player;
 class Temple2Monster : public Monster
 {
 private:
-	GameEngineStateManager mStateManager;
+	GameEngineStateManager     mStateManager;
+	GameEngineTextureRenderer* mpHittedEffect;
+	GameEngineTextureRenderer* mpDamageEffect;
 
 public:
 	// constrcuter destructer
@@ -29,6 +31,7 @@ private:
 	// Animation notify.
 	void EndAttack1();
 	void EndAttack2();
+	void EndHitting() { mpHittedEffect->ChangeFrameAnimation("Clear"); mpHittedEffect->Off(); }
 
 	// FSM Functions.
 	void StandStart(const StateInfo& _Info);

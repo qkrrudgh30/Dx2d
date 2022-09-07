@@ -137,7 +137,7 @@ void QuickSlot::Update(float _DeltaTime)
 			// 	GameEngineWindow::GetScale().x / 2.f + GetTransform().GetWorldPosition().x + 35.f * j + 40.f,
 			// 	-(GameEngineWindow::GetScale().y / -2.f + GetTransform().GetWorldPosition().y - 35.f * i - 70.f),
 			// 	});
-
+			if (nullptr == mvOriginalItemsVector[4 * i + j].second) { continue; }
 			if (0u == mvOriginalItemsVector[4 * i + j].second->muItemCount)
 			{
 				mvItemsVector[4 * i + j].first->SetTexture("Clear.png");

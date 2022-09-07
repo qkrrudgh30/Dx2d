@@ -18,6 +18,8 @@ Temple3Boss::Temple3Boss()
 {
 	mfWidth = 243.f;
 	mfHeight = 212.f;
+	mfMaxHP = 2000.f;
+	mfHP = 2000.f;
 }
 
 Temple3Boss::~Temple3Boss()
@@ -43,6 +45,16 @@ void Temple3Boss::Start()
 	mpRenderer->AnimationBindEnd("Temple3BossAttack2", std::bind(&Temple3Boss::EndAttack2, this));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple3BossHitted", FrameAnimation_DESC("Temple3BossHitted.png", 0, 0, 0.2f));
 	mpRenderer->ChangeFrameAnimation("Temple3BossStand");
+
+	mpHittedEffect = CreateComponent<GameEngineTextureRenderer>();
+	mpHittedEffect->GetTransform().SetLocalScale({ 191.f, 161.f, 1.f, 1.f });
+	mpHittedEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
+	mpHittedEffect->CreateFrameAnimationCutTexture("Hitting", FrameAnimation_DESC("Hitting.png", 0, 5, 0.1f, false));
+	mpHittedEffect->AnimationBindEnd("Hitting", std::bind(&Temple3Boss::EndHitting, this));
+	mpHittedEffect->SetScaleModeImage();
+	mpHittedEffect->SetTexture("Clear.png");
+	mpHittedEffect->Off();
+	mpHittedEffect->SetPivot(PIVOTMODE::CENTER);
 
 	mStateManager.CreateStateMember("Stand",
 		std::bind(&Temple3Boss::StandUpdate, this, std::placeholders::_1, std::placeholders::_2),
@@ -96,8 +108,14 @@ void Temple3Boss::Update(float _DeltaTime)
 				SetInvincible(true);
 				mbAttack = true;
 				mfBeforeAccTimeForHit = GetAccTime();
-				SetHP(GetHP() - 10.f);
+				
+				muHittedDamage = spPlayer->GetPADamage();
+				SetHP(GetHP() - muHittedDamage);
+				SetDamageFont(muHittedDamage);
+
 				mStateManager.ChangeState("Alert");
+				mpHittedEffect->On();
+				mpHittedEffect->ChangeFrameAnimation("Hitting");
 			}
 
 			return true;
@@ -117,6 +135,7 @@ void Temple3Boss::Update(float _DeltaTime)
 
 void Temple3Boss::End()
 {
+	
 }
 
 void Temple3Boss::EndAttack1()
@@ -239,6 +258,7 @@ void Temple3Boss::DeadStart(const StateInfo& _Info)
 
 	mbInvincible = true;
 	mpRenderer->ChangeFrameAnimation("Temple3BossDie");
+	spPlayer->SetEXP(spPlayer->GetEXP() + 1000.f);
 	Death(2.f);
 }
 

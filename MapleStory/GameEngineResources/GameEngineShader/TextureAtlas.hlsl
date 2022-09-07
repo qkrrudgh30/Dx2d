@@ -77,5 +77,15 @@ Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
 float4 TextureAtlas_PS(Output _Input) : SV_Target0
 {
+    if ((Tex.Sample(Smp, _Input.Tex.xy).a <= 0.f))
+    {
+        discard;
+    }
+
+    if (MulColor.a <= 0.f)
+    {
+        return (Tex.Sample(Smp, _Input.Tex.xy) * 0.f) + PlusColor;
+    }
+
     return (Tex.Sample(Smp, _Input.Tex.xy) * MulColor) + PlusColor;
 }

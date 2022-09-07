@@ -56,6 +56,7 @@ protected:
 	float                      mfHP;
 	float                      mfMaxMP;
 	float                      mfMP;
+	
 	unsigned int               muPADamage;
 	float                      mfPASpeed;
 	unsigned int               muMADamage;
@@ -99,7 +100,11 @@ public:
 	void SetMaxHP(float _fMaxHP) { mfMaxHP = _fMaxHP; }
 	float GetMaxHP(void) { return mfMaxHP; }
 
-	void SetHP(float _fHP) { mfHP = _fHP; }
+	void SetHP(float _fHP) 
+	{ 
+		if (_fHP <= 0) { mfHP = 0; }
+		else { mfHP = _fHP; }		
+	}
 	float GetHP(void) { return mfHP; }
 
 	void BeAttacked(float _uDamage) { mfHP -= _uDamage; }
@@ -108,9 +113,14 @@ public:
 	void SetMaxMP(float _fMaxMP) { mfMaxMP = _fMaxMP; }
 	float GetMaxMP(void) { return mfMaxMP; }
 
-	void SetMP(float _fMP) { mfMP = _fMP; }
+	void SetMP(float _fMP) 
+	{ 
+		if (_fMP <= 0) { mfMP = 0; }
+		else { mfMP = _fMP; }
+	}
 	float GetMP(void) { return mfMP; }
 
+	
 	void SpellMagic(float _fMana) { mfMP -= _fMana; }
 	void BeHealedMP(float _fMana) { mfMP += _fMana; }
 

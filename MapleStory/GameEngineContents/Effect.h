@@ -6,7 +6,9 @@ class GameEngineTextureRenderer;
 class Effect : public GameEngineActor
 {
 private:
-	GameEngineTextureRenderer* mpRenderer;
+	ContentsActor* mpParent;
+	std::vector<GameEngineTextureRenderer*> mvDamageFonts;
+	unsigned int muDamage;
 
 public:
 	// constrcuter destructer

@@ -3,11 +3,13 @@
 
 // Ό³Έν :
 class GameEngineTextureRenderer;
+class GameEngineUIRenderer;
 class MenuButton;
 class HPGauge;
 class MPGauge;
 class EXPGauge;
 class QuickSlot;
+class Player;
 class StateBar : public GameEngineActor
 {
 private:
@@ -22,6 +24,10 @@ private:
 	HPGauge* mpHPGauge;
 	MPGauge* mpMPGauge;
 	EXPGauge* mpEXPGauge;
+	Player* mpPlayer;
+
+
+	std::vector<GameEngineUIRenderer*> mvLevelNumbers;
 	
 
 public:
@@ -36,6 +42,8 @@ public:
 	StateBar& operator=(StateBar&& _Other) noexcept = delete;
 
 	// void SetHPGauge(float _fDamage)
+
+	void SetLevelFont(unsigned int _nLevel);
 
 protected:
 	void Start() override;

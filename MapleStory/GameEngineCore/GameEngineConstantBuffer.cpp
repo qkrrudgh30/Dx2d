@@ -17,8 +17,6 @@ GameEngineConstantBuffer::~GameEngineConstantBuffer()
 	}
 }
 
-
-
 void GameEngineConstantBuffer::Create(const D3D11_SHADER_BUFFER_DESC& _Desc, ID3D11ShaderReflectionConstantBuffer* _CBufferPtr)
 {
 	ShaderDesc = _Desc;

@@ -18,6 +18,8 @@ Temple2Monster::Temple2Monster()
 {
 	mfWidth = 115.f;
 	mfHeight = 183.f;
+	mfMaxHP = 500.f;
+	mfHP = 500.f;
 }
 
 Temple2Monster::~Temple2Monster()
@@ -43,6 +45,16 @@ void Temple2Monster::Start()
 	mpRenderer->AnimationBindEnd("Temple2MonsterAttack2", std::bind(&Temple2Monster::EndAttack2, this));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple2MonsterHitted", FrameAnimation_DESC("Temple2MonsterHitted.png", 0, 0, 0.2f));
 	mpRenderer->ChangeFrameAnimation("Temple2MonsterStand");
+
+	mpHittedEffect = CreateComponent<GameEngineTextureRenderer>();
+	mpHittedEffect->GetTransform().SetLocalScale({ 191.f, 161.f, 1.f, 1.f });
+	mpHittedEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
+	mpHittedEffect->CreateFrameAnimationCutTexture("Hitting", FrameAnimation_DESC("Hitting.png", 0, 5, 0.1f, false));
+	mpHittedEffect->AnimationBindEnd("Hitting", std::bind(&Temple2Monster::EndHitting, this));
+	mpHittedEffect->SetScaleModeImage();
+	mpHittedEffect->SetTexture("Clear.png");
+	mpHittedEffect->Off();
+	mpHittedEffect->SetPivot(PIVOTMODE::CENTER);
 
 	mStateManager.CreateStateMember("Stand",
 		std::bind(&Temple2Monster::StandUpdate, this, std::placeholders::_1, std::placeholders::_2),
@@ -96,8 +108,16 @@ void Temple2Monster::Update(float _DeltaTime)
 				SetInvincible(true);
 				mbAttack = true;
 				mfBeforeAccTimeForHit = GetAccTime();
-				SetHP(GetHP() - 10.f);
+				
+				
+				muHittedDamage = spPlayer->GetPADamage();
+				SetHP(GetHP() - muHittedDamage);
+				SetDamageFont(muHittedDamage);
+				
 				mStateManager.ChangeState("Alert");
+				
+				mpHittedEffect->On();
+				mpHittedEffect->ChangeFrameAnimation("Hitting");
 			}
 
 			return true;
@@ -117,7 +137,6 @@ void Temple2Monster::Update(float _DeltaTime)
 
 void Temple2Monster::End()
 {
-	
 }
 
 void Temple2Monster::EndAttack1()
@@ -141,7 +160,6 @@ void Temple2Monster::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	// [D]Walk
 	/**/
-
 	if (true == mState.mbLeftWalk)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
@@ -243,6 +261,7 @@ void Temple2Monster::DeadStart(const StateInfo& _Info)
 	// SetInvincible(true);
 	mbInvincible = true;
 	mpRenderer->ChangeFrameAnimation("Temple2MonsterDie");
+	spPlayer->SetEXP(spPlayer->GetEXP() + 10.f);
 	Death(2.f);
 }
 

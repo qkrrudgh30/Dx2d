@@ -29,11 +29,13 @@ private:
 	// float4 mf4MoveAmount;
 
 	GameEngineTextureRenderer* mpEffect;
-	GameEngineTextureRenderer* mpPowerStrikeEffect;
-	GameEngineTextureRenderer* mpSlashBlastEffect;
-	GameEngineTextureRenderer* mpWorriorLeapEffect;
+	GameEngineTextureRenderer* mpLevelUpEffect;
 
-	
+	unsigned int muLevel;
+	unsigned int muLevelUpCount;
+	unsigned int                      muMaxEXP;
+	unsigned int                      muEXP;
+
 
 public:
 	// constrcuter destructer
@@ -52,6 +54,29 @@ public:
 	float4 GetHeadPixelData() { return mf4HeadPixelData; }
 	float4 GetPixelDataOnLeftSide() { return mf4PixelDataOnLeftSide; }
 	float4 GetPixelDataOnRightSide() { return mf4PixelDataOnRightSide; }
+
+	unsigned int GetLevelNumber() { return muLevel; }
+
+	void SetEXP(unsigned int _fEXP)
+	{
+		if (_fEXP <= 0)
+		{
+			muEXP = 0;
+			return;
+		}
+
+		if (muMaxEXP <= _fEXP)
+		{
+			muLevelUpCount += (_fEXP / muMaxEXP);
+			muEXP = (_fEXP % muMaxEXP);
+			return;
+		}
+
+		muEXP = _fEXP;
+	}
+	unsigned int GetEXP(void) { return muEXP; }
+
+	void UpdateLevel();
 
 	unsigned int GetAccMeso() { return muAccMeso; }
 	void SetAccMeso(unsigned int _Meso) { muAccMeso = _Meso; }
@@ -103,6 +128,7 @@ private:
 	}
 	void EndFinalAttack1();
 	void EndFinalAttack2();
+	void EndLevelUp();
 
 	// FSM Functions.
 	void StandStart(const StateInfo& _Info);

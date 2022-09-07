@@ -18,6 +18,8 @@ Temple3Monster::Temple3Monster()
 {
 	mfWidth = 141.f;
 	mfHeight = 208.f;
+	mfMaxHP = 1000.f;
+	mfHP = 1000.f;
 }
 
 Temple3Monster::~Temple3Monster() 
@@ -43,6 +45,16 @@ void Temple3Monster::Start()
 	mpRenderer->AnimationBindEnd("Temple3MonsterAttack2", std::bind(&Temple3Monster::EndAttack2, this));
 	mpRenderer->CreateFrameAnimationCutTexture("Temple3MonsterHitted", FrameAnimation_DESC("Temple3MonsterHitted.png", 0, 0, 0.2f));
 	mpRenderer->ChangeFrameAnimation("Temple3MonsterStand");
+
+	mpHittedEffect = CreateComponent<GameEngineTextureRenderer>();
+	mpHittedEffect->GetTransform().SetLocalScale({ 191.f, 161.f, 1.f, 1.f });
+	mpHittedEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
+	mpHittedEffect->CreateFrameAnimationCutTexture("Hitting", FrameAnimation_DESC("Hitting.png", 0, 5, 0.1f, false));
+	mpHittedEffect->AnimationBindEnd("Hitting", std::bind(&Temple3Monster::EndHitting, this));
+	mpHittedEffect->SetScaleModeImage();
+	mpHittedEffect->SetTexture("Clear.png");
+	mpHittedEffect->Off();
+	mpHittedEffect->SetPivot(PIVOTMODE::CENTER);
 
 	mStateManager.CreateStateMember("Stand",
 		std::bind(&Temple3Monster::StandUpdate, this, std::placeholders::_1, std::placeholders::_2),
@@ -94,8 +106,14 @@ void Temple3Monster::Update(float _DeltaTime)
 				SetInvincible(true);
 				mbAttack = true;
 				mfBeforeAccTimeForHit = GetAccTime();
-				SetHP(GetHP() - 10.f);
+				
+				muHittedDamage = spPlayer->GetPADamage();
+				SetHP(GetHP() - muHittedDamage);
+				SetDamageFont(muHittedDamage);
+
 				mStateManager.ChangeState("Alert");
+				mpHittedEffect->On();
+				mpHittedEffect->ChangeFrameAnimation("Hitting");
 			}
 
 			return true;
@@ -115,6 +133,7 @@ void Temple3Monster::Update(float _DeltaTime)
 
 void Temple3Monster::End()
 {
+	
 }
 
 void Temple3Monster::EndAttack1()
@@ -237,6 +256,7 @@ void Temple3Monster::DeadStart(const StateInfo& _Info)
 
 	SetInvincible(true);
 	mpRenderer->ChangeFrameAnimation("Temple3MonsterDie");
+	spPlayer->SetEXP(spPlayer->GetEXP() + 100.f);
 	Death(2.f);
 }
 

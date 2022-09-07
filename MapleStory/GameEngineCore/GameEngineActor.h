@@ -71,8 +71,6 @@ protected:
 	virtual void Update(float _DeltaTime) override;
 	virtual void End() override;
 
-
-
 private:
 	void SetLevel(GameEngineLevel* _ParentLevel)
 	{
@@ -80,7 +78,7 @@ private:
 	}
 
 	bool IsLevelOver;
-
 	class GameEngineLevel* ParentLevel;
+
 };
 

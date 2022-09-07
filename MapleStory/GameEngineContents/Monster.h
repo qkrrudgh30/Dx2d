@@ -36,6 +36,9 @@ protected:
 	float4                     mf4DirectionToPlayer;
 	bool                       mbAttack;
 	GameEngineTextureRenderer* mpEffect;
+	unsigned int               muHittedDamage;
+	std::vector<GameEngineTextureRenderer*> mvDamageFonts;
+	float4 mf4DamageFontPosition;
 
 public:
 	// constrcuter destructer
@@ -58,9 +61,16 @@ public:
 		}
 	}
 
+	unsigned int GetHittedDamage() { return muHittedDamage; }
+
+	void SetDamageFont(unsigned int _nDamage);
+	void SetDamageFontFading(float _fDeltaTime);
+
 protected:
 	virtual void Start() override;
 	virtual void Update(float _fDeltaTime) override;
+
+
 
 };
 

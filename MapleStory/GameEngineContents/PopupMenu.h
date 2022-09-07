@@ -2,7 +2,7 @@
 #include <GameEngineCore/CoreMinimal.h>
 
 // Ό³Έν :
-class GameEngineTextureRenderer;
+class GameEngineUIRenderer;
 class PopupMenu : public GameEngineActor
 {
 public:
@@ -10,7 +10,7 @@ public:
 protected:
 
 private:
-	GameEngineTextureRenderer* mpRenderer;
+	GameEngineUIRenderer* mpRenderer;
 	float                      mfWidth;
 	float                      mfHeight;
 	float                      mfPositionX;

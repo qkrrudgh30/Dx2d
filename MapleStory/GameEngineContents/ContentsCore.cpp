@@ -241,6 +241,9 @@ void ContentsCore::LoadUITextures()
     {
         GameEngineTexture::Load(Textures[i].GetFullPath());
     }
+
+    Dir.Move("LevelUp");
+    GameEngineFolderTexture::Load(Dir.GetFullPath());
 }
 
 void ContentsCore::LoadNumbersTextures()
@@ -366,6 +369,8 @@ void ContentsCore::CutAtlasTexture()
     /* Skill */
     GameEngineTexture::Cut("LeapAttack.png", 8, 1);
     GameEngineTexture::Cut("SlashBlast.png", 11, 1);
+    GameEngineTexture::Cut("Hitting.png", 6, 1);
+    GameEngineTexture::Cut("Clear.png", 1, 1);
     /* UI */
     GameEngineTexture::Cut("MenuButton.png", 3, 1);
     GameEngineTexture::Cut("InventoryBackGround.png", 1, 1);

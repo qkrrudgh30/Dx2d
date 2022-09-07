@@ -18,6 +18,7 @@ Item::Item()
 	, mf4PixelData{}
 	, mpParentLevel(nullptr)
 	, mbOnCreate(true)
+	, mbAcquired(false)
 	, mfSpeed(200.f)
 	, mfAccTime(0.f)
 	, mfBeforeAccTimeForCreate(0.f)
@@ -47,9 +48,10 @@ void Item::Start()
 
 void Item::Update(float _fDeltaTime)
 {
-	if (nullptr != Player::GetPlayer())
+	if (nullptr == mpPlayer)
 	{
 		mpPlayer = Player::GetPlayer();
+		return;
 	}
 
 	SetParentLevel(GetLevel());
@@ -78,6 +80,11 @@ void Item::Update(float _fDeltaTime)
 
 	mfAccTime = GetAccTime();
 	SetCreatedAfterSecond();
+
+	if (true == mbAcquired)
+	{
+		GetTransform().SetWorldMove(-(GetTransform().GetWorldPosition() - (mpPlayer->GetTransform().GetWorldPosition() + float4{0.f, 50.f, 0.f, 0.f})) * _fDeltaTime * 20.f);
+	}
 }
 
 void Item::End()

@@ -5,6 +5,8 @@
 
 HPGauge::HPGauge() 
 	: mpUIRenderer(nullptr)
+	, mfHeight(0.f)
+	, mfWidth(0.f)
 {
 }
 

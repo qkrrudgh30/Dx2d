@@ -38,21 +38,34 @@ Player::Player()
 	, mpRigidBody(nullptr)
 	, mpInventory(nullptr)
 	, muAccMeso(0u)
+	, muLevel(120u)
 	, muItemIndex(0u)
 	, mpEffect(nullptr)
-	, mpPowerStrikeEffect(nullptr)
-	, mpSlashBlastEffect(nullptr)
-	, mpWorriorLeapEffect(nullptr)
+	, mpLevelUpEffect(nullptr)
 {
 	mfSpeed = 200.f;
 	spPlayer = this;
 	mfHP = 50.f;
 	mfMP = 100.f;
 	mfVelocity = 30.f;
+	muMaxEXP = 100.f;
+	muEXP = 0.f;
 }
 
 Player::~Player()
 {
+}
+
+void Player::UpdateLevel()
+{
+	if (muLevelUpCount <= 0u) { return; }
+	
+	--muLevelUpCount;
+	++muLevel;
+	mpLevelUpEffect->On();
+	mpLevelUpEffect->ChangeFrameAnimation("LevelUp");	
+
+	muMaxEXP += 10u;
 }
 
 void Player::Start()
@@ -94,9 +107,17 @@ void Player::Start()
 	mpEffect->SetTexture("Clear.png");
 	mpEffect->SetPivot(PIVOTMODE::CENTER);
 	// mpEffect->GetTransform().SetWorldPosition();
+
+	mpLevelUpEffect = CreateComponent<GameEngineTextureRenderer>();
+	mpLevelUpEffect->GetTransform().SetLocalScale({ 904.f, 904.f, 1.f, 1.f });
+	mpLevelUpEffect->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0, 20, 0.1f, false));
+	mpLevelUpEffect->AnimationBindEnd("LevelUp", std::bind(&Player::EndLevelUp, this));
+	mpLevelUpEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
+	mpLevelUpEffect->SetPivot(PIVOTMODE::CENTER);
+	mpLevelUpEffect->Off();
 	
 	SetGround(false); 
-	//mpRigidBody = CreateComponent<RigidBody>();
+	// mpRigidBody = CreateComponent<RigidBody>();
 
 	mStateManager.CreateStateMember("Stand", 
 		std::bind(& Player::StandUpdate, this, std::placeholders::_1, std::placeholders::_2),
@@ -141,11 +162,14 @@ void Player::Start()
 	Font->ChangeCamera(CAMERAORDER::UICAMERA);
 	// Font->SetScreenPostion(GetTransform().GetWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f + mfWidth, (GameEngineWindow::GetScale().y / 2.f) + mfHeight, 0.f, 0.f });
 
-	
 }
 
 void Player::Update(float _DeltaTime)
 {
+	muPADamage = GameEngineRandom::MainRandom.RandomInt(1, 999);
+
+	UpdateLevel();
+
 	if (nullptr == mpInventory)
 	{
 		mpInventory = Inventory::GetInventory();
@@ -190,6 +214,7 @@ void Player::Update(float _DeltaTime)
 				if (true == GameEngineInput::GetInst()->IsDown("GetItem"))
 				{
 					Item* item = static_cast<Item*>(_Other->GetParent());
+					item->SetAcquired(true);
 					if (OBJECTORDER::MesoItem == item->GetItemInfo())
 					{
 						muAccMeso += item->GetMesoAmount();
@@ -359,6 +384,11 @@ void Player::EndFinalAttack2()
 	mStateManager.ChangeState("Stand");
 }
 
+void Player::EndLevelUp()
+{
+	mpLevelUpEffect->ChangeFrameAnimation("Clear");
+}
+
 void Player::StandStart(const StateInfo& _Info)
 {
 	mf4MoveAmount = float4::ZERO;
@@ -469,6 +499,7 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		mpEffect->ChangeFrameAnimation("LeapAttack");
 		mpRenderer->ChangeFrameAnimation("CharacterStab");
 		mStateManager.ChangeState("Attack");
+		SetMP(GetMP()-10.f);
 		return;
 	}
 	// [D]Attack2
@@ -478,6 +509,7 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 		mpEffect->ChangeFrameAnimation("SlashBlast");
 		mpRenderer->ChangeFrameAnimation("CharacterSwing");
 		mStateManager.ChangeState("Attack");
+		SetMP(GetMP() - 10.f);
 		return;
 	}
 	
@@ -601,8 +633,8 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
 		// mpRenderer->CurAnimationPauseSwitch();
-		mf4MoveAmount.y += -0.5f;
 		// etTransform().SetWorldMove(GetTransform().GetDownVector() * 80.f * _DeltaTime);
+		mf4MoveAmount.y += -0.5f;
 		mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
 
 		if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }) &&

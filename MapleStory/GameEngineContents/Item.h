@@ -25,6 +25,7 @@ public:
 	float mfWidth;
 	float mfHeight;
 	unsigned int muAmount;
+	bool mbAcquired;
 
 public:
 	// constrcuter destructer
@@ -57,6 +58,8 @@ public:
 	unsigned int GetMesoAmount() { return muAmount; }
 
 	OBJECTORDER GetItemInfo() { return static_cast<OBJECTORDER>(mnOrder); }
+
+	void SetAcquired(bool _bAcquired) { mbAcquired = _bAcquired; }
 
 protected:
 	virtual void Start() override;

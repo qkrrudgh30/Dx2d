@@ -173,10 +173,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="ETCMenuButton.h">
       <SubType>
@@ -432,10 +429,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="ETCMenuButton.cpp">
       <SubType>
       </SubType>

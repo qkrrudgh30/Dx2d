@@ -14,6 +14,8 @@
 
 Player* Monster::spPlayer = nullptr;
 
+enum { DAMAGENUMBERCOUNT = 3 };
+
 Monster::Monster() 
 	: mState()
 	, mfPreAccTime(0.f)
@@ -21,6 +23,7 @@ Monster::Monster()
 	, mfDistanceFromPlayer(0.f)
 	, mpMonsterHP(nullptr)
 	, mpEffect(nullptr)
+	, muHittedDamage(0u)
 {
 	mfSpeed = 100.f;
 	mfMaxHP = 50.f;
@@ -31,6 +34,34 @@ Monster::Monster()
 
 Monster::~Monster() 
 {
+}
+
+void Monster::SetDamageFont(unsigned int _nDamage)
+{
+	for (size_t i = 0; ; ++i)
+	{
+		int n = _nDamage % 10;
+		_nDamage /= 10;
+		mvDamageFonts[i]->SetTexture(std::to_string(n) + ".png");
+		mvDamageFonts[i]->GetTransform().SetWorldPosition(float4{-36.f * i, 170.f, 0.f, 0.f});
+		mvDamageFonts[i]->GetColorData().MulColor.a = 1.f;
+		if (_nDamage <= 0) { break; }
+	}
+}
+
+void Monster::SetDamageFontFading(float _fDeltaTime)
+{
+	std::string Temp = mvDamageFonts[0]->GetCurTexture()->GetNameCopy();
+	if ("CLEAR.PNG" == Temp)
+	{ 
+		return; 
+	}
+
+	for (size_t i = 0; i < mvDamageFonts.size(); ++i)
+	{
+		mvDamageFonts[i]->GetTransform().SetWorldMove(float4{0.f, 10.f * _fDeltaTime, 0.f, 0.f});
+		mvDamageFonts[i]->GetColorData().MulColor.a += -1.f * _fDeltaTime;
+	}
 }
 
 void Monster::Start()
@@ -44,10 +75,23 @@ void Monster::Start()
 	mpMonsterHP->SetParentMonster(this);
 
 	mpRenderer->SetScaleModeImage();
+
+	mvDamageFonts.reserve(DAMAGENUMBERCOUNT);
+	GameEngineTextureRenderer* Temp;
+	for (size_t i = 0; i < DAMAGENUMBERCOUNT; ++i)
+	{
+		Temp = CreateComponent<GameEngineTextureRenderer>();
+		Temp->SetTexture("Clear.png");
+		Temp->GetTransform().SetWorldScale(float4{ 37.f, 38.f, 1.f, 1.f });
+		Temp->GetTransform().SetWorldMove(float4{ -37.f * i, 170.f, 0.f, 0.f });
+		mvDamageFonts.push_back(Temp);
+	}
+	mf4DamageFontPosition = mvDamageFonts[0]->GetTransform().GetWorldPosition();
 }
 
 void Monster::Update(float _DeltaTime)
 {
+	SetDamageFontFading(_DeltaTime);
 	if (nullptr != Player::GetPlayer())
 	{
 		spPlayer = Player::GetPlayer();

@@ -5,6 +5,7 @@
 #include "MPGauge.h"
 #include "EXPGauge.h"
 #include "QuickSlot.h"
+#include "Player.h"
 
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
@@ -17,14 +18,40 @@
 
 StateBar::StateBar() 
 {
+	
 }
 
 StateBar::~StateBar() 
 {
 }
 
+void StateBar::SetLevelFont(unsigned int _nLevel)
+{
+	for (size_t i = 0; ; ++i)
+	{
+		int n = _nLevel % 10;
+		_nLevel /= 10;
+		mvLevelNumbers[i]->SetTexture(std::to_string(n) + std::to_string(n) + ".png");
+		// mvLevelNumbers[i]->GetTransform().SetWorldMove(float4{ -11.f * i, 0.f, 0.f, 0.f });
+		// mvLevelNumbers[i]->GetColorData().MulColor.a = 1.f;
+		if (_nLevel <= 0) { break; }
+	}
+}
+
 void StateBar::Start()
 {
+	mvLevelNumbers.reserve(3);
+	GameEngineUIRenderer* Temp;
+	for (size_t i = 0; i < 3; ++i)
+	{
+		Temp = CreateComponent<GameEngineUIRenderer>();
+		Temp->SetTexture("Clear.png");
+		Temp->GetTransform().SetWorldScale(float4{ 15.f, 18.f, 1.f, 1.f });
+		Temp->GetTransform().SetLocalPosition(float4{ -530.f, -GameEngineWindow::GetScale().y / 2.f + 15.f, OBJECTORDER::UIGauge, 1.f });
+		Temp->GetTransform().SetWorldMove(float4{ -15.f * i, 2.f, 0.f, 0.f });
+		mvLevelNumbers.push_back(Temp);
+	}
+
 	mpBackGroundRenderer = CreateComponent<GameEngineUIRenderer>();
 	mpBackGroundRenderer->SetTexture("BackGround.png");
 	mpBackGroundRenderer->GetTransform().SetLocalScale(float4{ GameEngineWindow::GetScale().x, 71.f, 1.f, 1.f });
@@ -68,6 +95,13 @@ void StateBar::Start()
 
 void StateBar::Update(float _DeltaTime)
 {
+	if (nullptr == mpPlayer)
+	{
+		mpPlayer = Player::GetPlayer();
+		return;
+	}
+
+	SetLevelFont(mpPlayer->GetLevelNumber());
 	//GameEngineDebug::OutPutString(
 	//	std::to_string(mpBackGroundRenderer->GetTransform().GetWorldPosition().x) + "  " +
 	//	std::to_string(mpBackGroundRenderer->GetTransform().GetWorldPosition().y) + "  " +
