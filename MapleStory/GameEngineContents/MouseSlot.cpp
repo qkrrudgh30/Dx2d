@@ -31,7 +31,7 @@ void MouseSlot::SetRenderer(const std::string& _Name)
 	// mpRenderer->GetColorData().PlusColor = float4{0.f, 0.f, 0.f, 0.4f};
 }
 
-void MouseSlot::SetSelectedItemPointer(const std::pair<GameEngineUIRenderer*, ItemInfo*>& _pSelectedItem)
+void MouseSlot::SetSelectedItemPointer(const std::pair<GameEngineUIRenderer*, ItemInfo>& _pSelectedItem)
 {
 	mpSelectedItemPointer = _pSelectedItem;
 }

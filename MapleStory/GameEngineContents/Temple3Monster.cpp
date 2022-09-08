@@ -256,7 +256,7 @@ void Temple3Monster::DeadStart(const StateInfo& _Info)
 
 	SetInvincible(true);
 	mpRenderer->ChangeFrameAnimation("Temple3MonsterDie");
-	spPlayer->SetEXP(spPlayer->GetEXP() + 100.f);
+	spPlayer->SetEXP(spPlayer->GetEXP() + 100u);
 	Death(2.f);
 }
 

@@ -247,6 +247,9 @@
     <ClInclude Include="Effect.h">
       <Filter>02_Actors\02_1Global</Filter>
     </ClInclude>
+    <ClInclude Include="ItemInfo.h">
+      <Filter>02_Actors\02_1Global\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContentsCore.cpp">
@@ -438,6 +441,9 @@
     </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>02_Actors\02_1Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInfo.cpp">
+      <Filter>02_Actors\02_1Global\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

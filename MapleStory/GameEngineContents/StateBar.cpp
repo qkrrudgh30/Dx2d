@@ -6,6 +6,7 @@
 #include "EXPGauge.h"
 #include "QuickSlot.h"
 #include "Player.h"
+#include "ItemInfo.h"
 
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>

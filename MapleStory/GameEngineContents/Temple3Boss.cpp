@@ -258,7 +258,7 @@ void Temple3Boss::DeadStart(const StateInfo& _Info)
 
 	mbInvincible = true;
 	mpRenderer->ChangeFrameAnimation("Temple3BossDie");
-	spPlayer->SetEXP(spPlayer->GetEXP() + 1000.f);
+	spPlayer->SetEXP(spPlayer->GetEXP() + 1000u);
 	Death(2.f);
 }
 

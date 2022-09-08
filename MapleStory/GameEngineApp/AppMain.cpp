@@ -14,7 +14,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
-	new int();
 	/*
 	_CrtDumpMemoryLeaks();
 _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
@@ -25,8 +24,6 @@ _crtBreakAlloc
 	*/
 
 	GameEngineCore::Start<ContentsCore>();
-
-	_CrtSetBreakAlloc(15607);
 
 	return 0;
 }

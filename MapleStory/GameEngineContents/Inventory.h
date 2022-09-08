@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "ItemInfo.h"
 
 enum class InventoryInfo
 {
@@ -10,20 +11,6 @@ enum class InventoryInfo
 	ItemHeight = 32,
 	ItemWidthOffset = 10,
 	ItemHeightOffset = 10,
-};
-
-class ItemInfo
-{
-public:
-	int mnItemType;
-	unsigned int muItemCount;
-
-	ItemInfo()
-		: mnItemType(static_cast<int>(OBJECTORDER::End))
-		, muItemCount(0u)
-	{
-
-	}
 };
 
 // Ό³Έν :
@@ -53,7 +40,7 @@ private:
 	unsigned int muAccMeso;
 	float4 mf4MesoFontPosition;
 	GameEngineFontRenderer* mpFontRenderer;
-	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo*>> mvItemsVector;
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>> mvItemsVector;
 	std::vector<GameEngineFontRenderer*> mvItemCountFont;
 	unsigned int muItemsIndex;
 	MouseSlot* mpMouseSlot;

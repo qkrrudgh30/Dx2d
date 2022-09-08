@@ -48,8 +48,8 @@ Player::Player()
 	mfHP = 50.f;
 	mfMP = 100.f;
 	mfVelocity = 30.f;
-	muMaxEXP = 100.f;
-	muEXP = 0.f;
+	muMaxEXP = 100u;
+	muEXP = 0u;
 }
 
 Player::~Player()
@@ -156,11 +156,11 @@ void Player::Start()
 
     mStateManager.ChangeState("Stand");
 
-	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-	Font->SetText("안녕하세요", "메이플스토리");
-	Font->SetColor({ 0.0f, 0.0f, 0.0f });
-	Font->ChangeCamera(CAMERAORDER::UICAMERA);
-	// Font->SetScreenPostion(GetTransform().GetWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f + mfWidth, (GameEngineWindow::GetScale().y / 2.f) + mfHeight, 0.f, 0.f });
+	//GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
+	//Font->SetText("안녕하세요", "메이플스토리");
+	//Font->SetColor({ 0.0f, 0.0f, 0.0f });
+	//Font->ChangeCamera(CAMERAORDER::UICAMERA);
+	//// Font->SetScreenPostion(GetTransform().GetWorldPosition() + float4{ GameEngineWindow::GetScale().x / 2.f + mfWidth, (GameEngineWindow::GetScale().y / 2.f) + mfHeight, 0.f, 0.f });
 
 }
 

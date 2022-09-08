@@ -41,9 +41,9 @@ QuickSlot::~QuickSlot()
 
 int QuickSlot::Consume(int _Key)
 {
-	if (0u == mvOriginalItemsVector[_Key].second->muItemCount) { return 0; }
-	int nAmount = mvOriginalItemsVector[_Key].second->mnItemType;
-	--mvOriginalItemsVector[_Key].second->muItemCount;
+	if (0u == mvOriginalItemsVector[_Key].second.muItemCount) { return 0; }
+	int nAmount = mvOriginalItemsVector[_Key].second.mnItemType;
+	--mvOriginalItemsVector[_Key].second.muItemCount;
 	return nAmount;
 }
 
@@ -53,20 +53,18 @@ void QuickSlot::Start()
 	mpUIRenderer->SetTexture("QuickSlot.png");
 	mpUIRenderer->GetTransform().SetLocalScale(float4{ mfWidth, mfHeight, 1.f, 1.f });
 
-	ItemInfo* temp1 = new ItemInfo();
-	GameEngineUIRenderer* temp2 = CreateComponent<GameEngineUIRenderer>();
-	temp2->SetTexture("clear.png");
-	std::pair<GameEngineUIRenderer*, ItemInfo*> pEmpty(temp2, temp1);
-	mpEmpty = pEmpty;
+	mEmptyItemInfo.mnItemType = OBJECTORDER::End;
+	mEmptyItemInfo.muItemCount = 0u;
+	GameEngineUIRenderer* mpEmptyRenderer = CreateComponent<GameEngineUIRenderer>();
+	mpEmptyRenderer->SetTexture("clear.png");
 
 	for (int i = 0; i < static_cast<int>(QuickSlotInfo::QuickSlotSize); ++i)
 	{
 		GameEngineUIRenderer* QuickSlot = CreateComponent<GameEngineUIRenderer>("QuickSlot" + std::to_string(i));
 		QuickSlot->SetPivot(PIVOTMODE::LEFTTOP);
 		QuickSlot->GetTransform().SetLocalScale(float4{ static_cast<float>(QuickSlotInfo::ItemWidth), static_cast<float>(QuickSlotInfo::ItemHeight), 1.f, 1.f });
-		ItemInfo* temp = new ItemInfo();
-		mvItemsVector.push_back(std::make_pair(QuickSlot, temp));
-		mvOriginalItemsVector.push_back(std::make_pair(QuickSlot, temp));
+		mvItemsVector.push_back(std::make_pair(QuickSlot, mEmptyItemInfo));
+		mvOriginalItemsVector.push_back(std::make_pair(QuickSlot, mEmptyItemInfo));
 
 		int j = i / 4;
 		int k = i % 4;
@@ -133,22 +131,18 @@ void QuickSlot::Update(float _DeltaTime)
 	{
 		for (size_t j = 0; j < static_cast<size_t>(QuickSlotInfo::QuickSlotWidth); ++j)
 		{
-			// mvItemCountFont[4 * i + j]->SetScreenPostion(float4{
-			// 	GameEngineWindow::GetScale().x / 2.f + GetTransform().GetWorldPosition().x + 35.f * j + 40.f,
-			// 	-(GameEngineWindow::GetScale().y / -2.f + GetTransform().GetWorldPosition().y - 35.f * i - 70.f),
-			// 	});
-			if (nullptr == mvOriginalItemsVector[4 * i + j].second) { continue; }
-			if (0u == mvOriginalItemsVector[4 * i + j].second->muItemCount)
+			if (0u == mvOriginalItemsVector[4 * i + j].second.muItemCount)
 			{
 				mvItemsVector[4 * i + j].first->SetTexture("Clear.png");
 				mvItemCountFont[4 * i + j]->Off();
-				mvOriginalItemsVector[4 * i + j] = mpEmpty;
+				mvOriginalItemsVector[4 * i + j].first = mpEmptyRenderer;
+				mvOriginalItemsVector[4 * i + j].second = mEmptyItemInfo;
 			}
 			else
 			{
 				mvItemCountFont[4 * i + j]->On();
-				mvItemCountFont[4 * i + j]->SetText(std::to_string(mvOriginalItemsVector[4 * i + j].second->muItemCount), "메이플스토리");
-				switch (mvOriginalItemsVector[4 * i + j].second->mnItemType)
+				mvItemCountFont[4 * i + j]->SetText(std::to_string(mvOriginalItemsVector[4 * i + j].second.muItemCount), "메이플스토리");
+				switch (mvOriginalItemsVector[4 * i + j].second.mnItemType)
 				{
 				case static_cast<int>(OBJECTORDER::Portion1):
 					mvItemsVector[4 * i + j].first->SetTexture("WhitePortion.png");

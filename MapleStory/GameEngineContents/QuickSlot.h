@@ -1,4 +1,5 @@
 #pragma once
+#include "ItemInfo.h"
 
 enum class QuickSlotInfo
 {
@@ -11,6 +12,7 @@ enum class QuickSlotInfo
 	ItemHeightOffset = 10,
 };
 
+
 // Ό³Έν :
 class GameEngineTextureRenderer;
 class GameEngineUIRenderer;
@@ -22,6 +24,8 @@ class QuickSlot : public GameEngineActor
 {
 private:
 	GameEngineUIRenderer* mpUIRenderer;
+	GameEngineUIRenderer* mpEmptyRenderer;
+	ItemInfo              mEmptyItemInfo;
 	float                 mfWidth;
 	float                 mfHeight;
 
@@ -29,14 +33,14 @@ private:
 	static Player* spPlayer;
 	static QuickSlot* spQuickSlot;
 	GameEngineTextureRenderer* mpRenderer;
-	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo*>> mvItemsVector;
-	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo*>> mvOriginalItemsVector;
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>> mvItemsVector;
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>> mvOriginalItemsVector;
 	std::vector<GameEngineFontRenderer*> mvItemCountFont;
 	std::vector<GameEngineFontRenderer*> mvHotKeyFont;
 	std::vector<std::string> mvHotkeyStrings;
 	unsigned int muItemsIndex;
 	MouseSlot* mpMouseSlot;
-	std::pair<GameEngineUIRenderer*, ItemInfo*> mpEmpty;
+	std::pair<GameEngineUIRenderer*, ItemInfo> mpEmpty;
 
 public:
 	// constrcuter destructer
