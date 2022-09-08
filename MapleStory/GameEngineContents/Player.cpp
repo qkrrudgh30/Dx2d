@@ -108,13 +108,13 @@ void Player::Start()
 	mpEffect->SetPivot(PIVOTMODE::CENTER);
 	// mpEffect->GetTransform().SetWorldPosition();
 
-	mpLevelUpEffect = CreateComponent<GameEngineTextureRenderer>();
-	mpLevelUpEffect->GetTransform().SetLocalScale({ 904.f, 904.f, 1.f, 1.f });
-	mpLevelUpEffect->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0, 20, 0.1f, false));
-	mpLevelUpEffect->AnimationBindEnd("LevelUp", std::bind(&Player::EndLevelUp, this));
-	mpLevelUpEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
-	mpLevelUpEffect->SetPivot(PIVOTMODE::CENTER);
-	mpLevelUpEffect->Off();
+	// mpLevelUpEffect = CreateComponent<GameEngineTextureRenderer>();
+	// mpLevelUpEffect->GetTransform().SetLocalScale({ 904.f, 904.f, 1.f, 1.f });
+	// mpLevelUpEffect->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0, 20, 0.1f, false));
+	// mpLevelUpEffect->AnimationBindEnd("LevelUp", std::bind(&Player::EndLevelUp, this));
+	// mpLevelUpEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
+	// mpLevelUpEffect->SetPivot(PIVOTMODE::CENTER);
+	// mpLevelUpEffect->Off();
 	
 	SetGround(false); 
 	// mpRigidBody = CreateComponent<RigidBody>();

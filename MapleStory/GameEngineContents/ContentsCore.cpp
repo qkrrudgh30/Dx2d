@@ -374,8 +374,8 @@ void ContentsCore::CutAtlasTexture()
     /* UI */
     GameEngineTexture::Cut("MenuButton.png", 3, 1);
     GameEngineTexture::Cut("InventoryBackGround.png", 1, 1);
-    GameEngineTexture::Cut("ETCMenu.png", 2, 1);
-    GameEngineTexture::Cut("ConsumptionMenu.png", 2, 1);
+    // GameEngineTexture::Cut("ETCMenu.png", 2, 1);
+    // GameEngineTexture::Cut("ConsumptionMenu.png", 2, 1);
     GameEngineTexture::Cut("StoreBuyButton.png", 3, 1);
     GameEngineTexture::Cut("StoreExitButton.png", 3, 1);
     GameEngineTexture::Cut("PopupMenuBackGround.png", 3, 1);

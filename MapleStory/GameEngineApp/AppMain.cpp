@@ -26,7 +26,7 @@ _crtBreakAlloc
 
 	GameEngineCore::Start<ContentsCore>();
 
-	// _CrtSetBreakAlloc(287);
+	_CrtSetBreakAlloc(15607);
 
 	return 0;
 }

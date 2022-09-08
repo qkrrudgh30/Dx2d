@@ -18,15 +18,17 @@ MonsterHPGauge::~MonsterHPGauge()
 
 void MonsterHPGauge::Start()
 {
+	mpGaugeRenderer = CreateComponent<GameEngineTextureRenderer>("MonsterHPGauge");
+	mpGaugeRenderer->SetTexture("HPGauge.png");
+	mpGaugeRenderer->GetTransform().SetLocalScale(float4{ 60.f, 10.f, 1.f, 1.f });
+	mpGaugeRenderer->SetPivot(PIVOTMODE::LEFTTOP);
+
 	mpBackgroundRenderer = CreateComponent<GameEngineTextureRenderer>("MonsterHPBackground");
 	mpBackgroundRenderer->SetTexture("MonsterHPBackground.png");
 	mpBackgroundRenderer->GetTransform().SetLocalScale(float4{ 60.f, 10.f, 1.f, 1.f });
 	mpBackgroundRenderer->SetPivot(PIVOTMODE::LEFTTOP);
 
-	mpGaugeRenderer = CreateComponent<GameEngineTextureRenderer>("MonsterHPGauge");
-	mpGaugeRenderer->SetTexture("HPGauge.png");
-	mpGaugeRenderer->GetTransform().SetLocalScale(float4{ 60.f, 10.f, 1.f, 1.f });
-	mpGaugeRenderer->SetPivot(PIVOTMODE::LEFTTOP);
+	
 }
 
 void MonsterHPGauge::Update(float _DeltaTime)
