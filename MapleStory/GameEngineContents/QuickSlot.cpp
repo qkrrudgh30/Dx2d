@@ -41,9 +41,9 @@ QuickSlot::~QuickSlot()
 
 int QuickSlot::Consume(int _Key)
 {
-	if (0u == mvOriginalItemsVector[_Key].second.muItemCount) { return 0; }
-	int nAmount = mvOriginalItemsVector[_Key].second.mnItemType;
-	--mvOriginalItemsVector[_Key].second.muItemCount;
+	if (nullptr == mvOriginalItemsVector[_Key] || 0u == mvOriginalItemsVector[_Key]->second.muItemCount) { return 0; }
+	int nAmount = mvOriginalItemsVector[_Key]->second.mnItemType;
+	--mvOriginalItemsVector[_Key]->second.muItemCount;
 	return nAmount;
 }
 
@@ -64,7 +64,9 @@ void QuickSlot::Start()
 		QuickSlot->SetPivot(PIVOTMODE::LEFTTOP);
 		QuickSlot->GetTransform().SetLocalScale(float4{ static_cast<float>(QuickSlotInfo::ItemWidth), static_cast<float>(QuickSlotInfo::ItemHeight), 1.f, 1.f });
 		mvItemsVector.push_back(std::make_pair(QuickSlot, mEmptyItemInfo));
-		mvOriginalItemsVector.push_back(std::make_pair(QuickSlot, mEmptyItemInfo));
+		// mvOriginalItemsVector.push_back(std::make_pair(QuickSlot, mEmptyItemInfo);
+		mvOriginalItemsVector.push_back(nullptr);
+		// mvOriginalItemsVector.push_back();
 
 		int j = i / 4;
 		int k = i % 4;
@@ -131,18 +133,19 @@ void QuickSlot::Update(float _DeltaTime)
 	{
 		for (size_t j = 0; j < static_cast<size_t>(QuickSlotInfo::QuickSlotWidth); ++j)
 		{
-			if (0u == mvOriginalItemsVector[4 * i + j].second.muItemCount)
+			if (nullptr == mvOriginalItemsVector[4 * i + j] || 0u == mvOriginalItemsVector[4 * i + j]->second.muItemCount)
 			{
 				mvItemsVector[4 * i + j].first->SetTexture("Clear.png");
 				mvItemCountFont[4 * i + j]->Off();
-				mvOriginalItemsVector[4 * i + j].first = mpEmptyRenderer;
-				mvOriginalItemsVector[4 * i + j].second = mEmptyItemInfo;
+				// mvOriginalItemsVector[4 * i + j]->first = mpEmptyRenderer;
+				// mvOriginalItemsVector[4 * i + j]->second = mEmptyItemInfo;
+				mvOriginalItemsVector[4 * i + j] = nullptr;
 			}
 			else
 			{
 				mvItemCountFont[4 * i + j]->On();
-				mvItemCountFont[4 * i + j]->SetText(std::to_string(mvOriginalItemsVector[4 * i + j].second.muItemCount), "메이플스토리");
-				switch (mvOriginalItemsVector[4 * i + j].second.mnItemType)
+				mvItemCountFont[4 * i + j]->SetText(std::to_string(mvOriginalItemsVector[4 * i + j]->second.muItemCount), "메이플스토리");
+				switch (mvOriginalItemsVector[4 * i + j]->second.mnItemType)
 				{
 				case static_cast<int>(OBJECTORDER::Portion1):
 					mvItemsVector[4 * i + j].first->SetTexture("WhitePortion.png");
@@ -178,7 +181,6 @@ void QuickSlot::Update(float _DeltaTime)
 				{
 					mvOriginalItemsVector[4 * i + j] = mpMouseSlot->GetSelectedItemPointer();
 					// mvItemsVector[4 * i + j].second = mpMouseSlot->GetSelectedItemPointer().second;
-					int a = 100;
 				}
 			}
 		}

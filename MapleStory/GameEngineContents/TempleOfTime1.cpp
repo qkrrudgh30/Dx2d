@@ -78,12 +78,12 @@ void TempleOfTime1::Update(float _DeltaTime)
 {
 	if (true == ContentsCore::IsCameraFollowingOn())
 	{
-		// mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
-		float4 f4CurrentPosition = mpCamera->GetTransform().GetWorldPosition();
+		mpCamera->GetTransform().SetWorldPosition(mpPlayer->GetTransform().GetLocalPosition());
+		/*float4 f4CurrentPosition = mpCamera->GetTransform().GetWorldPosition();
 		float4 f4DestinationPosition = mpPlayer->GetTransform().GetWorldPosition();
 		float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _DeltaTime * 10.f);
 
-		mpCamera->GetTransform().SetWorldPosition(f4MoveToPosition);
+		mpCamera->GetTransform().SetWorldPosition(f4MoveToPosition);*/
 	}
 
 	/*if (true == GameEngineInput::GetInst()->IsPress("CamLeft"))

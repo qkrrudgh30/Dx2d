@@ -17,6 +17,9 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
 
+#define VELOCITYLIMIT (5.f)
+#define JUMPLIMIT (4.5f)
+
 Player* Player::spPlayer = nullptr;
 
 enum
@@ -47,7 +50,7 @@ Player::Player()
 	spPlayer = this;
 	mfHP = 50.f;
 	mfMP = 100.f;
-	mfVelocity = 30.f;
+	mfVelocity = 300.f;
 	muMaxEXP = 100u;
 	muEXP = 0u;
 }
@@ -108,13 +111,13 @@ void Player::Start()
 	mpEffect->SetPivot(PIVOTMODE::CENTER);
 	// mpEffect->GetTransform().SetWorldPosition();
 
-	// mpLevelUpEffect = CreateComponent<GameEngineTextureRenderer>();
-	// mpLevelUpEffect->GetTransform().SetLocalScale({ 904.f, 904.f, 1.f, 1.f });
-	// mpLevelUpEffect->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0, 20, 0.1f, false));
-	// mpLevelUpEffect->AnimationBindEnd("LevelUp", std::bind(&Player::EndLevelUp, this));
-	// mpLevelUpEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
-	// mpLevelUpEffect->SetPivot(PIVOTMODE::CENTER);
-	// mpLevelUpEffect->Off();
+	mpLevelUpEffect = CreateComponent<GameEngineTextureRenderer>();
+	mpLevelUpEffect->GetTransform().SetLocalScale({ 904.f, 904.f, 1.f, 1.f });
+	mpLevelUpEffect->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0, 20, 0.1f, false));
+	mpLevelUpEffect->AnimationBindEnd("LevelUp", std::bind(&Player::EndLevelUp, this));
+	mpLevelUpEffect->CreateFrameAnimationCutTexture("Clear", FrameAnimation_DESC("Clear.png", 0, 0, 0.1f, false));
+	mpLevelUpEffect->SetPivot(PIVOTMODE::CENTER);
+	mpLevelUpEffect->Off();
 	
 	SetGround(false); 
 	// mpRigidBody = CreateComponent<RigidBody>();
@@ -272,7 +275,7 @@ void Player::Update(float _DeltaTime)
 	else
 	{
 		mf4MoveAmount += float4{ 0.f, -10 * _DeltaTime, 0.f, 0.f };
-		if (mf4MoveAmount.y <= -1.f) { mf4MoveAmount.y = -1.f; }
+		if (mf4MoveAmount.y <= -JUMPLIMIT) { mf4MoveAmount.y = -JUMPLIMIT; }
 		// if (true == mbOnLadder) { mf4MoveAmount.y = 0.f; }
 		SetGround(false);
 		// mpRenderer->ChangeFrameAnimation("CharacterJump");
@@ -400,7 +403,7 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Jump
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerDown") && true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
 	{
-		mf4MoveAmount.y += 2.3f;
+		mf4MoveAmount.y += JUMPLIMIT;
 		mStateManager.ChangeState("Jump");
 		return;
 	}
@@ -482,7 +485,7 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	// [D]Jump
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
 	{
-		mf4MoveAmount.y += 2.f;
+		mf4MoveAmount.y += JUMPLIMIT;
 	}
 
 	// [D]Alert
@@ -518,14 +521,14 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		mpRenderer->GetTransform().PixLocalPositiveX();
 		mf4MoveAmount += GetTransform().GetLeftVector() * mfVelocity * _DeltaTime;
- 		if (1.f <= abs(mf4MoveAmount.x)) { mf4MoveAmount.x = -1.f; }
+ 		if (VELOCITYLIMIT <= abs(mf4MoveAmount.x)) { mf4MoveAmount.x = -VELOCITYLIMIT; }
 		return;
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
 		mpRenderer->GetTransform().PixLocalNegativeX();
 		mf4MoveAmount += GetTransform().GetRightVector() * mfVelocity * _DeltaTime;
-		if (1.f <= abs(mf4MoveAmount.x)) { mf4MoveAmount.x = 1.f; }
+		if (VELOCITYLIMIT <= abs(mf4MoveAmount.x)) { mf4MoveAmount.x = VELOCITYLIMIT; }
 		return;
 	}
 	

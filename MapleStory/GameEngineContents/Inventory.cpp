@@ -242,7 +242,7 @@ void Inventory::Update(float _DeltaTime)
 				{
 					std::string name = mvItemsVector[4 * i + j].first->GetCurTexture()->GetNameCopy();
 					mpMouseSlot->SetRenderer(name);
-					mpMouseSlot->SetSelectedItemPointer(mvItemsVector[4 * i + j]);
+					mpMouseSlot->SetSelectedItemPointer(&mvItemsVector[4 * i + j]);
 				}
 			}
 		}

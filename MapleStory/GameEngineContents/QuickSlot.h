@@ -34,7 +34,7 @@ private:
 	static QuickSlot* spQuickSlot;
 	GameEngineTextureRenderer* mpRenderer;
 	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>> mvItemsVector;
-	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>> mvOriginalItemsVector;
+	std::vector<std::pair<GameEngineUIRenderer*, ItemInfo>*> mvOriginalItemsVector;
 	std::vector<GameEngineFontRenderer*> mvItemCountFont;
 	std::vector<GameEngineFontRenderer*> mvHotKeyFont;
 	std::vector<std::string> mvHotkeyStrings;

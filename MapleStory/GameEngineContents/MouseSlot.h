@@ -10,7 +10,7 @@ private:
 	GameEngineUIRenderer* mpRenderer;
 	float mfWidth;
 	float mfHeight;
-	std::pair<GameEngineUIRenderer*, ItemInfo> mpSelectedItemPointer;
+	std::pair<GameEngineUIRenderer*, ItemInfo>* mpSelectedItemPointer;
 
 public:
 	// constrcuter destructer
@@ -18,21 +18,21 @@ public:
 	~MouseSlot();
 
 	// delete Function
-	MouseSlot(const MouseSlot& _Other) = delete;
-	MouseSlot(MouseSlot&& _Other) noexcept = delete;
+	//MouseSlot(const MouseSlot& _Other) = delete;
+	// MouseSlot(MouseSlot&& _Other) noexcept = delete;
 	//MouseSlot& operator=(const MouseSlot& _Other) = delete;
-	MouseSlot& operator=(MouseSlot&& _Other) noexcept = delete;
+	//MouseSlot& operator=(MouseSlot&& _Other) noexcept = delete;
 
 	void SetRenderer(const std::string& _Name);
 
 	static MouseSlot* GetMouseSlot() { return spMouseSlot; }
 
-	const std::pair<GameEngineUIRenderer*, ItemInfo>& GetSelectedItemPointer() 
+	std::pair<GameEngineUIRenderer*, ItemInfo>* GetSelectedItemPointer() 
 	{
 		return mpSelectedItemPointer;
 	}
 
-	void SetSelectedItemPointer(const std::pair<GameEngineUIRenderer*, ItemInfo>& _pSelectedItem);
+	void SetSelectedItemPointer(std::pair<GameEngineUIRenderer*, ItemInfo>* _pSelectedItem);
 
 protected:
 	void Start() override;
