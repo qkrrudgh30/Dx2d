@@ -6,6 +6,7 @@
 class GameEngineStatusWindow;
 class ContentsGUIWindow;
 class ShortKeyGUIWindow;
+class GameEngineSoundPlayer;
 class ContentsCore : public GameEngineCore
 {
 private:
@@ -15,6 +16,11 @@ private:
     GameEngineStatusWindow* mpMainGUIWindow;
     ContentsGUIWindow* mpContentsGUIWindow;
     ShortKeyGUIWindow* mpShortKeyGUIWindow;
+
+    GameEngineSoundPlayer  mSoundPlayer;
+
+    int                    mnCurrentLevel;
+    int                    mnNextLevel;
 
 public:
     // constrcuter destructer
@@ -52,7 +58,7 @@ protected:
     void Update(float _DeltaTime) override;
     void End() override;
 
-    void ChangeLevelWithAlphaBlending();
+    void ChangeLevelNumber();
 
 private:
     void CreateKeys();

@@ -38,6 +38,8 @@ protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
     PixelCollisionMap*     mpPCMap;
     bool                   mbLimitCameraMoving;
 
+    
+
 public:
     // constrcuter destructer
     ContentsLevel();

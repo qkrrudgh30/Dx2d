@@ -58,11 +58,11 @@ protected:
 	}
 
 	static bool ChangeLevel(const std::string& _Name);
+	static GameEngineLevel* CurrentLevel;
+	static GameEngineLevel* NextLevel;
 
 private:
 	static std::map<std::string, class GameEngineLevel*> AllLevels;
-	static GameEngineLevel* CurrentLevel;
-	static GameEngineLevel* NextLevel;
 
 	static void EngineResourcesInitialize();
 	static void EngineResourcesDestroy();

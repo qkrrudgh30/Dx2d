@@ -31,7 +31,9 @@ ContentsActor::ContentsActor()
 	, mpParentLevel(nullptr)
 	, mfJumpSpeed(100.f)
 	, mpCollision(nullptr)
+	, mSoundPlayer()
 {
+	
 }
 
 ContentsActor::~ContentsActor()

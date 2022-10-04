@@ -75,6 +75,8 @@ protected:
 	float4                     mf4PixelDataOnRightSide;
 	float4                     mf4PixelDataOnLeftSide;
 	ContentsLevel*             mpParentLevel;
+	GameEngineSoundPlayer      mSoundPlayer;
+
 
 	// 물리 관련
 	float                      mfAccelation;

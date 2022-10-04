@@ -24,11 +24,22 @@ POINT  ContentsCore::mptMousePos;
 float4 ContentsCore::mf4MousePos;
 bool ContentsCore::mbCameraFollowing;
 
+enum
+{
+    LEVEL1 =  1,
+    LEVEL2 =  2,
+    LEVEL3 =  3,
+    LEVEL4 =  4,
+    LEVEL5 =  5,
+};
+
 ContentsCore::ContentsCore() 
     : GameEngineCore()
     , mpContentsGUIWindow(nullptr)
     , mpMainGUIWindow(nullptr)
     , mpShortKeyGUIWindow(nullptr)
+    , mnCurrentLevel(0)
+    , mnNextLevel(0)
 {
     mbCameraFollowing = true;
 }
@@ -56,10 +67,14 @@ void ContentsCore::Start()
     mpMainGUIWindow = GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);    
     mpContentsGUIWindow = GameEngineGUI::CreateGUIWindow<ContentsGUIWindow>("ContentsGUIWindow", nullptr);
     mpShortKeyGUIWindow = GameEngineGUI::CreateGUIWindow<ShortKeyGUIWindow>("ShortKeyGUIWindow", nullptr);
+
+    
+
 }
 
 void ContentsCore::Update(float _DeltaTime)
 {
+
     GetCursorPos(&mptMousePos);
     ScreenToClient(GameEngineWindow::GetHWND(), &mptMousePos);
     mf4MousePos.x = (float)mptMousePos.x - (GameEngineWindow::GetScale().x / 2.f);
@@ -69,10 +84,52 @@ void ContentsCore::Update(float _DeltaTime)
     {
         mbCameraFollowing = !mbCameraFollowing;
     }
+
+    ChangeLevelNumber();
+
+    if (mnCurrentLevel != mnNextLevel)
+    {
+        if (LEVEL1 == mnNextLevel)
+        {
+            mSoundPlayer.Stop();
+            mSoundPlayer = GameEngineSound::SoundPlayControl("Login.mp3", 10);
+        }
+
+        if (LEVEL2 == mnNextLevel || LEVEL3 == mnNextLevel)
+        {
+            if (LEVEL2 != mnCurrentLevel && LEVEL3 != mnCurrentLevel)
+            {
+                mSoundPlayer.Stop();
+                mSoundPlayer = GameEngineSound::SoundPlayControl("Level12.mp3", 10);
+            }
+        }
+
+        if (LEVEL4 == mnNextLevel || LEVEL5 == mnNextLevel)
+        {
+            if (LEVEL4 != mnCurrentLevel && LEVEL5 != mnCurrentLevel)
+            {
+                mSoundPlayer.Stop();
+                mSoundPlayer = GameEngineSound::SoundPlayControl("Level34.mp3", 10);
+            }
+        }
+
+        mSoundPlayer.Volume(0.1f);
+        mnCurrentLevel = mnNextLevel;
+    }
+
 }
 
 void ContentsCore::End()
 {
+}
+
+void ContentsCore::ChangeLevelNumber()
+{
+    if (GameEngineString::ToUpperReturn("LoginLevel") == CurrentLevel->GetNameCopy()) {    mnNextLevel = LEVEL1; }
+    if (GameEngineString::ToUpperReturn("TempleOfTime0") == CurrentLevel->GetNameCopy()) { mnNextLevel = LEVEL2; }
+    if (GameEngineString::ToUpperReturn("TempleOfTime1") == CurrentLevel->GetNameCopy()) { mnNextLevel = LEVEL3; }
+    if (GameEngineString::ToUpperReturn("TempleOfTime2") == CurrentLevel->GetNameCopy()) { mnNextLevel = LEVEL4; }
+    if (GameEngineString::ToUpperReturn("TempleOfTime3") == CurrentLevel->GetNameCopy()) { mnNextLevel = LEVEL5; }
 }
 
 void ContentsCore::LoadShaderFiles()
@@ -262,7 +319,8 @@ void ContentsCore::LoadNumbersTextures()
 void ContentsCore::LoadSounds()
 {
     GameEngineDirectory Dir;
-    MoveTo(Dir, "Sounds");
+    MoveTo(Dir, "..\\");
+    Dir.Move("Sound");
 
     std::vector<GameEngineFile> Sounds = Dir.GetAllFile();
 

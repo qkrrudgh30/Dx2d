@@ -89,6 +89,7 @@ void Player::Start()
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterLadderMove", FrameAnimation_DESC("CharacterLadderMove.png", 0, 1, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStab", FrameAnimation_DESC("CharacterStab.png", 0, 2, 0.2f, false));
 	mpRenderer->AnimationBindEnd("CharacterStab", std::bind(&Player::EndAttack1, this, std::placeholders::_1));
+	mpRenderer->AnimationBindFrame("CharacterStab", std::bind(&Player::FrameAttack1, this, std::placeholders::_1));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStabF", FrameAnimation_DESC("CharacterStabF.png", 0, 3, 0.2f, false));
 	mpRenderer->AnimationBindEnd("CharacterStabF", std::bind(&Player::EndFinalAttack1, this));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStand", FrameAnimation_DESC("CharacterStand.png", 0, 4, 0.5f));
@@ -263,13 +264,14 @@ void Player::Update(float _DeltaTime)
 			static_cast<int>(-(GetTransform().GetWorldPosition().y + 5.f)));
 	}
 
-	if (true == mf4PixelData.CompareInt4D(float4::MAGENTA) ||
+	if ("Ladder" == mStateManager.GetCurStateStateName() ||
+		true == mf4PixelData.CompareInt4D(float4::MAGENTA) ||
 		true == mf4PixelData.CompareInt4D(float4::CYAN) ||
 		true == mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) ||
 		true == mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN)
 		)
 	{
-		if (mf4MoveAmount.y < 0.f) { mf4MoveAmount.y = 0.f; }
+		if ("Ladder" != mStateManager.GetCurStateStateName() && mf4MoveAmount.y < 0.f) { mf4MoveAmount.y = 0.f; }
 		SetGround(true);
 	}
 	else
@@ -329,10 +331,20 @@ void Player::Update(float _DeltaTime)
 	}
 
 	GetTransform().SetWorldMove(mf4MoveAmount);
+
+	mSoundPlayer.Volume(0.1f);
 }
 
 void Player::End()
 {
+}
+
+void Player::FrameAttack1(const FrameAnimation_DESC& _Info)
+{
+	if (1u == _Info.CurFrame)
+	{
+		mSoundPlayer = GameEngineSound::SoundPlayControl("SlashBlast.mp3");
+	}
 }
 
 void Player::EndAttack1(const FrameAnimation_DESC& _Info)
@@ -348,6 +360,10 @@ void Player::EndAttack1(const FrameAnimation_DESC& _Info)
 	{
 		mStateManager.ChangeState("Stand");
 	}
+}
+
+void Player::FrameAttack2(const FrameAnimation_DESC& _Info)
+{
 }
 
 void Player::EndAttack2()
@@ -432,21 +448,23 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	// [S]Attack1
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack1"))
+	if (10.f <= GetMP() && true == GameEngineInput::GetInst()->IsPress("PlayerAttack1"))
 	{
 		mpEffect->On();
 		mpEffect->ChangeFrameAnimation("LeapAttack");
 		mStateManager.ChangeState("Attack");
 		mpRenderer->ChangeFrameAnimation("CharacterStab");
+		SetMP(GetMP() - 10.f);
 		return;
 	}
 	// [S]Attack2
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack2"))
+	if (10.f <= GetMP() && true == GameEngineInput::GetInst()->IsPress("PlayerAttack2"))
 	{
 		mpEffect->On();
 		mpEffect->ChangeFrameAnimation("SlashBlast");
 		mStateManager.ChangeState("Attack");
 		mpRenderer->ChangeFrameAnimation("CharacterSwing");
+		SetMP(GetMP() - 10.f);
 		return;
 	}
 
@@ -464,6 +482,7 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 		mStateManager.ChangeState("Ladder");
 		return;
 	}
+
 }
 
 void Player::WalkStart(const StateInfo& _Info)
@@ -496,17 +515,17 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	
 	// [D]Attack1
-	if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack1"))
+	if (10.f <= GetMP() && true == GameEngineInput::GetInst()->IsDown("PlayerAttack1"))
 	{
 		mpEffect->On();
 		mpEffect->ChangeFrameAnimation("LeapAttack");
 		mpRenderer->ChangeFrameAnimation("CharacterStab");
 		mStateManager.ChangeState("Attack");
-		SetMP(GetMP()-10.f);
+		SetMP(GetMP() - 10.f);
 		return;
 	}
 	// [D]Attack2
-	if (true == GameEngineInput::GetInst()->IsDown("PlayerAttack2"))
+	if (10.f <= GetMP() && true == GameEngineInput::GetInst()->IsDown("PlayerAttack2"))
 	{
 		mpEffect->On();
 		mpEffect->ChangeFrameAnimation("SlashBlast");
@@ -621,7 +640,7 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		// GetTransform().SetWorldMove(GetTransform().GetUpVector() * 80.f * _DeltaTime);
 		// mpRenderer->CurAnimationPauseSwitch();
-		mf4MoveAmount.y += 0.5f;
+		mf4MoveAmount.y += 1.5f;
 		mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
 
 		if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) ||
@@ -637,7 +656,7 @@ void Player::LadderUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		// mpRenderer->CurAnimationPauseSwitch();
 		// etTransform().SetWorldMove(GetTransform().GetDownVector() * 80.f * _DeltaTime);
-		mf4MoveAmount.y += -0.5f;
+		mf4MoveAmount.y += -1.5f;
 		mpRenderer->ChangeFrameAnimation("CharacterLadderMove");
 
 		if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4{ 1.f, 1.f, 1.f, 0.f }) &&

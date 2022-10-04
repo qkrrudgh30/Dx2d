@@ -114,12 +114,14 @@ protected:
 
 private:
 	// Animation notify.
+	void FrameAttack1(const FrameAnimation_DESC& _Info);
 	void EndAttack1(const FrameAnimation_DESC& _Info);
 	void EndAttack1Effect() 
 	{ 
 		mpEffect->ChangeFrameAnimation("SlashBlast");
 		mpEffect->Off(); 
 	}
+	void FrameAttack2(const FrameAnimation_DESC& _Info);
 	void EndAttack2();
 	void EndAttack2Effect() 
 	{ 

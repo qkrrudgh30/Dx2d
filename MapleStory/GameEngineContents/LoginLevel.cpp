@@ -46,8 +46,7 @@ void LoginLevel::Start()
     mpLoginButton = CreateActor<LoginButton>(OBJECTORDER::UI);
     mpExitButton = CreateActor<ExitButton>(OBJECTORDER::UI);
 
-    mpVeil = CreateActor<Veil>(OBJECTORDER::UI);
-    // GameEngineSound::SoundPlayOneShot("BGM.mp3");
+    mpVeil = CreateActor<Veil>(OBJECTORDER::UI);    
 }
 
 void LoginLevel::Update(float _DeltaTime)
