@@ -18,6 +18,7 @@ class MenuButton;
 class PopupMenu;
 class QuickSlot;
 class PixelCollisionMap;
+class GameEngineSoundPlayer;
 class ContentsLevel : public GameEngineLevel
 {
 protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
@@ -37,6 +38,7 @@ protected: // 자식 레벨들이 사용할 수 있게끔 접근제어자 protected.
     QuickSlot*             mpQuickSlot;
     PixelCollisionMap*     mpPCMap;
     bool                   mbLimitCameraMoving;
+    GameEngineSoundPlayer  mSoundPlayer;
 
     
 

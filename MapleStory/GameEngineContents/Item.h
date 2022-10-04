@@ -8,6 +8,7 @@ class GameEngineCollision;
 class Player;
 class RigidBody;
 class ContentsLevel;
+class GameEngineSoundPlayer;
 class Item : public ContentsActor
 {
 public:
@@ -26,6 +27,7 @@ public:
 	float mfHeight;
 	unsigned int muAmount;
 	bool mbAcquired;
+	GameEngineSoundPlayer mSoundPlayer;
 
 public:
 	// constrcuter destructer

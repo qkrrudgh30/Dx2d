@@ -16,6 +16,7 @@ enum class VEIL_EFFECT
 
 // Ό³Έν :
 class GameEngineDefaultRenderer;
+class GameEngineSoundPlayer;
 class Veil : public GameEngineActor
 {
 private:

@@ -147,6 +147,7 @@ void TempleOfTime0::Update(float _DeltaTime)
 			mfVeilStartSecond = GetAccTime();
 			Veil::SetVeilEffect(VEIL_EFFECT::FADE_OUT);		
 			// Veil::SetVeilEffect(VEIL_EFFECT::FADE_IN);		
+			
 		}
 	}
 

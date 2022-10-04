@@ -9,6 +9,7 @@ class ExitButton;
 class BuyButton;
 class GameEngineFontRenderer;
 class Inventory;
+class GameEngineSoundPlayer;
 class Store : public GameEngineActor
 {
 private:
@@ -26,6 +27,8 @@ private:
 	float4 mf4MousePosition;
 	unsigned int muAccMeso;
 	unsigned int mnSelectedIndex;
+	GameEngineSoundPlayer  mSoundPlayer;
+
 
 public:
 	// constrcuter destructer

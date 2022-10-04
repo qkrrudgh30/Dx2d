@@ -129,6 +129,8 @@ void Temple3Monster::Update(float _DeltaTime)
 			static_cast<int>(GetTransform().GetWorldPosition().x - 100.f), 
 			static_cast<int>(-(GetTransform().GetWorldPosition().y - 3.f)));
 	}
+
+	mSoundPlayer.Volume(0.1f);
 }
 
 void Temple3Monster::End()
@@ -250,6 +252,7 @@ void Temple3Monster::DeadStart(const StateInfo& _Info)
 {
 	Meso* meso = GetLevel()->CreateActor<Meso>(OBJECTORDER::Meso2);
 	meso->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition());
+	mSoundPlayer = GameEngineSound::SoundPlayControl("DropItem.mp3");
 
 	Portion* portion = GetLevel()->CreateActor<Portion>(OBJECTORDER::Portion2);
 	portion->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition() + float4{ 31.f, 0.f, 0.f, 0.f });

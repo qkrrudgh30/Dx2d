@@ -63,6 +63,7 @@ void Player::UpdateLevel()
 {
 	if (muLevelUpCount <= 0u) { return; }
 	
+	mSoundPlayer = GameEngineSound::SoundPlayControl("LevelUp.mp3");
 	--muLevelUpCount;
 	++muLevel;
 	mpLevelUpEffect->On();
@@ -92,9 +93,11 @@ void Player::Start()
 	mpRenderer->AnimationBindFrame("CharacterStab", std::bind(&Player::FrameAttack1, this, std::placeholders::_1));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStabF", FrameAnimation_DESC("CharacterStabF.png", 0, 3, 0.2f, false));
 	mpRenderer->AnimationBindEnd("CharacterStabF", std::bind(&Player::EndFinalAttack1, this));
+
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterStand", FrameAnimation_DESC("CharacterStand.png", 0, 4, 0.5f));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterSwing", FrameAnimation_DESC("CharacterSwing.png", 0, 2, 0.2f, false));
 	mpRenderer->AnimationBindEnd("CharacterSwing", std::bind(&Player::EndAttack2, this));
+	mpRenderer->AnimationBindFrame("CharacterSwing", std::bind(&Player::FrameAttack2, this, std::placeholders::_1));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterSwingF", FrameAnimation_DESC("CharacterSwingF.png", 0, 3, 0.2f, false));
 	mpRenderer->AnimationBindEnd("CharacterSwingF", std::bind(&Player::EndFinalAttack2, this));
 	mpRenderer->CreateFrameAnimationCutTexture("CharacterWalk", FrameAnimation_DESC("CharacterWalk.png", 0, 5, 0.2f));
@@ -217,6 +220,7 @@ void Player::Update(float _DeltaTime)
 			{
 				if (true == GameEngineInput::GetInst()->IsDown("GetItem"))
 				{
+					mSoundPlayer = GameEngineSound::SoundPlayControl("DropItem.mp3");
 					Item* item = static_cast<Item*>(_Other->GetParent());
 					item->SetAcquired(true);
 					if (OBJECTORDER::MesoItem == item->GetItemInfo())
@@ -343,7 +347,7 @@ void Player::FrameAttack1(const FrameAnimation_DESC& _Info)
 {
 	if (1u == _Info.CurFrame)
 	{
-		mSoundPlayer = GameEngineSound::SoundPlayControl("SlashBlast.mp3");
+		mSoundPlayer = GameEngineSound::SoundPlayControl("Attack1.mp3");
 	}
 }
 
@@ -364,6 +368,10 @@ void Player::EndAttack1(const FrameAnimation_DESC& _Info)
 
 void Player::FrameAttack2(const FrameAnimation_DESC& _Info)
 {
+	if (1u == _Info.CurFrame)
+	{
+		mSoundPlayer = GameEngineSound::SoundPlayControl("Attack2.mp3");
+	}
 }
 
 void Player::EndAttack2()
@@ -420,6 +428,7 @@ void Player::StandUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerDown") && true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
 	{
 		mf4MoveAmount.y += JUMPLIMIT;
+		mSoundPlayer = GameEngineSound::SoundPlayControl("Jump.mp3");
 		mStateManager.ChangeState("Jump");
 		return;
 	}
@@ -505,6 +514,7 @@ void Player::WalkUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
 	{
 		mf4MoveAmount.y += JUMPLIMIT;
+		mSoundPlayer = GameEngineSound::SoundPlayControl("Jump.mp3");
 	}
 
 	// [D]Alert
@@ -600,6 +610,7 @@ void Player::AttackStart(const StateInfo& _Info)
 void Player::JumpStart(const StateInfo& _Info)
 {
 	mpRenderer->ChangeFrameAnimation("CharacterJump");
+	
 }
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)

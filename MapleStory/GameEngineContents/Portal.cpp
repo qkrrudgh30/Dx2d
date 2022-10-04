@@ -22,7 +22,6 @@ void Portal::Start()
 
 void Portal::Update(float _DeltaTime)
 {
-    
 }
 
 void Portal::End()

@@ -32,6 +32,7 @@ ContentsLevel::ContentsLevel()
     , mpPCMap(nullptr)
     , mpQuickSlot(nullptr)
     , mbLimitCameraMoving(true)
+    , mSoundPlayer()
 {
     mf4WindowSize = GameEngineWindow::GetScale();
 }

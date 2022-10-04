@@ -106,6 +106,7 @@ void Store::Update(float _DeltaTime)
 		{
 			if (true == GameEngineInput::GetInst()->IsDown("MouseLButtonDown"))
 			{
+				mSoundPlayer = GameEngineSound::SoundPlayControl("BtMouseClick.mp3");
 				mpSellectedRenderer->GetTransform().SetLocalPosition(mvItemsPositions[i]);
 				mnSelectedIndex = i == 0u ? 15 : 16;
 			}
@@ -128,6 +129,7 @@ void Store::Update(float _DeltaTime)
 			mpBuyButtonRenderer->SetFrame(2);
 			if (50u <= muAccMeso)
 			{
+				mSoundPlayer = GameEngineSound::SoundPlayControl("BtMouseClick.mp3");
 				spPlayer->SetAccMeso(spPlayer->GetAccMeso() - 50u);
 				spPlayer->PushItemInQueue(mnSelectedIndex);
 			}
@@ -146,6 +148,7 @@ void Store::Update(float _DeltaTime)
 		mpExitButtonRenderer->SetFrame(1);
 		if (true == GameEngineInput::GetInst()->IsPress("MouseLButtonDown"))
 		{
+			mSoundPlayer = GameEngineSound::SoundPlayControl("BtMouseClick.mp3");
 			mpExitButtonRenderer->SetFrame(2);
 			this->Off();
 		}
@@ -160,5 +163,6 @@ void Store::Update(float _DeltaTime)
 	muAccMeso = spPlayer->GetAccMeso();
 	mpFontRenderer->SetText(std::to_string(muAccMeso), "메이플스토리");
 
+	mSoundPlayer.Volume(0.1f);
 }
 

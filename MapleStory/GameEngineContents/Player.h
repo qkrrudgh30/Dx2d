@@ -76,6 +76,8 @@ public:
 	}
 	unsigned int GetEXP(void) { return muEXP; }
 
+	unsigned int GetMaxEXP(void) { return muMaxEXP; }
+
 	void UpdateLevel();
 
 	unsigned int GetAccMeso() { return muAccMeso; }

@@ -23,6 +23,6 @@ void EXPGauge::Start()
 void EXPGauge::Update(float _DeltaTime)
 {
 	Player* pPlayer = Player::GetPlayer();
-	mpUIRenderer->GetTransform().SetLocalScale(float4{ GameEngineWindow::GetScale().x * 0.13625f * ((pPlayer->GetEXP()) / 100.f), 18.f, 1.f, 1.f });
+	mpUIRenderer->GetTransform().SetLocalScale(float4{ GameEngineWindow::GetScale().x * 0.13625f * ((pPlayer->GetEXP()) / pPlayer->GetMaxEXP()), 18.f, 1.f, 1.f });
 	mpUIRenderer->SetPivot(PIVOTMODE::LEFTTOP);
 }

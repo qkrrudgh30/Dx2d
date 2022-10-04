@@ -26,6 +26,7 @@ Item::Item()
 	, mfHeight(0.f)
 	, muAmount(0u)
 	, mnOrder()
+	, mSoundPlayer()
 {
 }
 
@@ -83,8 +84,10 @@ void Item::Update(float _fDeltaTime)
 
 	if (true == mbAcquired)
 	{
+		
 		GetTransform().SetWorldMove(-(GetTransform().GetWorldPosition() - (mpPlayer->GetTransform().GetWorldPosition() + float4{0.f, 50.f, 0.f, 0.f})) * _fDeltaTime * 20.f);
 	}
+	mSoundPlayer.Volume(0.1f);
 }
 
 void Item::End()
