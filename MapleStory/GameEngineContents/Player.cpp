@@ -69,7 +69,7 @@ void Player::UpdateLevel()
 	mpLevelUpEffect->On();
 	mpLevelUpEffect->ChangeFrameAnimation("LevelUp");	
 
-	muMaxEXP += 10u;
+	// muMaxEXP += 10u;
 }
 
 void Player::Start()
@@ -308,6 +308,7 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst()->IsDown("INSERT"))
 	{
+		
 		nItemType = mpQuickSlot->Consume(EINSERT);
 	}
 

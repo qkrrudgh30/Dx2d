@@ -20,6 +20,7 @@ class ETCMenuButton;
 class GameEngineFontRenderer;
 class MouseSlot;
 class ItemInfo;
+class GameEngineSoundPlayer;
 class QuickSlot : public GameEngineActor
 {
 private:
@@ -28,6 +29,7 @@ private:
 	ItemInfo              mEmptyItemInfo;
 	float                 mfWidth;
 	float                 mfHeight;
+	GameEngineSoundPlayer mSoundPlayer;
 
 	static Inventory* spInventory;
 	static Player* spPlayer;

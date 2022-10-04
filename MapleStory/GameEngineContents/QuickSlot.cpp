@@ -14,6 +14,7 @@ QuickSlot* QuickSlot::spQuickSlot = nullptr;
 
 QuickSlot::QuickSlot() 
 	: mpUIRenderer(nullptr)
+	, mSoundPlayer()
 {
 	spQuickSlot = this;
 	mfWidth = 151.f;
@@ -44,6 +45,7 @@ int QuickSlot::Consume(int _Key)
 	if (nullptr == mvOriginalItemsVector[_Key] || 0u == mvOriginalItemsVector[_Key]->second.muItemCount) { return 0; }
 	int nAmount = mvOriginalItemsVector[_Key]->second.mnItemType;
 	--mvOriginalItemsVector[_Key]->second.muItemCount;
+	mSoundPlayer = GameEngineSound::SoundPlayControl("PotionUse.mp3");
 	return nAmount;
 }
 
