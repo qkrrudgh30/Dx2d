@@ -17,8 +17,8 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
 
-#define VELOCITYLIMIT (5.f)
-#define JUMPLIMIT (4.5f)
+#define VELOCITYLIMIT (200.f)
+#define JUMPLIMIT (150.f)
 
 Player* Player::spPlayer = nullptr;
 
@@ -280,17 +280,15 @@ void Player::Update(float _DeltaTime)
 	}
 	else
 	{
-		mf4MoveAmount += float4{ 0.f, -10 * _DeltaTime, 0.f, 0.f };
+		mf4MoveAmount += float4{ 0.f, -200 * _DeltaTime, 0.f, 0.f };
 		if (mf4MoveAmount.y <= -JUMPLIMIT) { mf4MoveAmount.y = -JUMPLIMIT; }
-		// if (true == mbOnLadder) { mf4MoveAmount.y = 0.f; }
+
 		SetGround(false);
-		// mpRenderer->ChangeFrameAnimation("CharacterJump");
 	}
 
 	if (true == mf4PixelDataOnLeftSide.CompareInt4D(float4::CYAN) ||
 		true == mf4PixelDataOnRightSide.CompareInt4D(float4::CYAN))
 	{
-		// if (mf4MoveAmount.y < 0.f) { mf4MoveAmount.y = 0.f; }
 		mbOnAboveGround = true;
 	}
 	else
@@ -335,7 +333,7 @@ void Player::Update(float _DeltaTime)
 		mpInventory->RendererOnOff();
 	}
 
-	GetTransform().SetWorldMove(mf4MoveAmount);
+	GetTransform().SetWorldMove(mf4MoveAmount * _DeltaTime);
 
 	mSoundPlayer.Volume(0.1f);
 }
