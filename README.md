@@ -17,7 +17,7 @@
   <p>{</p>
    <div>
       <figure>
-         <img src="Readme/Engine-UnrealEditor-01.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
+         <img src="Readme/FSM.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
          <figurecaption><br>애니메이션 구조를 구현하기 위해서 FSM을 직접 구현해보았습니다.</figurecaption>
       </figure>
    </div><br>
@@ -33,7 +33,7 @@
    <p>{</p>
    <div>
       <figure>
-         <img src="Readme/Engine-ResourceLoading.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
+         <img src="Readme/Inventory.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
          <figurecaption><br>C++ STL 자료구조를 활용해보기 위해서 인벤토리를 구현했습니다.</figurecaption>
       </figure>
    </div><br>
@@ -49,13 +49,13 @@
   <p>{</p>
   <div>
       <figure>
-         <img src="Readme/Engine-UnrealEditor-02.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
+         <img src="Readme/QuickSlot.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
          <figurecaption><br>아이템을 퀵슬롯에 드래그드랍으로 장착 후 사용시 인벤토리와 연동되게끔 했습니다.</figurecaption>
       </figure>
    </div><br>
    <div>
       <figure>
-         <img src="Readme/Engine-UnrealEditor-03.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
+         <img src="Readme/Store.png" alt="Engine-ResourceLoading.png" title="클릭하시면 더 큰 이미지를 보실 수 있습니다." width="800"/>
          <figurecaption><br>간단한 상점 컨텐츠도 구현해보았습니다.</figurecaption>
       </figure>
    </div><br>
